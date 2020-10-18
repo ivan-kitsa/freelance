@@ -1,5 +1,6 @@
 const WREATHS_LIST = [
     {
+        id: 1,
         name: 'Венок 1',
         description: 'Краткое описание продукта',
         startPrice: 100,
@@ -7,6 +8,7 @@ const WREATHS_LIST = [
         count: 0
     },
     {
+        id: 2,
         name: 'Венок 2',
         description: 'Краткое описание продукта',
         startPrice: 200,
@@ -14,6 +16,7 @@ const WREATHS_LIST = [
         count: 0
     },
     {
+        id: 3,
         name: 'Венок 3',
         description: 'Краткое описание продукта',
         startPrice: 50,
@@ -24,6 +27,7 @@ const WREATHS_LIST = [
 
 const BASKETS_LIST = [
     {
+        id: 1,
         name: 'Корзина 1',
         description: 'Краткое описание продукта',
         startPrice: 300,
@@ -31,6 +35,7 @@ const BASKETS_LIST = [
         count: 0
     },
     {
+        id: 2,
         name: 'Корзина 2',
         description: 'Краткое описание продукта',
         startPrice: 120,
@@ -38,6 +43,7 @@ const BASKETS_LIST = [
         count: 0
     },
     {
+        id: 3,
         name: 'Корзина 3',
         description: 'Краткое описание продукта',
         startPrice: 150,
@@ -92,15 +98,15 @@ setProductType = (e) => {
 productListCreator = () => {
     const wrapper = document.getElementById('products-catalog')
 
-    const node = PAGE_OPTIONS.currentList.map((item, index) => (
-        `<div class='product' id=${index}>
+    const node = PAGE_OPTIONS.currentList.map((item) => (
+        `<div class='product' id=${item.id}>
             <h4>${item.name}</h4>
             <p>${item.description}</p>
             <p>Стоимость за единицу: ${item.discountPrice}$</p>
-            <label class='counter' for=${'count-' + index}>
+            <label class='counter' for=${'count-' + item.id}>
                 <span>Количество: </span>
                 <input type='number'
-                       id=${'count-' + index}
+                       id=${'count-' + item.id}
                        value=${item.count}
                        oninput={onChangeCounter(event)} />
             </label>
@@ -112,8 +118,8 @@ productListCreator = () => {
 
 onChangeCounter = (e) => {
     const count = e.target.value
-    const index = e.target.id.replace('count-','')
-    const currentItem = PAGE_OPTIONS.currentList[+index]
+    const id = e.target.id.replace('count-','')
+    const currentItem = PAGE_OPTIONS.currentList.filter((item) => (item.id === +id))[0]
 
     debounce(() => {
         setCount(currentItem, +count)
@@ -158,15 +164,15 @@ setPaymentList = () => {
 paymentListCreator = () => {
     const wrapper = document.getElementById('products-selected')
 
-    const node = PAGE_OPTIONS.paymentList.map((item, index) => (
-        `<div class='product' id=${index}>
+    const node = PAGE_OPTIONS.paymentList.map((item) => (
+        `<div class='product' id=${item.id}>
             <h4>${item.name}</h4>
             <p>${item.description}</p>
             <p>Стоимость за единицу: ${item.discountPrice}$</p>
-            <label class='counter' for=${'count-' + index}>
+            <label class='counter' for=${'count-' + item.id}>
                 <span>Количество: </span>
                 <input type='number'
-                       id=${'count-' + index}
+                       id=${'count-' + item.id}
                        value=${item.count}
                        oninput={onChangeCounter(event)} />
             </label>
