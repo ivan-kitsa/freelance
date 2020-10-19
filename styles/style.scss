@@ -158,9 +158,10 @@ section {
   }
 
   .basket-form {
-    width: 64rem;
-    padding: 2.4rem;
-    background: #ffffff;
+    width: calc(100% - 4.8rem);
+    max-width: calc(1200px - 4.8rem);
+    padding: 4.8rem 2.4rem;
+    background: $white;
     @include positionCentral;
 
     .products-wrapper {
