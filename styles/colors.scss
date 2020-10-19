@@ -1,6 +1,6 @@
-$black: #1B1C20;
-$gray-dark: #333;
-$gray: #48494C;
-$gray-light: #737679;
-$white: #FFFFFF;
-$beige: #CC966C
+$black: #191919;
+$gray-dark: fade-out($black, .3);
+$gray: fade-out($black, .5);
+$gray-light: fade-out($black, .9);
+$white: #f8f8f8;
+$red: #FF002F
