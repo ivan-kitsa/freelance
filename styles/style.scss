@@ -1,54 +1,25 @@
+@import "colors";
+@import "mixins";
+@import "typography";
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   position: relative;
-
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.6rem;
 }
 
-h1 {
-  font-size: 3.6rem;
-}
-
-h2 {
-  font-size: 2.4rem;
-}
-
-h3 {
-  font-size: 1.8rem;
-}
-
-h4 {
-  font-size: 1.6rem;
-}
-
-h5 {
-  font-size: 1.2rem;
-}
-
-@mixin positionCentral {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-html {
-  font-size: 10px;
-}
 body {
   overflow-x: hidden;
   min-height: 100vh;
-  padding-top: 7.4rem;
+  padding-top: 7.3rem;
 }
 
 nav {
   width: 100%;
   padding: 1.2rem 2.4rem;
-  border: 1px solid #666666;
-  background: #999999;
+  border-bottom: 1px solid $gray-dark;
+  background: $gray-dark;
   z-index: 2;
 
   position: fixed;
@@ -61,35 +32,40 @@ nav {
   .logo-wrapper {
     width: 4.8rem;
     height: 4.8rem;
-    background: #666666;
+    background: $beige;
   }
 
   .links-wrapper {
     width: 50%;
     height: 4.8rem;
-    background: #666666;
+    background: $beige;
   }
 }
 
 header {
   width: 100%;
   min-height: calc(60vh - 7.4rem);
-  padding: 2.4rem;
-  background: #f1f1f1;
+  padding: 6.4rem 2.4rem;
+  background: $gray;
 
   h1 {
     margin-bottom: 1.2rem;
+    color: $beige;
+  }
+
+  p {
+    color: $white;
   }
 }
 
 section {
   width: 100%;
-  padding: 2.4rem;
+  padding: 4.8rem 2.4rem;
 }
 
 .products-section {
   h2 {
-    margin-bottom: 2.4rem;
+    margin-bottom: 4.8rem;
     text-align: center;
   }
 
@@ -103,11 +79,17 @@ section {
     .product-type {
       width: 100%;
       text-align: center;
-      border: 1px solid #666666;
+      padding: 1.2rem;
+      border: 1px solid $gray-light;
       cursor: pointer;
 
       &.active {
-        background: #f1f1f1;
+        background: $beige;
+        border-color: $beige;
+
+        h3 {
+          color: $white;
+        }
       }
     }
   }
@@ -120,12 +102,12 @@ section {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto;
       grid-gap: 1.2rem;
-      margin-bottom: 2.4rem;
+      margin-bottom: 4.8rem;
 
       .product {
         width: 100%;
         padding: 1.2rem;
-        border: 1px solid #666666;
+        border: 1px solid $gray-light;
       }
     }
 
@@ -178,7 +160,7 @@ section {
       .product {
         width: 100%;
         padding: 1.2rem;
-        border: 1px solid #666666;
+        border: 1px solid $gray-light;
 
         &:not(:last-child) {
           border-bottom: none;
@@ -213,7 +195,22 @@ footer {
   height: 30vh;
   padding: 2.4rem;
 
-  background: #333;
+  background: $gray-dark;
+}
+
+.button-wrapper button {
+  background: $beige;
+  padding: 1.2rem 2.4rem 1.4rem;
+  border-radius: .4rem;
+  border: none;
+  cursor: pointer;
+  color: $white;
+  font-size: 1.3rem;
+  line-height: 1.4;
+
+  &:hover {
+    background: fade-out($beige, .1);
+  }
 }
 
 
