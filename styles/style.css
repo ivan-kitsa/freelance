@@ -117,12 +117,24 @@ body {
   background-position: 50% 48%;
   background-repeat: no-repeat;
   cursor: pointer;
-  z-index: 2; }
+  z-index: 2;
+  -webkit-transform: translateY(calc(100% + 5rem));
+  -ms-transform: translateY(calc(100% + 5rem));
+  transform: translateY(calc(100% + 5rem));
+  -webkit-transition: -webkit-transform 0.15s ease-out;
+  transition: -webkit-transform 0.15s ease-out;
+  -o-transition: transform 0.15s ease-out;
+  transition: transform 0.15s ease-out;
+  transition: transform 0.15s ease-out, -webkit-transform 0.15s ease-out; }
   .basket-button.opened {
     background-color: #FFFFFF;
     background-image: url("../images/basket-red.svg");
     -webkit-box-shadow: 0 0.2rem 1.2rem #EFEFEF;
     box-shadow: 0 0.2rem 1.2rem #EFEFEF; }
+  .basket-button.active {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0); }
 
 .discount-flag {
   display: -webkit-box;

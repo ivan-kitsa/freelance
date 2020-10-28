@@ -1,84 +1,113 @@
-const WREATHS_LIST = [
+//// Admin part ////
+const WREATHS = [
     {
-        id: 1,
         name: 'В5 (Венок)',
         description: 'Краткое описание продукта',
-        cost: 5,
-        allCost: 5,
-        discountPercent: 0,
-        count: 1,
-        inBasket: false
+        cost: 5
     },
     {
-        id: 2,
         name: 'В2 (Венок)',
         description: 'Краткое описание продукта',
-        cost: 2,
-        allCost: 2,
-        discountPercent: 0,
-        count: 1,
-        inBasket: false
+        cost: 2
     },
     {
-        id: 3,
         name: 'В7 (Венок)',
         description: 'Краткое описание продукта',
-        cost: 7,
-        allCost: 7,
-        discountPercent: 0,
-        count: 1,
-        inBasket: false
-    }
-]
-
-const BASKETS_LIST = [
-    {
-        id: 1,
-        name: 'К5 (Куранты)',
-        description: 'Краткое описание продукта',
-        cost: 5,
-        allCost: 5,
-        discountPercent: 0,
-        count: 1,
-        inBasket: false
+        cost: 7
     },
     {
-        id: 2,
+        name: 'В9 (Венок)',
+        description: 'Краткое описание продукта',
+        cost: 5
+    },
+    {
+        name: 'В11 (Венок)',
+        description: 'Краткое описание продукта',
+        cost: 2
+    },
+    {
+        name: 'В8 (Венок)',
+        description: 'Краткое описание продукта',
+        cost: 7
+    }
+]
+const BASKETS = [
+    {
+        name: 'К5 (Куранты)',
+        description: 'Краткое описание продукта',
+        cost: 5
+    },
+    {
+        name: 'К11 (Куранты)',
+        description: 'Краткое описание продукта',
+        cost: 1,
+    },
+    {
+        name: 'К8 (Куранты)',
+        description: 'Краткое описание продукта',
+        cost: 8
+    },
+    {
+        name: 'К3 (Куранты)',
+        description: 'Краткое описание продукта',
+        cost: 5
+    },
+    {
         name: 'К1 (Куранты)',
         description: 'Краткое описание продукта',
         cost: 1,
-        allCost: 1,
-        discountPercent: 0,
-        count: 1,
-        inBasket: false
     },
     {
-        id: 3,
-        name: 'К8 (Куранты)',
+        name: 'К9 (Куранты)',
         description: 'Краткое описание продукта',
-        cost: 8,
-        allCost: 8,
-        discountPercent: 0,
-        count: 1,
-        inBasket: false
-    },
+        cost: 8
+    }
 ]
 
-const PAGE_OPTIONS = {
-    currentList: WREATHS_LIST,
-    basketList: [],
-    basketIsOpen: false
-}
+//// Logic part ////
+document.addEventListener('DOMContentLoaded', function() {
+    dataCreator()
+    productListCreator()
+})
 
+let WREATHS_LIST
+let BASKETS_LIST
 let timer
+
 debounce = (func, ms) => {
     clearTimeout(timer)
     timer = setTimeout(func, ms)
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    productListCreator()
-})
+dataCreator = () => {
+    WREATHS_LIST = WREATHS.map((product, index) => ({
+        ...product,
+        id: index + 1,
+        allCost: product.cost,
+        discountPercent: 0,
+        count: 1,
+        inBasket: false
+    }))
+    BASKETS_LIST = BASKETS.map((product, index) => ({
+        ...product,
+        id: index + 1 + WREATHS_LIST.length,
+        allCost: product.cost,
+        discountPercent: 0,
+        count: 1,
+        inBasket: false
+    }))
+
+    PAGE_OPTIONS.currentList = WREATHS_LIST
+
+    console.log(WREATHS_LIST)
+    console.log(BASKETS_LIST)
+}
+
+const PAGE_OPTIONS = {
+    currentList: [],
+    basketList: [],
+    basketIsOpen: false
+}
 
 setProductType = (e) => {
     const id = e.target.id
@@ -214,14 +243,18 @@ costControl = (currentProduct, count) => {
 }
 
 setToBasket = (productId) => {
-    const product = PAGE_OPTIONS.currentList[productId - 1]
-    const buttonWrapper = document.getElementById(`button-wrapper-${productId}`)
+    const product = PAGE_OPTIONS.currentList.filter((product) => (product.id === productId))[0]
+    const addButtonWrapper = document.getElementById(`button-wrapper-${productId}`)
+    const basketButton = document.querySelector('.basket-button')
 
     product.inBasket = true
-    buttonWrapper.innerHTML = `<button class='button checked'>В корзине</button>`
+    addButtonWrapper.innerHTML = `<button class='button checked'>В корзине</button>`
 
     PAGE_OPTIONS.basketList = [...PAGE_OPTIONS.basketList, product]
-    console.log(PAGE_OPTIONS.basketList)
+
+    if (PAGE_OPTIONS.basketList.length  && !basketButton.classList.contains('active')) {
+        basketButton.classList.add('active')
+    }
 }
 
 basketListCreator = () => {
@@ -257,4 +290,6 @@ basketHandler = (e) => {
         classList.add('opened')
         PAGE_OPTIONS.basketIsOpen = true
     }
+
+    console.log(PAGE_OPTIONS.basketList)
 }

@@ -90,10 +90,17 @@ body {
   cursor: pointer;
   z-index: 2;
 
+  transform: translateY(calc(100% + 5rem));
+  transition: transform 0.15s ease-out;
+
   &.opened {
     background-color: $white;
     background-image: url("../images/basket-red.svg");
     box-shadow: 0 .2rem 1.2rem $gray-border;
+  }
+
+  &.active {
+    transform: translateX(0);
   }
 }
 
