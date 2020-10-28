@@ -6,64 +6,115 @@
           content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel='stylesheet' href='./styles/style.css'>
-    <title>Landing</title>
+    <title>Moth Solutions</title>
 </head>
 <body>
     <nav>
-        <div class='logo-wrapper'>
-
-        </div>
-        <div class='links-wrapper'>
-
+        <div class='content-wrapper'>
+            <div class='logo-wrapper'>
+                <img src='./images/logo.svg' alt='Moth'>
+            </div>
+            <div class='info-wrapper'>
+                <p>Собственное производство по изготовлению металлических каркасов для венков и корзин.</p>
+                <p>Бесплатная доставка по РБ и РФ.</p>
+                <p>Скидки оптовым клиентам.</p>
+            </div>
+            <div class='contacts-wrapper'>
+                <p class='bold'>Контакты:</p>
+                <p>+375 (29) 682-53-45</p>
+                <p>8 (017) 682-53-45 (тел./факс)</p>
+                <a href='mailto:#' >moth-solutions@mail.ru</a>
+            </div>
         </div>
     </nav>
     <header>
-        <h1>Приветственная информация</h1>
-        <p>Информация о компании</p>
-    </header>
-    <section class='products-section'>
-        <h2>Вы можете заказать нашу продукцию прямо сейчас!</h2>
+        <h1>Наши продукты:</h1>
         <div class='product-types-selector'>
-            <div class='product-type' id='wreaths' onclick={setProductType(event)}>
-                <h3>Венки</h3>
+            <div class='product-type active' id='wreaths' onclick={setProductType(event)}>
+                <h2>Венки</h2>
+                <img src='./images/checked.svg' alt='checked'>
             </div>
             <div class='product-type' id='baskets' onclick={setProductType(event)}>
-                <h3>Корзины</h3>
+                <h2>Корзины</h2>
+                <img src='./images/checked.svg' alt='checked'>
             </div>
         </div>
-        <form class='products-form' id='products-form' onsubmit={onSubmitProductsForm(event)}>
-            <div class='products-wrapper' id='products-catalog'></div>
-            <div class='button-wrapper' id='go-to-basket'>
-                <button>Перейти в корзину</button>
+    </header>
+    <section class='catalog-wrapper' id='products-form'>
+        <div class='product'>
+            <div class='photo-wrapper'></div>
+            <h3>К5 (Куранты)</h3>
+            <div class='coast-wrapper'>
+                <span>Общая стоимость:</span>
+                <span>10 BYN</span>
             </div>
-        </form>
+            <div class='count-wrapper'>
+                <span>Количество:</span>
+                <label class='counter' for='count-1'>
+                    <input type='text' id='count-1' value='1'>
+                    <img src='./images/minus.svg' alt='-'>
+                    <img src='./images/plus.svg' alt='+'>
+                </label>
+            </div>
+            <button class='button'>Добавить в корзину</button>
+        </div>
     </section>
-    <section class='basket-section'>
-        <div class='closer' onclick={closeBasket()}></div>
-        <form class='basket-form' id='basket-form' onsubmit={event.preventDefault()}>
-            <div class='products-wrapper' id='products-selected'></div>
-            <div class='personal-information'>
-                <label>
-                    <span>Имя: </span>
-                    <input type='text' required/>
-                </label>
-                <label>
-                    <span>Номер телефона: </span>
-                    <input type='text' required/>
-                </label>
-                <label>
-                    <span>Email: </span>
-                    <input type='text' required/>
-                </label>
-            </div>
-            <div class='button-wrapper'>
-                <button>Отправить заказ</button>
-            </div>
-        </form>
-    </section>
-    <footer>
+<!--    <form class='basket-form' id='basket-form' onsubmit={event.preventDefault()}>-->
+<!--        <div class='products-wrapper' id='products-selected'></div>-->
+<!--        <div class='personal-information'>-->
+<!--            <label>-->
+<!--                <span>Имя: </span>-->
+<!--                <input type='text' required/>-->
+<!--            </label>-->
+<!--            <label>-->
+<!--                <span>Номер телефона: </span>-->
+<!--                <input type='text' required/>-->
+<!--            </label>-->
+<!--            <label>-->
+<!--                <span>Email: </span>-->
+<!--                <input type='text' required/>-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <div class='button-wrapper'>-->
+<!--            <button>Отправить заказ</button>-->
+<!--        </div>-->
+<!--    </form>-->
 
+    <div class='basket-button'></div>
+    <footer>
+        <div class='content-wrapper'>
+            <div class='left-area'>
+                <h4>ООО «Мос Солюшнс» —  производство прочих готовых металлических изделий, не включенных в другие группировки</h4>
+                <div class='block'>
+                    <p class='title'>Юридический адрес</p>
+                    <p class='content'>РБ, г. Минск, Бетонный проезд, <br> д. 19а, оф. 306</p>
+                </div>
+                <div class='block'>
+                    <p class='title'>УНП</p>
+                    <p class='content'>193479009</p>
+                </div>
+            </div>
+            <div class='right-area'>
+                <div class='block'>
+                    <p class='title'>E-mail</p>
+                    <p class='content'>moth-solutions@mail.ru</p>
+                </div>
+                <div class='block'>
+                    <p class='title'>Телефоны</p>
+                    <p class='content'>8 (017) 682-53-45 (тел./факс) <br> +375 (29) 682-53-45</p>
+                </div>
+
+                <div class='block'>
+                    <p class='title'>Расчетный счет</p>
+                    <p class='content'>BY35PJCB30120644421000000933</p>
+                </div>
+            </div>
+        </div>
+        <div class='bottom-wrapper'>
+            <h5>2020 Moth Solutions ©</h5>
+        </div>
     </footer>
 <script src='./scripts/script.js'></script>
 </body>

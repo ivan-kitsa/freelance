@@ -166,7 +166,7 @@ paymentListCreator = () => {
 
     const node = PAGE_OPTIONS.paymentList.map((item) => (
         `<div class='product' id=${item.id}>
-            <h4>${item.name}</h4>
+            <h3>${item.name}</h3>
             <p>${item.description}</p>
             <p>Стоимость за единицу: ${item.discountPrice}$</p>
             <label class='counter' for=${'count-' + item.id}>

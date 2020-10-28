@@ -18,3 +18,7 @@
   justify-content: $justify;
 }
 
+@mixin boxShadow {
+  box-shadow: 0 .2rem 1.2rem #EFEFEF;
+}
+

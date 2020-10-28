@@ -13,27 +13,31 @@ span, a, p, b, strong, i, div {
   font-size: 1.6rem;
 }
 
+a:hover {
+  color: $red;
+}
+
 h1 {
   font-size: 3.6rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 h2 {
   font-size: 2.4rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 h3 {
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 h4 {
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 500;
 }
 
 h5 {
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 500;
 }
