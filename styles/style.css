@@ -31,6 +31,16 @@ h5 {
   font-size: 1.2rem;
   font-weight: 500; }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield; }
+
 * {
   padding: 0;
   margin: 0;
@@ -65,7 +75,8 @@ body {
     color: #FFFFFF; }
   .button.checked {
     background-color: #0C9D4A;
-    color: #FFFFFF; }
+    color: #FFFFFF;
+    cursor: default; }
 
 .counter {
   display: block; }
@@ -112,6 +123,29 @@ body {
     background-image: url("../images/basket-red.svg");
     -webkit-box-shadow: 0 0.2rem 1.2rem #EFEFEF;
     box-shadow: 0 0.2rem 1.2rem #EFEFEF; }
+
+.discount-flag {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  font-size: 1.2rem !important;
+  width: 3.6rem;
+  height: 1.9rem;
+  border-radius: .4rem;
+  background: #0C9D4A;
+  color: #FFFFFF;
+  position: absolute;
+  left: calc(100% + .8rem);
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%); }
 
 nav {
   width: 100%;
@@ -226,7 +260,7 @@ header {
       background: #F8F8F8; }
     .catalog-wrapper .product h3 {
       margin-bottom: 1.6rem; }
-    .catalog-wrapper .product .coast-wrapper, .catalog-wrapper .product .count-wrapper {
+    .catalog-wrapper .product .cost-wrapper, .catalog-wrapper .product .count-wrapper {
       width: 100%;
       display: -webkit-box;
       display: -ms-flexbox;
@@ -237,13 +271,17 @@ header {
       -webkit-box-pack: justify;
       -ms-flex-pack: justify;
       justify-content: space-between;
-      margin-bottom: .4rem; }
-      .catalog-wrapper .product .coast-wrapper *, .catalog-wrapper .product .count-wrapper * {
+      margin-bottom: .8rem; }
+      .catalog-wrapper .product .cost-wrapper *, .catalog-wrapper .product .count-wrapper * {
         font-family: 'Roboto', sans-serif;
         font-size: 1.4rem;
         line-height: 2.4rem; }
     .catalog-wrapper .product .count-wrapper {
       margin-bottom: 2.4rem; }
+    .catalog-wrapper .product .button-wrapper {
+      width: 100%; }
+      .catalog-wrapper .product .button-wrapper .button {
+        width: 100%; }
 
 .basket-section {
   display: none;

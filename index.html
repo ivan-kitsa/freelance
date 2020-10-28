@@ -42,25 +42,10 @@
             </div>
         </div>
     </header>
-    <section class='catalog-wrapper' id='products-form'>
-        <div class='product'>
-            <div class='photo-wrapper'></div>
-            <h3>К5 (Куранты)</h3>
-            <div class='coast-wrapper'>
-                <span>Общая стоимость:</span>
-                <span>10 BYN</span>
-            </div>
-            <div class='count-wrapper'>
-                <span>Количество:</span>
-                <label class='counter' for='count-1'>
-                    <input type='text' id='count-1' value='1'>
-                    <img src='./images/minus.svg' alt='-'>
-                    <img src='./images/plus.svg' alt='+'>
-                </label>
-            </div>
-            <button class='button'>Добавить в корзину</button>
-        </div>
+    <section class='catalog-wrapper' id='catalog'>
+        <!--   productListCreator()   -->
     </section>
+
 <!--    <form class='basket-form' id='basket-form' onsubmit={event.preventDefault()}>-->
 <!--        <div class='products-wrapper' id='products-selected'></div>-->
 <!--        <div class='personal-information'>-->
@@ -82,7 +67,7 @@
 <!--        </div>-->
 <!--    </form>-->
 
-    <div class='basket-button'></div>
+    <div class='basket-button' onclick={basketHandler(event)}></div>
     <footer>
         <div class='content-wrapper'>
             <div class='left-area'>
