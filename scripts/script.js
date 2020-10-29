@@ -228,15 +228,15 @@ costControl = (currentProduct, count) => {
     if (count >= 100) {
         currentProduct.discountPercent = 10
         currentProduct.allCost = (currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
-        discountAreaNode.innerHTML = `Общая цена: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaNode.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
     } else if (count >= 50) {
         currentProduct.discountPercent = 5
         currentProduct.allCost = (currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
-        discountAreaNode.innerHTML = `Общая цена: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaNode.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
     } else {
         currentProduct.discountPercent = 0
         currentProduct.allCost = currentProduct.cost * count
-        discountAreaNode.innerHTML = 'Общая цена:'
+        discountAreaNode.innerHTML = 'Общая стоимость:'
     }
 
     allCostNode.innerText = `${!count ? currentProduct.cost : currentProduct.allCost} BYN`
