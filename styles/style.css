@@ -51,8 +51,11 @@ input[type=number] {
 body {
   overflow-x: hidden;
   min-height: 100vh;
-  padding-top: 18.4rem;
+  padding-top: 16rem;
   background: #F8F8F8; }
+  body.overflow {
+    height: 100vh;
+    overflow: hidden; }
 
 .button {
   width: -webkit-max-content;
@@ -106,7 +109,7 @@ body {
 
 .basket-button {
   position: fixed;
-  right: 4.8rem;
+  left: calc(100vw - 12.8rem);
   bottom: 4.8rem;
   width: 8rem;
   height: 8rem;
@@ -117,7 +120,7 @@ body {
   background-position: 50% 48%;
   background-repeat: no-repeat;
   cursor: pointer;
-  z-index: 2;
+  z-index: 3;
   -webkit-transform: translateY(calc(100% + 5rem));
   -ms-transform: translateY(calc(100% + 5rem));
   transform: translateY(calc(100% + 5rem));
@@ -171,7 +174,7 @@ nav {
     width: 100%;
     max-width: 120rem;
     margin: 0 auto;
-    padding: 4.8rem 2.4rem;
+    padding: 3.6rem 2.4rem;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -187,8 +190,8 @@ nav {
     width: 50%;
     max-width: 39rem; }
     nav .info-wrapper p {
-      font-size: 1.4rem;
-      line-height: 1.3; }
+      font-size: 1.2rem;
+      line-height: 1.5; }
     nav .info-wrapper p:first-child {
       margin-bottom: 1.6rem; }
   nav .contacts-wrapper {
@@ -206,7 +209,7 @@ nav {
 header {
   width: 100%;
   max-width: 1200px;
-  padding: 6.4rem 2.4rem 4.8rem;
+  padding: 4.8rem 2.4rem 2.4rem;
   margin: 0 auto; }
   header h1 {
     margin-bottom: 4.8rem; }
@@ -222,7 +225,7 @@ header {
     justify-content: space-between; }
     header .product-types-selector .product-type {
       width: calc(50% - 1.2rem);
-      padding: 2.4rem;
+      padding: 1.8rem 2.4rem;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -243,6 +246,9 @@ header {
         box-shadow: none; }
         header .product-types-selector .product-type.active * {
           color: #FFFFFF; }
+      header .product-types-selector .product-type img {
+        width: 1.8rem;
+        height: 1.8rem; }
       header .product-types-selector .product-type * {
         pointer-events: none; }
 
@@ -295,74 +301,33 @@ header {
       .catalog-wrapper .product .button-wrapper .button {
         width: 100%; }
 
-.basket-section {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
+.basket-wrapper {
   width: 100%;
-  min-height: 100vh;
-  z-index: 3; }
-  .basket-section.open {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex; }
-  .basket-section .closer {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: rgba(25, 25, 25, 0.5); }
-  .basket-section .basket-form {
+  height: 100vh;
+  padding: 6.4rem 0;
+  background: #F8F8F8;
+  overflow-x: hidden;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  position: fixed;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0); }
+  .basket-wrapper.opened {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1); }
+  .basket-wrapper form {
     width: calc(100% - 4.8rem);
-    max-width: calc(1200px - 4.8rem);
-    padding: 4.8rem 2.4rem;
+    max-width: 115.2rem;
+    height: 100%;
+    padding: 2.4rem;
+    margin: 0 auto;
     background: #FFFFFF;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
-    .basket-section .basket-form .products-wrapper {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      margin-bottom: 4.8rem; }
-      .basket-section .basket-form .products-wrapper .product {
-        width: 100%;
-        padding: 1.2rem;
-        border: 1px solid #EFEFEF; }
-        .basket-section .basket-form .products-wrapper .product:not(:last-child) {
-          border-bottom: none; }
-    .basket-section .basket-form .personal-information {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-      flex-direction: column; }
-      .basket-section .basket-form .personal-information label {
-        width: 100%;
-        margin-bottom: 1.2rem; }
-    .basket-section .basket-form .button-wrapper {
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      width: 100%; }
-      .basket-section .basket-form .button-wrapper.active {
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex; }
+    border-radius: .4rem;
+    -webkit-box-shadow: 0 .2rem 1.2rem #EFEFEF;
+    box-shadow: 0 .2rem 1.2rem #EFEFEF; }
 
 footer {
   width: 100%;

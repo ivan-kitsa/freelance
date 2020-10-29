@@ -5,12 +5,11 @@
     <meta name='viewport'
           content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <meta name="theme-color" content="#DD2525">
-    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+    <meta name='theme-color' content='#DD2525'>
     <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap' rel='stylesheet'>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap' rel='stylesheet'>
     <link rel='stylesheet' href='./styles/style.css'>
-
+    <link rel='shortcut icon' href='./favicon.png' type='image/x-icon'>
     <title>Moth Solutions</title>
 </head>
 <body>
@@ -36,11 +35,11 @@
         <h1>Наши продукты:</h1>
         <div class='product-types-selector'>
             <div class='product-type active' id='wreaths' onclick={setProductType(event)}>
-                <h2>Венки</h2>
+                <h3>Венки</h3>
                 <img src='./images/checked.svg' alt='checked'>
             </div>
             <div class='product-type' id='baskets' onclick={setProductType(event)}>
-                <h2>Корзины</h2>
+                <h3>Корзины</h3>
                 <img src='./images/checked.svg' alt='checked'>
             </div>
         </div>
@@ -48,29 +47,12 @@
     <section class='catalog-wrapper' id='catalog'>
         <!--   productListCreator()   -->
     </section>
-
-<!--    <form class='basket-form' id='basket-form' onsubmit={event.preventDefault()}>-->
-<!--        <div class='products-wrapper' id='products-selected'></div>-->
-<!--        <div class='personal-information'>-->
-<!--            <label>-->
-<!--                <span>Имя: </span>-->
-<!--                <input type='text' required/>-->
-<!--            </label>-->
-<!--            <label>-->
-<!--                <span>Номер телефона: </span>-->
-<!--                <input type='text' required/>-->
-<!--            </label>-->
-<!--            <label>-->
-<!--                <span>Email: </span>-->
-<!--                <input type='text' required/>-->
-<!--            </label>-->
-<!--        </div>-->
-<!--        <div class='button-wrapper'>-->
-<!--            <button>Отправить заказ</button>-->
-<!--        </div>-->
-<!--    </form>-->
-
-    <div class='basket-button' onclick={basketHandler(event)}></div>
+    <section class='basket-wrapper' id='basket-wrapper'>
+        <form action=''>
+            <h2>Корзина</h2>
+        </form>
+    </section>
+    <div class='basket-button' id='basket-button' onclick={basketHandler(event)}></div>
     <footer>
         <div class='content-wrapper'>
             <div class='left-area'>
@@ -104,6 +86,7 @@
             <h5>2020 Moth Solutions ©</h5>
         </div>
     </footer>
-<script src='./scripts/script.js'></script>
+
+    <script src='./scripts/script.js'></script>
 </body>
 </html>

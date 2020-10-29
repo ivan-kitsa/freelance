@@ -245,7 +245,7 @@ costControl = (currentProduct, count) => {
 setToBasket = (productId) => {
     const product = PAGE_OPTIONS.currentList.filter((product) => (product.id === productId))[0]
     const addButtonWrapper = document.getElementById(`button-wrapper-${productId}`)
-    const basketButton = document.querySelector('.basket-button')
+    const basketButton = document.getElementById('basket-button')
 
     product.inBasket = true
     addButtonWrapper.innerHTML = `<button class='button checked'>В корзине</button>`
@@ -282,13 +282,17 @@ basketListCreator = () => {
 
 basketHandler = (e) => {
     const classList = e.target.classList
+    const basketWrapper = document.getElementById('basket-wrapper')
+    const body = document.querySelector('body')
 
     if (classList.contains('opened')) {
         classList.remove('opened')
-        PAGE_OPTIONS.basketIsOpen = false
+        basketWrapper.classList.remove('opened')
+        body.classList.remove('overflow')
     } else {
         classList.add('opened')
-        PAGE_OPTIONS.basketIsOpen = true
+        basketWrapper.classList.add('opened')
+        body.classList.add('overflow')
     }
 
     console.log(PAGE_OPTIONS.basketList)
