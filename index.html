@@ -32,7 +32,7 @@
         </div>
     </nav>
     <header>
-        <h1>Наши продукты:</h1>
+<!--        <h1>Наши продукты:</h1>-->
         <div class='product-types-selector'>
             <div class='product-type active' id='wreaths' onclick={setProductType(event)}>
                 <h3>Венки</h3>
@@ -45,11 +45,18 @@
         </div>
     </header>
     <section class='catalog-wrapper' id='catalog'>
-        <!--   productListCreator()   -->
+        <!--    productListCreator()    -->
     </section>
     <section class='basket-wrapper' id='basket-wrapper'>
-        <form action=''>
+        <form onsubmit={sendPayment(event)}>
             <h2>Корзина</h2>
+            <div id='basket-products-wrapper'>
+                <!--    basketListCreator()   -->
+            </div>
+            <div class='all-cost-wrapper'>
+                <span>Итого:</span>
+                <span id='all-cost'>3000</span>
+            </div>
         </form>
     </section>
     <div class='basket-button' id='basket-button' onclick={basketHandler(event)}></div>

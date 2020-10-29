@@ -141,7 +141,7 @@ setProductType = (e) => {
 
 productListCreator = () => {
     const wrapper = document.getElementById('catalog')
-    const node = PAGE_OPTIONS.currentList.map((item) => (
+    const products = PAGE_OPTIONS.currentList.map((item) => (
         `<div class='product' id=${item.id}>
             <div class='photo-wrapper'></div>
             <h3>${item.name}</h3>
@@ -156,7 +156,7 @@ productListCreator = () => {
                 <span>Количество:</span>
                 <label class='counter' for='count-${item.id}'>
                     <input type='number' id='count-${item.id}' value=${item.count} 
-                        oninput={onInputCounter(event)} onblur={onBlurCounter(event)}>
+                           oninput={onInputCounter(event)} onblur={onBlurCounter(event)}>
                     <img src='./images/minus.svg' alt='-'>
                     <img src='./images/plus.svg' alt='+'>
                 </label>
@@ -169,7 +169,40 @@ productListCreator = () => {
         </div>`
     ))
 
-    wrapper.innerHTML = node.join('')
+    wrapper.innerHTML = products.join('')
+}
+
+basketListCreator = () => {
+    const wrapper = document.getElementById('basket-products-wrapper')
+    const products = PAGE_OPTIONS.basketList.map((item) => (
+        `<div class='basket-product' id=${item.id}>
+            <div class='photo-wrapper'></div>
+            <div class='info-wrapper'>
+                <h3>${item.name}</h3>
+                <div class='cost-wrapper'>
+                <span id='basket-discount-area-${item.id}'>
+                    Общая стоимость:
+                    ${item.discountPercent ? `<span class='discount-flag'>-${item.discountPercent}%</span>` : ''} 
+                </span>
+                    <span class='basket-all-cost' id='basket-all-cost-${item.id}'>${item.allCost} BYN</span>
+                </div>
+                <div class='count-wrapper'>
+                    <span>Количество:</span>
+                    <label for='basket-count-${item.id}' class='counter'>
+                        <input type='number' id='basket-count-${item.id}' value=${item.count}
+                               oninput={onInputCounter(event)} onblur={onBlurCounter(event)}>
+                        <img src='./images/minus.svg' alt='-'>
+                        <img src='./images/plus.svg' alt='+'>
+                    </label>
+                </div>
+            </div>
+            <div class='remove-wrapper'>
+                <img src='./images/remove.svg' alt='remove'>
+            </div>
+        </div>`
+    ))
+
+    wrapper.innerHTML = products.join('')
 }
 
 onBlurCounter = (e) => {
@@ -185,7 +218,7 @@ onBlurCounter = (e) => {
 }
 
 onInputCounter = (e) => {
-    const id = e.target.id.replace('count-','')
+    const id = e.target.id.replace('count-','').replace('basket-','')
     const currentProduct = PAGE_OPTIONS.currentList.filter((item) => (item.id === +id))[0]
     const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
     const count = e.target.value
@@ -268,43 +301,25 @@ basketAnim = () => {
     }, 10);
 }
 
-basketListCreator = () => {
-    //TODO: make a generator of products for basket
-
-    // const wrapper = document.getElementById('products-selected')
-    //
-    // const node = PAGE_OPTIONS.paymentList.map((item) => (
-    //     `<div class='product' id=${item.id}>
-    //         <h3>${item.name}</h3>
-    //         <p>${item.description}</p>
-    //         <p>Стоимость за единицу: ${item.discountPrice}$</p>
-    //         <label class='counter' for=${'count-' + item.id}>
-    //             <span>Количество: </span>
-    //             <input type='number'
-    //                    id=${'count-' + item.id}
-    //                    value=${item.count}
-    //                    oninput={onChangeCounter(event)} />
-    //         </label>
-    //     </div>`
-    // ))
-    //
-    // wrapper.innerHTML = node.join('')
-}
-
 basketHandler = (e) => {
     const classList = e.target.classList
     const basketWrapper = document.getElementById('basket-wrapper')
     const body = document.querySelector('body')
 
     if (classList.contains('opened')) {
+        productListCreator()
         classList.remove('opened')
         basketWrapper.classList.remove('opened')
         body.classList.remove('overflow')
     } else {
+        basketListCreator()
         classList.add('opened')
         basketWrapper.classList.add('opened')
         body.classList.add('overflow')
     }
+}
 
-    console.log(PAGE_OPTIONS.basketList)
+sendPayment = (e) => {
+    e.preventDefault()
+
 }

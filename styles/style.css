@@ -98,7 +98,8 @@ body {
     border-radius: 2.4rem;
     text-align: center;
     font-size: 1.2rem !important;
-    outline: none; }
+    outline: none;
+    font-family: 'Roboto', sans-serif; }
   .counter img {
     width: 1.8rem;
     height: 1.8rem;
@@ -244,7 +245,7 @@ nav {
 header {
   width: 100%;
   max-width: 120rem;
-  padding: 4.8rem 2.4rem 2.4rem;
+  padding: 4.8rem 2.4rem;
   margin: 0 auto; }
   header h1 {
     margin-bottom: 4.8rem; }
@@ -325,10 +326,10 @@ header {
       -ms-flex-pack: justify;
       justify-content: space-between;
       margin-bottom: .8rem; }
-      .catalog-wrapper .product .cost-wrapper *, .catalog-wrapper .product .count-wrapper * {
-        font-family: 'Roboto', sans-serif;
+      .catalog-wrapper .product .cost-wrapper span:not(.discount-flag), .catalog-wrapper .product .count-wrapper span:not(.discount-flag) {
         font-size: 1.4rem;
-        line-height: 2.4rem; }
+        line-height: 2.4rem;
+        font-family: 'Roboto', sans-serif; }
     .catalog-wrapper .product .count-wrapper {
       margin-bottom: 2.4rem; }
     .catalog-wrapper .product .button-wrapper {
@@ -357,12 +358,87 @@ header {
     width: calc(100% - 4.8rem);
     max-width: 115.2rem;
     height: 100%;
-    padding: 2.4rem;
     margin: 0 auto;
     background: #FFFFFF;
     border-radius: .4rem;
     -webkit-box-shadow: 0 .2rem 1.2rem #EFEFEF;
     box-shadow: 0 .2rem 1.2rem #EFEFEF; }
+    .basket-wrapper form h2 {
+      padding: 2.4rem; }
+    .basket-wrapper form .basket-product {
+      width: 100%;
+      padding: 2.4rem;
+      border-top: 1px solid #EFEFEF;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: start;
+      -ms-flex-pack: start;
+      justify-content: flex-start; }
+      .basket-wrapper form .basket-product .photo-wrapper {
+        width: 10rem;
+        height: 10rem;
+        background: #F8F8F8; }
+      .basket-wrapper form .basket-product .info-wrapper {
+        width: calc(100% - 10rem);
+        padding-left: 2.4rem; }
+        .basket-wrapper form .basket-product .info-wrapper h3 {
+          font-size: 2.4rem;
+          line-height: 3rem;
+          margin-bottom: 1.8rem; }
+        .basket-wrapper form .basket-product .info-wrapper .cost-wrapper, .basket-wrapper form .basket-product .info-wrapper .count-wrapper {
+          width: 100%;
+          max-width: 42rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+          justify-content: space-between; }
+          .basket-wrapper form .basket-product .info-wrapper .cost-wrapper span:not(.discount-flag), .basket-wrapper form .basket-product .info-wrapper .count-wrapper span:not(.discount-flag) {
+            font-size: 1.4rem;
+            line-height: 2.4rem;
+            font-family: 'Roboto', sans-serif; }
+          .basket-wrapper form .basket-product .info-wrapper .cost-wrapper span.basket-all-cost, .basket-wrapper form .basket-product .info-wrapper .count-wrapper span.basket-all-cost {
+            min-width: 7.2rem;
+            text-align: center; }
+        .basket-wrapper form .basket-product .info-wrapper .cost-wrapper {
+          margin-bottom: .4rem; }
+      .basket-wrapper form .basket-product .remove-wrapper {
+        position: absolute;
+        right: 2.4rem;
+        top: 2.4rem;
+        width: 2.4rem;
+        height: 2.4rem; }
+        .basket-wrapper form .basket-product .remove-wrapper img {
+          display: block;
+          width: inherit;
+          height: inherit;
+          cursor: pointer; }
+    .basket-wrapper form .all-cost-wrapper {
+      width: 100%;
+      padding: 2.4rem;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      border-top: 1px solid #EFEFEF;
+      border-bottom: 1px solid #EFEFEF; }
+      .basket-wrapper form .all-cost-wrapper span {
+        font-size: 2.4rem;
+        line-height: 2.9rem;
+        font-weight: 600; }
 
 footer {
   width: 100%;
