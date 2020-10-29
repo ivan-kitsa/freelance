@@ -65,7 +65,7 @@ const BASKETS = [
 ]
 
 //// Logic part ////
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     dataCreator()
     productListCreator()
 })
@@ -98,15 +98,13 @@ dataCreator = () => {
     }))
 
     PAGE_OPTIONS.currentList = WREATHS_LIST
-
-    console.log(WREATHS_LIST)
-    console.log(BASKETS_LIST)
 }
 
 const PAGE_OPTIONS = {
     currentList: [],
     basketList: [],
-    basketIsOpen: false
+    basketIsOpen: false,
+    price: 0
 }
 
 setProductType = (e) => {
@@ -134,7 +132,6 @@ setProductType = (e) => {
         })
 
         targetItem.classList.add('active')
-
         productListCreator()
     }
 }
@@ -207,13 +204,19 @@ basketListCreator = () => {
 
 onBlurCounter = (e) => {
     if (isNaN(parseInt(e.target.value))) {
-        const id = e.target.id.replace('count-','')
+        const id = e.target.id.replace('count-','').replace('basket-','')
         const currentProduct = PAGE_OPTIONS.currentList.filter((item) => (item.id === +id))[0]
+        const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
 
         e.target.value = 1
         currentProduct.count = 1
+        basketProduct ? basketProduct.count = 1 : null
 
-        costControl(currentProduct, 1)
+        setCount(currentProduct, 1)
+
+        if (basketProduct) {
+            setCount(basketProduct, 1)
+        }
     }
 }
 
@@ -232,26 +235,44 @@ onInputCounter = (e) => {
 
 setCount = (currentProduct, currentCount) => {
     const prevCount = currentProduct.count
-    const inputNode = document.getElementById(`count-${currentProduct.id}`)
+    const inputProduct = document.getElementById(`count-${currentProduct.id}`)
+    const inputBasket = document.getElementById(`basket-count-${currentProduct.id}`)
+    const productInBasket = !!PAGE_OPTIONS.basketList.filter((product) => (product.id === currentProduct.id))[0]
 
     if (isNaN(currentCount) || currentCount === 0) {
         currentProduct.count = prevCount
-        inputNode.value = ''
-
+        inputProduct.value = ''
+        inputBasket ? inputBasket.value = '' : null
         costControl(currentProduct, prevCount)
         return
     }
 
     if (currentCount > 9999) {
         currentProduct.count = prevCount
-        inputNode.value = prevCount
-
+        inputProduct.value = prevCount
+        inputBasket ? inputBasket.value = prevCount : null
         costControl(currentProduct, prevCount)
         return
     }
 
     currentProduct.count = currentCount
+    inputBasket ? inputBasket.value = currentCount : null
     costControl(currentProduct, currentCount)
+
+    if (productInBasket) {
+        priceControl()
+    }
+}
+
+priceControl = () => {
+    const priceField = document.getElementById('price')
+    let price = 0
+
+    PAGE_OPTIONS.basketList.forEach((product) => {
+        price += product.allCost
+    })
+
+    priceField.innerHTML = `${price.toFixed(2)} BYN`
 }
 
 costControl = (currentProduct, count) => {
@@ -262,23 +283,23 @@ costControl = (currentProduct, count) => {
 
     if (count >= 100) {
         currentProduct.discountPercent = 10
-        currentProduct.allCost = (currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
+        currentProduct.allCost = +(currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
         discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
-        discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaBasket ? discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
     } else if (count >= 50) {
         currentProduct.discountPercent = 5
-        currentProduct.allCost = (currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
+        currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
         discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
-        discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaBasket ? discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
     } else {
         currentProduct.discountPercent = 0
-        currentProduct.allCost = currentProduct.cost * count
+        currentProduct.allCost = +(currentProduct.cost * count)
         discountAreaCatalog.innerHTML = 'Общая стоимость:'
-        discountAreaBasket.innerHTML = 'Общая стоимость:'
+        discountAreaBasket ? discountAreaBasket.innerHTML = 'Общая стоимость:' : null
     }
 
-    allCostCatalog.innerText = `${!count ? currentProduct.cost : currentProduct.allCost} BYN`
-    allCostBasket.innerText = `${!count ? currentProduct.cost : currentProduct.allCost} BYN`
+    allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN`
+    allCostBasket ? allCostBasket.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
 }
 
 setToBasket = (productId) => {
@@ -295,6 +316,7 @@ setToBasket = (productId) => {
         basketButton.classList.add('active')
     }
 
+    priceControl()
     basketAnim()
 }
 
@@ -304,7 +326,7 @@ removeFromBasket = (productId) => {
     const basketProductCard = document.getElementById(`basket-${productId}`)
     const basketWrapper = document.getElementById('basket-products-wrapper')
 
-    productFromList.inBasket = false
+    refreshProduct(productFromList)
     addButtonWrapper.innerHTML = `<button class='button' onclick={setToBasket(${productId})}>Добавить в корзину</button>`
     basketProductCard.remove()
 
@@ -313,6 +335,14 @@ removeFromBasket = (productId) => {
     if (!PAGE_OPTIONS.basketList.length) {
         basketWrapper.innerHTML = `<div class='basket-product'><span class='empty-message'>Ваша корзина пуста</span></div>`
     }
+    priceControl()
+}
+
+refreshProduct = (product) => {
+    product.inBasket = false
+    product.count = 1
+    product.allCost = product.cost
+    product.discountPercent = 0
 }
 
 basketAnim = () => {

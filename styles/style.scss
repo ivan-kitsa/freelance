@@ -406,7 +406,7 @@ header {
       }
     }
 
-    .all-cost-wrapper {
+    .price-wrapper {
       width: 100%;
       padding: 2.4rem;
       display: flex;
@@ -419,6 +419,10 @@ header {
         font-size: 2.4rem;
         line-height: 2.9rem;
         font-weight: 600;
+      }
+
+      #price {
+        font-family: 'Roboto', sans-serif;
       }
     }
   }

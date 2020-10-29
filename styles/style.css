@@ -435,7 +435,7 @@ header {
           width: inherit;
           height: inherit;
           cursor: pointer; }
-    .basket-wrapper form .all-cost-wrapper {
+    .basket-wrapper form .price-wrapper {
       width: 100%;
       padding: 2.4rem;
       display: -webkit-box;
@@ -449,10 +449,12 @@ header {
       justify-content: space-between;
       border-top: 1px solid #EFEFEF;
       border-bottom: 1px solid #EFEFEF; }
-      .basket-wrapper form .all-cost-wrapper span {
+      .basket-wrapper form .price-wrapper span {
         font-size: 2.4rem;
         line-height: 2.9rem;
         font-weight: 600; }
+      .basket-wrapper form .price-wrapper #price {
+        font-family: 'Roboto', sans-serif; }
 
 footer {
   width: 100%;
