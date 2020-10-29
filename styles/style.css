@@ -138,6 +138,35 @@ body {
     -webkit-transform: translateX(0);
     -ms-transform: translateX(0);
     transform: translateX(0); }
+    .basket-button.active.animate {
+      -webkit-animation-name: basket;
+      animation-name: basket;
+      -webkit-animation-duration: .2s;
+      animation-duration: .2s;
+      -webkit-animation-delay: .15s;
+      animation-delay: .15s; }
+
+@-webkit-keyframes basket {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  50% {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05); }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+@keyframes basket {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  50% {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05); }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
 
 .discount-flag {
   display: -webkit-box;

@@ -255,6 +255,17 @@ setToBasket = (productId) => {
     if (PAGE_OPTIONS.basketList.length  && !basketButton.classList.contains('active')) {
         basketButton.classList.add('active')
     }
+
+    basketAnim()
+}
+
+basketAnim = () => {
+    const basketButton = document.getElementById('basket-button')
+
+    basketButton.classList.remove('animate')
+    setTimeout(() => {
+        basketButton.classList.add('animate')
+    }, 10);
 }
 
 basketListCreator = () => {
