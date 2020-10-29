@@ -131,11 +131,12 @@ body {
   -webkit-transform: translateY(calc(100% + 5rem));
   -ms-transform: translateY(calc(100% + 5rem));
   transform: translateY(calc(100% + 5rem));
-  -webkit-transition: -webkit-transform 0.15s ease-out;
-  transition: -webkit-transform 0.15s ease-out;
-  -o-transition: transform 0.15s ease-out;
-  transition: transform 0.15s ease-out;
-  transition: transform 0.15s ease-out, -webkit-transform 0.15s ease-out; }
+  -webkit-transition: -webkit-transform 0.15s ease-in 0.15s;
+  transition: -webkit-transform 0.15s ease-in 0.15s;
+  -o-transition: transform 0.15s ease-in 0.15s;
+  transition: transform 0.15s ease-in 0.15s;
+  transition: transform 0.15s ease-in 0.15s, -webkit-transform 0.15s ease-in 0.15s;
+  pointer-events: none; }
   .basket-button.opened {
     background-color: #FFFFFF;
     background-image: url("../images/basket-red.svg");
@@ -144,7 +145,13 @@ body {
   .basket-button.active {
     -webkit-transform: translateX(0);
     -ms-transform: translateX(0);
-    transform: translateX(0); }
+    transform: translateX(0);
+    -webkit-transition: -webkit-transform 0.15s ease-out;
+    transition: -webkit-transform 0.15s ease-out;
+    -o-transition: transform 0.15s ease-out;
+    transition: transform 0.15s ease-out;
+    transition: transform 0.15s ease-out, -webkit-transform 0.15s ease-out;
+    pointer-events: auto; }
     .basket-button.active.animate {
       -webkit-animation-name: basket;
       animation-name: basket;
@@ -363,7 +370,9 @@ header {
     border-radius: .4rem;
     -webkit-box-shadow: 0 .2rem 1.2rem #EFEFEF;
     box-shadow: 0 .2rem 1.2rem #EFEFEF; }
-    .basket-wrapper form h2 {
+    .basket-wrapper form p {
+      font-size: 3.6rem;
+      font-weight: 600;
       padding: 2.4rem; }
     .basket-wrapper form .basket-product {
       width: 100%;
@@ -382,6 +391,11 @@ header {
         width: 10rem;
         height: 10rem;
         background: #F8F8F8; }
+      .basket-wrapper form .basket-product .empty-message {
+        padding: 4rem 0 4.1rem;
+        font-size: 1.4rem;
+        line-height: 1.9rem;
+        font-family: 'Roboto', sans-serif; }
       .basket-wrapper form .basket-product .info-wrapper {
         width: calc(100% - 10rem);
         padding-left: 2.4rem; }

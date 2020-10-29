@@ -175,7 +175,7 @@ productListCreator = () => {
 basketListCreator = () => {
     const wrapper = document.getElementById('basket-products-wrapper')
     const products = PAGE_OPTIONS.basketList.map((item) => (
-        `<div class='basket-product' id=${item.id}>
+        `<div class='basket-product' id='basket-${item.id}'>
             <div class='photo-wrapper'></div>
             <div class='info-wrapper'>
                 <h3>${item.name}</h3>
@@ -197,7 +197,7 @@ basketListCreator = () => {
                 </div>
             </div>
             <div class='remove-wrapper'>
-                <img src='./images/remove.svg' alt='remove'>
+                <img src='./images/remove.svg' alt='remove' onclick={removeFromBasket(${item.id})}>
             </div>
         </div>`
     ))
@@ -255,24 +255,30 @@ setCount = (currentProduct, currentCount) => {
 }
 
 costControl = (currentProduct, count) => {
-    const discountAreaNode = document.getElementById(`discount-area-${currentProduct.id}`)
-    const allCostNode = document.getElementById(`all-cost-${currentProduct.id}`)
+    const discountAreaCatalog = document.getElementById(`discount-area-${currentProduct.id}`)
+    const discountAreaBasket = document.getElementById(`basket-discount-area-${currentProduct.id}`)
+    const allCostCatalog = document.getElementById(`all-cost-${currentProduct.id}`)
+    const allCostBasket = document.getElementById(`basket-all-cost-${currentProduct.id}`)
 
     if (count >= 100) {
         currentProduct.discountPercent = 10
         currentProduct.allCost = (currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
-        discountAreaNode.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
     } else if (count >= 50) {
         currentProduct.discountPercent = 5
         currentProduct.allCost = (currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
-        discountAreaNode.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
     } else {
         currentProduct.discountPercent = 0
         currentProduct.allCost = currentProduct.cost * count
-        discountAreaNode.innerHTML = 'Общая стоимость:'
+        discountAreaCatalog.innerHTML = 'Общая стоимость:'
+        discountAreaBasket.innerHTML = 'Общая стоимость:'
     }
 
-    allCostNode.innerText = `${!count ? currentProduct.cost : currentProduct.allCost} BYN`
+    allCostCatalog.innerText = `${!count ? currentProduct.cost : currentProduct.allCost} BYN`
+    allCostBasket.innerText = `${!count ? currentProduct.cost : currentProduct.allCost} BYN`
 }
 
 setToBasket = (productId) => {
@@ -292,6 +298,23 @@ setToBasket = (productId) => {
     basketAnim()
 }
 
+removeFromBasket = (productId) => {
+    const productFromList = PAGE_OPTIONS.currentList.filter((product) => (product.id === productId))[0]
+    const addButtonWrapper = document.getElementById(`button-wrapper-${productId}`)
+    const basketProductCard = document.getElementById(`basket-${productId}`)
+    const basketWrapper = document.getElementById('basket-products-wrapper')
+
+    productFromList.inBasket = false
+    addButtonWrapper.innerHTML = `<button class='button' onclick={setToBasket(${productId})}>Добавить в корзину</button>`
+    basketProductCard.remove()
+
+    PAGE_OPTIONS.basketList = PAGE_OPTIONS.basketList.filter((product) => (product.id !== +productId))
+
+    if (!PAGE_OPTIONS.basketList.length) {
+        basketWrapper.innerHTML = `<div class='basket-product'><span class='empty-message'>Ваша корзина пуста</span></div>`
+    }
+}
+
 basketAnim = () => {
     const basketButton = document.getElementById('basket-button')
 
@@ -304,22 +327,28 @@ basketAnim = () => {
 basketHandler = (e) => {
     const classList = e.target.classList
     const basketWrapper = document.getElementById('basket-wrapper')
+    const basketButton = document.getElementById('basket-button')
     const body = document.querySelector('body')
 
-    if (classList.contains('opened')) {
+    if (PAGE_OPTIONS.basketIsOpen) {
         productListCreator()
         classList.remove('opened')
         basketWrapper.classList.remove('opened')
         body.classList.remove('overflow')
+        PAGE_OPTIONS.basketIsOpen = false
+
+        if (!PAGE_OPTIONS.basketList.length) {
+            basketButton.classList.remove('active')
+        }
     } else {
         basketListCreator()
         classList.add('opened')
         basketWrapper.classList.add('opened')
         body.classList.add('overflow')
+        PAGE_OPTIONS.basketIsOpen = true
     }
 }
 
 sendPayment = (e) => {
     e.preventDefault()
-
 }

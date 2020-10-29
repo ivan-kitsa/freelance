@@ -97,7 +97,8 @@ body {
   z-index: 3;
 
   transform: translateY(calc(100% + 5rem));
-  transition: transform 0.15s ease-out;
+  transition: transform 0.15s ease-in 0.15s;
+  pointer-events: none;
 
   &.opened {
     background-color: $white;
@@ -107,6 +108,8 @@ body {
 
   &.active {
     transform: translateX(0);
+    transition: transform 0.15s ease-out;
+    pointer-events: auto;
 
     &.animate {
       animation-name: basket;
@@ -327,7 +330,9 @@ header {
     border-radius: .4rem;
     @include boxShadow;
 
-    h2 {
+    p {
+      font-size: 3.6rem;
+      font-weight: 600;
       padding: 2.4rem;
     }
 
@@ -343,6 +348,13 @@ header {
         width: 10rem;
         height: 10rem;
         background: $gray-background;
+      }
+
+      .empty-message {
+        padding: 4rem 0 4.1rem;
+        font-size: 1.4rem;
+        line-height: 1.9rem;
+        font-family: 'Roboto', sans-serif;
       }
 
       .info-wrapper {
