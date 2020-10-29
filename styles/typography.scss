@@ -7,6 +7,13 @@
 
 html {
   font-size: 10px;
+
+  @media screen and (max-width: 1360px){
+    font-size: 8px;
+  }
+  @media screen and (max-height: 768px){
+    font-size: 8px;
+  }
 }
 
 span, a, p, b, strong, i, div {
