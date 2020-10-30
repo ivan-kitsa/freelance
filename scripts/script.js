@@ -86,7 +86,8 @@ dataCreator = () => {
         allCost: product.cost,
         discountPercent: 0,
         count: 1,
-        inBasket: false
+        inBasket: false,
+        type: 'wreath'
     }))
     BASKETS_LIST = BASKETS.map((product, index) => ({
         ...product,
@@ -94,7 +95,8 @@ dataCreator = () => {
         allCost: product.cost,
         discountPercent: 0,
         count: 1,
-        inBasket: false
+        inBasket: false,
+        type: 'basket'
     }))
 
     PAGE_OPTIONS.currentList = WREATHS_LIST
@@ -151,16 +153,16 @@ productListCreator = () => {
             </div>
             <div class='count-wrapper'>
                 <span>Количество:</span>
-                <label class='counter' for='count-${item.id}'>
-                    <input type='number' id='count-${item.id}' value=${item.count} 
-                           oninput={onInputCounter(event)} onblur={onBlurCounter(event)}>
-                    <img src='./images/minus.svg' alt='-'>
-                    <img src='./images/plus.svg' alt='+'>
-                </label>
+                <div class='counter'>
+                    <input type='number' id='count-${item.id}' value=${item.count} class='${item.type}'
+                           oninput='onInputCounter(event)' onblur='onBlurCounter(event)'>
+                    <img src='./images/minus.svg' alt='-' onclick='onButtonCounter(event)' id='${item.type}-${item.id}-down'>
+                    <img src='./images/plus.svg' alt='+' onclick='onButtonCounter(event)' id='${item.type}-${item.id}-up'>
+                </div>
             </div>
-            <div className='button-wrapper' id='button-wrapper-${item.id}'>
+            <div class='button-wrapper' id='button-wrapper-${item.id}'>
                 ${!item.inBasket ?
-                `<button class='button' onclick={setToBasket(${item.id})}>Добавить в корзину</button>` :
+                `<button class='button' onclick='setToBasket(${item.id})'>Добавить в корзину</button>` :
                 `<button class='button checked'>В корзине</button>`}
             </div>
         </div>`
@@ -185,16 +187,16 @@ basketListCreator = () => {
                 </div>
                 <div class='count-wrapper'>
                     <span>Количество:</span>
-                    <label for='basket-count-${item.id}' class='counter'>
-                        <input type='number' id='basket-count-${item.id}' value=${item.count}
-                               oninput={onInputCounter(event)} onblur={onBlurCounter(event)}>
-                        <img src='./images/minus.svg' alt='-'>
-                        <img src='./images/plus.svg' alt='+'>
-                    </label>
+                    <div class='counter'>
+                        <input type='number' id='basket-count-${item.id}' value=${item.count} class='${item.type}'
+                               oninput='onInputCounter(event)' onblur='onBlurCounter(event)'>
+                        <img src='./images/minus.svg' alt='-' onclick='onButtonCounter(event)' id='${item.type}-${item.id}-down'>
+                        <img src='./images/plus.svg' alt='+' onclick='onButtonCounter(event)' id='${item.type}-${item.id}-up'>
+                    </div>
                 </div>
             </div>
             <div class='remove-wrapper'>
-                <img src='./images/remove.svg' alt='remove' onclick={removeFromBasket(${item.id})}>
+                <img src='./images/remove.svg' alt='remove' onclick='removeFromBasket(${item.id})'>
             </div>
         </div>`
     ))
@@ -204,9 +206,19 @@ basketListCreator = () => {
 
 onBlurCounter = (e) => {
     if (isNaN(parseInt(e.target.value))) {
+        const typeOfProduct = e.target.className
         const id = e.target.id.replace('count-','').replace('basket-','')
-        const currentProduct = PAGE_OPTIONS.currentList.filter((item) => (item.id === +id))[0]
         const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
+        let currentProduct
+
+        switch (typeOfProduct) {
+            case 'wreath':
+                currentProduct = WREATHS_LIST.filter((item) => (item.id === +id))[0]
+                break
+            case 'basket':
+                currentProduct = BASKETS_LIST.filter((item) => (item.id === +id))[0]
+                break
+        }
 
         e.target.value = 1
         currentProduct.count = 1
@@ -221,10 +233,66 @@ onBlurCounter = (e) => {
 }
 
 onInputCounter = (e) => {
-    const id = e.target.id.replace('count-','').replace('basket-','')
-    const currentProduct = PAGE_OPTIONS.currentList.filter((item) => (item.id === +id))[0]
-    const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
     const count = e.target.value
+    const typeOfProduct = e.target.className
+    const id = e.target.id.replace('count-','').replace('basket-','')
+    const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
+    let currentProduct
+
+    switch (typeOfProduct) {
+        case 'wreath':
+            currentProduct = WREATHS_LIST.filter((item) => (item.id === +id))[0]
+            break
+        case 'basket':
+            currentProduct = BASKETS_LIST.filter((item) => (item.id === +id))[0]
+            break
+    }
+
+    setCount(currentProduct, +count)
+
+    if (basketProduct) {
+        setCount(basketProduct, +count)
+    }
+}
+
+onButtonCounter = (e) => {
+    const infoArray = e.target.id.split('-')
+    const typeOfProduct = infoArray[0]
+    const id = infoArray[1]
+    const direction = infoArray[2]
+
+    const inputProduct = document.getElementById(`count-${id}`)
+    const inputBasket = document.getElementById(`basket-count-${id}`)
+
+    const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
+    let currentProduct
+    let count
+
+    switch (typeOfProduct) {
+        case 'wreath':
+            currentProduct = WREATHS_LIST.filter((item) => (item.id === +id))[0]
+            break
+        case 'basket':
+            currentProduct = BASKETS_LIST.filter((item) => (item.id === +id))[0]
+            break
+    }
+
+    switch (direction) {
+        case 'up':
+            count = +currentProduct.count + 1
+            break
+        case 'down':
+            count = +currentProduct.count - 1
+            break
+    }
+
+
+    if (!count) {
+        return
+    }
+
+    inputProduct ? inputProduct.value = count : null
+    inputBasket ? inputBasket.value = count : null
 
     setCount(currentProduct, +count)
 
@@ -241,7 +309,7 @@ setCount = (currentProduct, currentCount) => {
 
     if (isNaN(currentCount) || currentCount === 0) {
         currentProduct.count = prevCount
-        inputProduct.value = ''
+        inputProduct ? inputProduct.value = '' : null
         inputBasket ? inputBasket.value = '' : null
         costControl(currentProduct, prevCount)
         return
@@ -249,13 +317,14 @@ setCount = (currentProduct, currentCount) => {
 
     if (currentCount > 9999) {
         currentProduct.count = prevCount
-        inputProduct.value = prevCount
+        inputProduct ? inputProduct.value = prevCount : null
         inputBasket ? inputBasket.value = prevCount : null
         costControl(currentProduct, prevCount)
         return
     }
 
     currentProduct.count = currentCount
+    inputProduct ? inputProduct.value = currentCount : null
     inputBasket ? inputBasket.value = currentCount : null
     costControl(currentProduct, currentCount)
 
@@ -284,21 +353,21 @@ costControl = (currentProduct, count) => {
     if (count >= 100) {
         currentProduct.discountPercent = 10
         currentProduct.allCost = +(currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaCatalog ? discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
         discountAreaBasket ? discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
     } else if (count >= 50) {
         currentProduct.discountPercent = 5
         currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>`
+        discountAreaCatalog ? discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
         discountAreaBasket ? discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
     } else {
         currentProduct.discountPercent = 0
         currentProduct.allCost = +(currentProduct.cost * count)
-        discountAreaCatalog.innerHTML = 'Общая стоимость:'
+        discountAreaCatalog ? discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
         discountAreaBasket ? discountAreaBasket.innerHTML = 'Общая стоимость:' : null
     }
 
-    allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN`
+    allCostCatalog ? allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
     allCostBasket ? allCostBasket.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
 }
 
