@@ -162,8 +162,8 @@ productListCreator = () => {
             </div>
             <div class='button-wrapper' id='button-wrapper-${item.id}'>
                 ${!item.inBasket ?
-                `<button class='button' onclick='setToBasket(${item.id})'>Добавить в корзину</button>` :
-                `<button class='button checked'>В корзине</button>`}
+            `<button class='button' onclick='setToBasket(${item.id})'>Добавить в корзину</button>` :
+            `<button class='button checked'>В корзине</button>`}
             </div>
         </div>`
     ))
@@ -335,13 +335,13 @@ setCount = (currentProduct, currentCount) => {
 
 priceControl = () => {
     const priceField = document.getElementById('price')
-    let price = 0
+    PAGE_OPTIONS.price = 0
 
     PAGE_OPTIONS.basketList.forEach((product) => {
-        price += product.allCost
+        PAGE_OPTIONS.price += product.allCost
     })
 
-    priceField.innerHTML = `${price.toFixed(2)} BYN`
+    priceField.innerHTML = `${PAGE_OPTIONS.price.toFixed(2)} BYN`
 }
 
 costControl = (currentProduct, count) => {
@@ -448,6 +448,60 @@ basketHandler = (e) => {
     }
 }
 
-sendPayment = (e) => {
+sendPayment = async (e) => {
     e.preventDefault()
+
+    // TODO: start preloader
+
+    const doc = new docx.Document()
+
+    doc.addSection({
+        properties: {},
+        children: [
+            new docx.Paragraph({
+                children: [
+                    new docx.TextRun("Hello World"),
+                    new docx.TextRun({
+                        text: "Foo Bar",
+                        bold: true,
+                    }),
+                    new docx.TextRun({
+                        text: "\tGithub is the best",
+                        bold: true,
+                    }),
+                ],
+            }),
+        ],
+    });
+
+    const createdFile = await docx.Packer.toBase64String(doc).then(base64file => {
+        return base64file
+    })
+
+    const emailBody =
+        `<html>
+            ${PAGE_OPTIONS.basketList.map((item) => (
+            `<p><b>${item.name}</b> | кол-во: ${item.count} | общая стоимость: ${item.allCost}</p>`
+        ))}
+            <hr>
+            <p>Итого: ${PAGE_OPTIONS.price.toFixed(2)} BYN</p>
+            <hr>
+        </html>`
+
+    Email.send({
+        SecureToken: 'e494b8ef-bb2c-449f-a011-3ec97de46731',
+        To : 'ivan@zenio.co',
+        From : 'ookatss@gmail.com',
+        Subject : 'Ваш заказ в обработке',
+        Body : emailBody,
+        Attachments: [{
+            name: 'doc.docx',
+            data: createdFile
+        }]
+
+    }).then(
+        message => alert(message)
+
+        // TODO: stop preloader and add response message
+    );
 }
