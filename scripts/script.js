@@ -109,6 +109,13 @@ const PAGE_OPTIONS = {
     price: 0
 }
 
+const basketButton = document.getElementById('basket-button')
+const basketProductsWrapper = document.getElementById('basket-products-wrapper')
+const basketWrapper = document.getElementById('basket-wrapper')
+const catalogWrapper = document.getElementById('catalog')
+const priceField = document.getElementById('price')
+const body = document.querySelector('body')
+
 setProductType = (e) => {
     const id = e.target.id
     const targetItem = document.getElementById(id)
@@ -139,7 +146,6 @@ setProductType = (e) => {
 }
 
 productListCreator = () => {
-    const wrapper = document.getElementById('catalog')
     const products = PAGE_OPTIONS.currentList.map((item) => (
         `<div class='product' id=${item.id}>
             <div class='photo-wrapper'></div>
@@ -163,16 +169,15 @@ productListCreator = () => {
             <div class='button-wrapper' id='button-wrapper-${item.id}'>
                 ${!item.inBasket ?
                 `<button class='button' onclick='setToBasket(${item.id})'>Добавить в корзину</button>` :
-                `<button class='button checked'>В корзине</button>`}
+                `<button class='button checked' onclick='removeFromBasket(event)' id='${item.type}-${item.id}-card-remove'>В корзине</button>`}
             </div>
         </div>`
     ))
 
-    wrapper.innerHTML = products.join('')
+    catalogWrapper.innerHTML = products.join('')
 }
 
 basketListCreator = () => {
-    const wrapper = document.getElementById('basket-products-wrapper')
     const products = PAGE_OPTIONS.basketList.map((item) => (
         `<div class='basket-product' id='basket-${item.id}'>
             <div class='photo-wrapper'></div>
@@ -196,12 +201,12 @@ basketListCreator = () => {
                 </div>
             </div>
             <div class='remove-wrapper'>
-                <img src='./images/remove.svg' alt='remove' onclick='removeFromBasket(${item.id})'>
+                <img src='./images/remove.svg' alt='remove' onclick='removeFromBasket(event)' id='${item.type}-${item.id}-basket-remove'>
             </div>
         </div>`
     ))
 
-    wrapper.innerHTML = products.join('')
+    basketProductsWrapper.innerHTML = products.join('')
 }
 
 onBlurCounter = (e) => {
@@ -334,7 +339,6 @@ setCount = (currentProduct, currentCount) => {
 }
 
 priceControl = () => {
-    const priceField = document.getElementById('price')
     let price = 0
 
     PAGE_OPTIONS.basketList.forEach((product) => {
@@ -374,10 +378,9 @@ costControl = (currentProduct, count) => {
 setToBasket = (productId) => {
     const product = PAGE_OPTIONS.currentList.filter((product) => (product.id === productId))[0]
     const addButtonWrapper = document.getElementById(`button-wrapper-${productId}`)
-    const basketButton = document.getElementById('basket-button')
 
     product.inBasket = true
-    addButtonWrapper.innerHTML = `<button class='button checked'>В корзине</button>`
+    addButtonWrapper.innerHTML = `<button class='button checked' onclick='removeFromBasket(event)' id='${product.type}-${product.id}-card-remove'>В корзине</button>`
 
     PAGE_OPTIONS.basketList = [...PAGE_OPTIONS.basketList, product]
 
@@ -389,20 +392,28 @@ setToBasket = (productId) => {
     basketAnim()
 }
 
-removeFromBasket = (productId) => {
-    const productFromList = PAGE_OPTIONS.currentList.filter((product) => (product.id === productId))[0]
+removeFromBasket = (e) => {
+    const infoArray = e.target.id.split('-')
+    const productType = infoArray[0]
+    const productId = infoArray[1]
+    const basketRemover = infoArray[2] === 'basket'
+
+    const currentList = productType === 'wreath' ? WREATHS_LIST : BASKETS_LIST
+    const productFromList = currentList.filter((product) => (product.id === +productId))[0]
+
     const addButtonWrapper = document.getElementById(`button-wrapper-${productId}`)
     const basketProductCard = document.getElementById(`basket-${productId}`)
-    const basketWrapper = document.getElementById('basket-products-wrapper')
 
-    refreshProduct(productFromList)
-    addButtonWrapper.innerHTML = `<button class='button' onclick={setToBasket(${productId})}>Добавить в корзину</button>`
-    basketProductCard.remove()
+    addButtonWrapper ? addButtonWrapper.innerHTML = `<button class='button' onclick={setToBasket(${productId})}>Добавить в корзину</button>` : ''
+    basketProductCard && basketProductCard.remove()
+    basketRemover && refreshProduct(productFromList)
+    productFromList.inBasket = false
 
     PAGE_OPTIONS.basketList = PAGE_OPTIONS.basketList.filter((product) => (product.id !== +productId))
 
     if (!PAGE_OPTIONS.basketList.length) {
-        basketWrapper.innerHTML = `<div class='basket-product'><span class='empty-message'>Ваша корзина пуста</span></div>`
+        !basketRemover && basketButton.classList.remove('active')
+        basketProductsWrapper.innerHTML = `<div class='basket-product'><span class='empty-message'>Ваша корзина пуста</span></div>`
     }
     priceControl()
 }
@@ -415,8 +426,6 @@ refreshProduct = (product) => {
 }
 
 basketAnim = () => {
-    const basketButton = document.getElementById('basket-button')
-
     basketButton.classList.remove('animate')
     setTimeout(() => {
         basketButton.classList.add('animate')
@@ -425,9 +434,6 @@ basketAnim = () => {
 
 basketHandler = (e) => {
     const classList = e.target.classList
-    const basketWrapper = document.getElementById('basket-wrapper')
-    const basketButton = document.getElementById('basket-button')
-    const body = document.querySelector('body')
 
     if (PAGE_OPTIONS.basketIsOpen) {
         productListCreator()

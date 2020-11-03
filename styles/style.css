@@ -84,8 +84,7 @@ body {
     color: #FFFFFF; }
   .button.checked {
     background-color: #0C9D4A;
-    color: #FFFFFF;
-    cursor: default; }
+    color: #FFFFFF; }
 
 .counter {
   display: block; }
@@ -252,7 +251,7 @@ nav {
 header {
   width: 100%;
   max-width: 120rem;
-  padding: 4.8rem 2.4rem;
+  padding: 2.4rem;
   margin: 0 auto; }
   header h1 {
     margin-bottom: 4.8rem; }
@@ -263,35 +262,36 @@ header {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between; }
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start; }
+    header .product-types-selector .border {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 6.15rem;
+      height: .3rem;
+      background-color: #DD2525;
+      -webkit-transform: translateX(0);
+      -ms-transform: translateX(0);
+      transform: translateX(0);
+      -webkit-transition: .15s ease-in-out;
+      -o-transition: .15s ease-in-out;
+      transition: .15s ease-in-out; }
     header .product-types-selector .product-type {
-      width: calc(50% - 1.2rem);
-      padding: 1.8rem 2.4rem;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-      justify-content: space-between;
-      border-radius: .4rem;
-      background-color: #FFFFFF;
-      cursor: pointer;
-      -webkit-box-shadow: 0 .2rem 1.2rem #EFEFEF;
-      box-shadow: 0 .2rem 1.2rem #EFEFEF; }
-      header .product-types-selector .product-type.active {
-        background-color: #DD2525;
-        -webkit-box-shadow: none;
-        box-shadow: none; }
-        header .product-types-selector .product-type.active * {
-          color: #FFFFFF; }
-      header .product-types-selector .product-type img {
-        width: 1.8rem;
-        height: 1.8rem; }
+      padding: 1.8rem 0 1.2rem;
+      margin-right: 2.4rem;
+      cursor: pointer; }
+      header .product-types-selector .product-type:not(.active):hover * {
+        color: rgba(25, 25, 25, 0.5); }
+      header .product-types-selector .product-type.active * {
+        color: #DD2525; }
+      header .product-types-selector .product-type.active + .border {
+        width: 8.6rem;
+        -webkit-transform: translateX(calc(6.15rem + 2.4rem));
+        -ms-transform: translateX(calc(6.15rem + 2.4rem));
+        transform: translateX(calc(6.15rem + 2.4rem)); }
       header .product-types-selector .product-type * {
         pointer-events: none; }
 

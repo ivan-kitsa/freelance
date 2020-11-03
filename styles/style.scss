@@ -45,7 +45,6 @@ body {
   &.checked {
     background-color: $green;
     color: $white;
-    cursor: default;
   }
 }
 
@@ -207,7 +206,7 @@ nav {
 header {
   width: 100%;
   max-width: 120rem;
-  padding: 4.8rem 2.4rem;
+  padding: 2.4rem;
   margin: 0 auto;
 
   h1 {
@@ -217,32 +216,36 @@ header {
   .product-types-selector {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+
+    .border {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 6.15rem;
+      height: .3rem;
+      background-color: $red;
+      transform: translateX(0);
+      transition: .15s ease-in-out;
+    }
 
     .product-type {
-      width: calc(50% - 1.2rem);
-      padding: 1.8rem 2.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-radius: .4rem;
-      background-color: $white;
+      padding: 1.8rem 0 1.8rem;
+      margin-right: 2.4rem;
       cursor: pointer;
-      @include boxShadow;
 
-
-      &.active {
-        background-color: $red;
-        box-shadow: none;
-
-        * {
-          color: $white;
-        }
+      &:not(.active):hover *{
+        color: fade-out($black, .5);
       }
 
-      img {
-        width: 1.8rem;
-        height: 1.8rem;
+      &.active *{
+        color: $red;
+      }
+
+      &.active + .border {
+        width: 8.6rem;
+        transform: translateX(calc(6.15rem + 2.4rem));
       }
 
       * {
