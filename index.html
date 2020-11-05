@@ -54,6 +54,56 @@
                 <span>Итого:</span>
                 <span id='price'></span>
             </div>
+            <p>Персональная информация:</p>
+            <div class='form-info-wrapper'>
+                <p class='block-title'>Информация о компании:</p>
+                <div class='block-info company-info'>
+                    <label class='input' for='company-name'>
+                        <input type='text' id='company-name' required>
+                        <span class='title'>Название компании</span>
+                        <span class='error-message' id='company-name-error'>Error</span>
+                    </label>
+                    <label class='input' for='phone'>
+                        <input type='tel' id='phone'>
+                        <span class='title'>Номер телефона</span>
+                        <span class='error-message' id='phone-error'>Error</span>
+                    </label>
+                    <label class='input' for='email'>
+                        <input type='email' id='email'>
+                        <span class='title'>Email</span>
+                        <span class='error-message' id='email-error'>Error</span>
+                    </label>
+                </div>
+                <p class='block-title'>Адрес компании:</p>
+                <div class='block-info address-info'>
+                    <label class='input' for='country'>
+                        <input type='text' id='country' required>
+                        <span class='title'>Страна</span>
+                        <span class='error-message' id='country-error'>Error</span>
+                    </label>
+                    <label class='input' for='city'>
+                        <input type='text' id='city' required>
+                        <span class='title'>Город</span>
+                        <span class='error-message' id='city-error'>Error</span>
+                    </label>
+                    <label class='input' for='index'>
+                        <input type='text' id='index' required>
+                        <span class='title'>Индекс</span>
+                        <span class='error-message' id='index-error'>Error</span>
+                    </label>
+                    <label class='textarea' for='address'>
+                        <textarea id='address'></textarea>
+                        <span class='title'>Адрес</span>
+                        <span class='error-message' id='address-error'>Error</span>
+                    </label>
+                </div>
+                <label class='checkbox' for='delivery'>
+                    <input type='checkbox' id='delivery'>
+                    <div class='box'></div>
+                    <span>Бесплатная доставка</span>
+                </label>
+                <button class='button disabled' type='submit'>Отправить заявку</button>
+            </div>
         </form>
     </section>
     <div class='basket-button' id='basket-button' onclick={basketHandler(event)}></div>
