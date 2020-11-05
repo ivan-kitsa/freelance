@@ -114,6 +114,7 @@ const basketProductsWrapper = document.getElementById('basket-products-wrapper')
 const basketWrapper = document.getElementById('basket-wrapper')
 const catalogWrapper = document.getElementById('catalog')
 const priceField = document.getElementById('price')
+const preloader = document.getElementById('preloader')
 const body = document.querySelector('body')
 
 setProductType = (e) => {
@@ -339,13 +340,13 @@ setCount = (currentProduct, currentCount) => {
 }
 
 priceControl = () => {
-    let price = 0
+    PAGE_OPTIONS.price = 0
 
     PAGE_OPTIONS.basketList.forEach((product) => {
-        price += product.allCost
+        PAGE_OPTIONS.price += product.allCost
     })
 
-    priceField.innerHTML = `${price.toFixed(2)} BYN`
+    priceField.innerHTML = `${PAGE_OPTIONS.price.toFixed(2)} BYN`
 }
 
 costControl = (currentProduct, count) => {
@@ -454,6 +455,75 @@ basketHandler = (e) => {
     }
 }
 
-sendPayment = (e) => {
+preloadHandler = (isActive) => {
+    isActive ? preloader.classList.add('active') : preloader.classList.remove('active')
+}
+
+getOrderIndex = (e) => {
     e.preventDefault()
+
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', 'https://api.countapi.xyz/hit/ivan-kitsa.github.io/order')
+    xhr.responseType = 'json'
+    xhr.onload = function() {
+        console.log(`order index: ${this.response.value}`)
+        preloadHandler(true)
+        sendPayment(this.response.value)
+    }
+    xhr.send()
+}
+
+sendPayment = async (orderIndex) => {
+    const doc = new docx.Document()
+
+    doc.addSection({
+        properties: {},
+        children: [
+            new docx.Paragraph({
+                children: [
+                    new docx.TextRun("Hello World"),
+                    new docx.TextRun({
+                        text: "Foo Bar",
+                        bold: true,
+                    }),
+                    new docx.TextRun({
+                        text: "\tGithub is the best",
+                        bold: true,
+                    }),
+                ],
+            }),
+        ],
+    });
+
+    const createdFile = await docx.Packer.toBase64String(doc).then(base64file => {
+        return base64file
+    })
+
+    const emailBody =
+        `<html>
+            <h1>Заказ номер: ${orderIndex}</h1>
+            <br>           
+            ${PAGE_OPTIONS.basketList.map((item) => (
+            `<p><b>${item.name}</b> | кол-во: ${item.count} | общая стоимость: ${item.allCost}</p>`
+        ))}
+            <hr>
+            <p>Итого: ${PAGE_OPTIONS.price.toFixed(2)} BYN</p>
+            <hr>
+        </html>`
+
+    Email.send({
+        SecureToken: 'e494b8ef-bb2c-449f-a011-3ec97de46731',
+        To : 'ivan@zenio.co',
+        From : 'ookatss@gmail.com',
+        Subject : 'Ваш заказ в обработке',
+        Body : emailBody,
+        Attachments: [{
+            name: 'doc.docx',
+            data: createdFile
+        }]
+
+    }).then(message => {
+        console.log(message)
+        preloadHandler(false)
+    })
 }

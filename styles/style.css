@@ -367,6 +367,85 @@ body {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%); }
 
+.preloader {
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.75); }
+  .preloader.active {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
+    .preloader.active .sk-cube {
+      -webkit-animation: sk-wandering-cubes 1.8s ease-in-out -1.8s infinite both;
+      animation: sk-wandering-cubes 1.8s ease-in-out -1.8s infinite both; }
+  .preloader .sk-wandering-cubes {
+    width: 8rem;
+    height: 8rem;
+    position: relative; }
+    .preloader .sk-wandering-cubes .sk-cube {
+      background-color: #DD2525;
+      width: 2rem;
+      height: 2rem;
+      position: absolute;
+      top: 0;
+      left: 0; }
+    .preloader .sk-wandering-cubes .sk-cube-2 {
+      -webkit-animation-delay: -0.9s;
+      animation-delay: -0.9s; }
+
+@-webkit-keyframes sk-wandering-cubes {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  25% {
+    -webkit-transform: translateX(4rem) rotate(-90deg) scale(0.5);
+    transform: translateX(4rem) rotate(-90deg) scale(0.5); }
+  50% {
+    /* Hack to make FF rotate in the right direction */
+    -webkit-transform: translateX(4rem) translateY(4rem) rotate(-179deg);
+    transform: translateX(4rem) translateY(4rem) rotate(-179deg); }
+  50.1% {
+    -webkit-transform: translateX(4rem) translateY(4rem) rotate(-180deg);
+    transform: translateX(4rem) translateY(4rem) rotate(-180deg); }
+  75% {
+    -webkit-transform: translateX(0) translateY(4rem) rotate(-270deg) scale(0.5);
+    transform: translateX(0) translateY(4rem) rotate(-270deg) scale(0.5); }
+  100% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg); } }
+
+@keyframes sk-wandering-cubes {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  25% {
+    -webkit-transform: translateX(4rem) rotate(-90deg) scale(0.5);
+    transform: translateX(4rem) rotate(-90deg) scale(0.5); }
+  50% {
+    /* Hack to make FF rotate in the right direction */
+    -webkit-transform: translateX(4rem) translateY(4rem) rotate(-179deg);
+    transform: translateX(4rem) translateY(4rem) rotate(-179deg); }
+  50.1% {
+    -webkit-transform: translateX(4rem) translateY(4rem) rotate(-180deg);
+    transform: translateX(4rem) translateY(4rem) rotate(-180deg); }
+  75% {
+    -webkit-transform: translateX(0) translateY(4rem) rotate(-270deg) scale(0.5);
+    transform: translateX(0) translateY(4rem) rotate(-270deg) scale(0.5); }
+  100% {
+    -webkit-transform: rotate(-360deg);
+    transform: rotate(-360deg); } }
+
 nav {
   width: 100%;
   background: #FFFFFF;
