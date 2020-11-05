@@ -114,6 +114,7 @@ const basketProductsWrapper = document.getElementById('basket-products-wrapper')
 const basketWrapper = document.getElementById('basket-wrapper')
 const catalogWrapper = document.getElementById('catalog')
 const priceField = document.getElementById('price')
+const preloader = document.getElementById('preloader')
 const body = document.querySelector('body')
 
 setProductType = (e) => {
@@ -454,11 +455,25 @@ basketHandler = (e) => {
     }
 }
 
-sendPayment = async (e) => {
+preloadHandler = (isActive) => {
+    isActive ? preloader.classList.add('active') : preloader.classList.remove('active')
+}
+
+getOrderIndex = (e) => {
     e.preventDefault()
 
-    // TODO: start preloader
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', 'https://api.countapi.xyz/hit/ivan-kitsa.github.io/order')
+    xhr.responseType = 'json'
+    xhr.onload = function() {
+        console.log(`order index: ${this.response.value}`)
+        preloadHandler(true)
+        sendPayment(this.response.value)
+    }
+    xhr.send()
+}
 
+sendPayment = async (orderIndex) => {
     const doc = new docx.Document()
 
     doc.addSection({
@@ -486,6 +501,8 @@ sendPayment = async (e) => {
 
     const emailBody =
         `<html>
+            <h1>Заказ номер: ${orderIndex}</h1>
+            <br>           
             ${PAGE_OPTIONS.basketList.map((item) => (
             `<p><b>${item.name}</b> | кол-во: ${item.count} | общая стоимость: ${item.allCost}</p>`
         ))}
@@ -505,9 +522,8 @@ sendPayment = async (e) => {
             data: createdFile
         }]
 
-    }).then(
-        message => alert(message)
-
-        // TODO: stop preloader and add response message
-    );
+    }).then(message => {
+        console.log(message)
+        preloadHandler(false)
+    })
 }

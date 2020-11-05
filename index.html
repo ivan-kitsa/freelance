@@ -45,7 +45,7 @@
         <!--    productListCreator()    -->
     </section>
     <section class='basket-wrapper' id='basket-wrapper'>
-        <form onsubmit={sendPayment(event)}>
+        <form onsubmit={getOrderIndex(event)}>
             <p>Корзина:</p>
             <div id='basket-products-wrapper'>
                 <!--    basketListCreator()   -->
@@ -107,6 +107,12 @@
         </form>
     </section>
     <div class='basket-button' id='basket-button' onclick={basketHandler(event)}></div>
+    <div class='preloader' id='preloader'>
+        <div class='sk-wandering-cubes'>
+            <div class='sk-cube sk-cube-1'></div>
+            <div class='sk-cube sk-cube-2'></div>
+        </div>
+    </div>
     <footer>
         <div class='content-wrapper'>
             <div class='left-area'>
@@ -142,6 +148,7 @@
     </footer>
 
     <script src='./scripts/script.js'></script>
+    <script src='https://cdn.jsdelivr.net/combine/npm/unsplash-js@6.0.0,npm/countapi-js@1.0.1'></script>
     <script src='https://smtpjs.com/v3/smtp.js'></script>
     <script src='https://unpkg.com/docx@5.0.2/build/index.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js'></script>
