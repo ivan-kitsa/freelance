@@ -98,7 +98,7 @@ body {
 .basket-button {
   position: fixed;
   left: calc(100vw - 12.8rem);
-  bottom: 4.8rem;
+  bottom: calc(50% - 8rem);
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
@@ -109,9 +109,9 @@ body {
   background-repeat: no-repeat;
   cursor: pointer;
   z-index: 3;
-  -webkit-transform: translateY(calc(100% + 5rem));
-  -ms-transform: translateY(calc(100% + 5rem));
-  transform: translateY(calc(100% + 5rem));
+  -webkit-transform: translateX(calc(100% + 5rem));
+  -ms-transform: translateX(calc(100% + 5rem));
+  transform: translateX(calc(100% + 5rem));
   -webkit-transition: -webkit-transform 0.15s ease-in 0.15s;
   transition: -webkit-transform 0.15s ease-in 0.15s;
   -o-transition: transform 0.15s ease-in 0.15s;
@@ -597,13 +597,9 @@ header {
   left: 0;
   top: 0;
   position: fixed;
-  -webkit-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0); }
+  display: none; }
   .basket-wrapper.opened {
-    -webkit-transform: scale(1);
-    -ms-transform: scale(1);
-    transform: scale(1); }
+    display: block; }
   .basket-wrapper form {
     width: calc(100% - 4.8rem);
     max-width: 80rem;

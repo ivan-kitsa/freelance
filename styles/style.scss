@@ -61,7 +61,7 @@ body {
 .basket-button {
   position: fixed;
   left: calc(100vw - 12.8rem);
-  bottom: 4.8rem;
+  bottom: calc(50% - 8rem);
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
@@ -73,7 +73,7 @@ body {
   cursor: pointer;
   z-index: 3;
 
-  transform: translateY(calc(100% + 5rem));
+  transform: translateX(calc(100% + 5rem));
   transition: transform 0.15s ease-in 0.15s;
   pointer-events: none;
 
@@ -582,10 +582,10 @@ header {
   left: 0;
   top: 0;
   position: fixed;
-  transform: scale(0);
+  display: none;
 
   &.opened {
-    transform: scale(1);
+    display: block;
   }
 
   form {
