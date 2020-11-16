@@ -146,14 +146,14 @@ body {
   display: block;
   margin: 1.7rem 0 1.3rem;
 
-  &.error {
-    input {
-      border-color: $red;
+  input.error {
+    border-color: $red !important;
+    background: $white !important;
+
+    & ~ .title {
+      color: $red !important;
     }
-    .title {
-      color: $red;
-    }
-    .error-message {
+    & ~ .error-message {
       display: block;
     }
   }
@@ -175,7 +175,11 @@ body {
 
   input:focus, input:active, input.active {
     background: $white;
-    border-color: fade-out($black, .6);
+    border-color: $gray-border;
+
+    &:focus {
+      border-color: fade-out($black, .75);
+    }
 
     & + .title {
       font-size: 1.1rem;
@@ -216,14 +220,14 @@ body {
   display: block;
   margin: 1.7rem 0 1.3rem;
 
-  &.error {
-    textarea {
-      border-color: $red;
+  .error {
+    border-color: $red !important;;
+    background: $white !important;
+
+    & ~ .title {
+      color: $red !important;
     }
-    .title {
-      color: $red;
-    }
-    .error-message {
+    & ~ .error-message {
       display: block;
     }
   }
@@ -250,7 +254,11 @@ body {
 
   textarea:focus, textarea:active, textarea.active {
     background: $white;
-    border-color: fade-out($black, .6);
+    border-color: $gray-border;
+
+    &:focus {
+      border-color: fade-out($black, .75);
+    }
 
     & + .title {
       font-size: 1.1rem;
@@ -279,7 +287,7 @@ body {
     position: absolute;
     left: 0;
     top: 100%;
-    margin: .1rem 0 0 .1rem;
+    margin: 0 0 0 .1rem;
     font-size: 1rem;
     line-height: 1.2rem;
     color: $red;
@@ -702,6 +710,10 @@ header {
         font-size: 1.4rem;
         line-height: 1.7rem;
         padding: 2.4rem 0 1.2rem;
+      }
+
+      .delivery-wrapper.hidden {
+        display: none;
       }
 
       .block-info {

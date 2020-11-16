@@ -455,6 +455,54 @@ basketHandler = (e) => {
     }
 }
 
+const formData = {
+    companyName: null,
+    phone: null,
+    email: null,
+    delivery: false,
+    country: null,
+    city: null,
+    index: null,
+    address: null
+}
+
+getValue = (e) => {
+    const value = e.target.value
+    const id = e.target.id
+
+    debounce(() => {
+       inputValidator(e.target)
+        formData[id] = value
+    }, 200)
+
+    if (value.length) {
+        e.target.classList.add('active')
+        return
+    }
+
+    e.target.classList.remove('active')
+}
+
+inputValidator = (input) => {
+    const isRequired = input.required
+    const value = input.value
+
+    if (isRequired && !value.length) {
+        input.classList.add('error')
+        return
+    }
+
+    input.classList.remove('error')
+}
+
+deliveryHandler = (e) => {
+    const deliveryWrapper = document.getElementById('delivery-wrapper')
+    const delivery = e.target.checked
+
+    delivery ? deliveryWrapper.classList.remove('hidden') : deliveryWrapper.classList.add('hidden')
+    formData.delivery = delivery
+}
+
 preloadHandler = (isActive) => {
     isActive ? preloader.classList.add('active') : preloader.classList.remove('active')
 }
