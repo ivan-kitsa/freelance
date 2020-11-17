@@ -574,7 +574,7 @@ sendPayment = async (orderIndex) => {
         return base64file
     })
 
-    const emailBody =
+    const emailClient =
         `<center>
             <table border='0' cellpadding='0' cellspacing='0' width='100%'
                    style='font-family: Arial, sans-serif; font-size: 14px; width: 100%; max-width: 980px; margin: 0 auto; padding: 0; border-collapse: collapse;'>
@@ -618,8 +618,8 @@ sendPayment = async (orderIndex) => {
                                 </div>` : ''}
                         </td>
                         <td colspan='5' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
-                            <p style='margin: 0; margin-bottom: 12px'><b>Телефон:</b> ${formData.phone}</p>
-                            <p style='margin: 0; margin-bottom: 12px'><b>Email:</b> ${formData.email ? formData.email : ''}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Телефон:</b> ${formData.phone ? formData.phone : ''}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Email:</b> ${formData.email}</p>
                             <br>
                             <br>
                             <br>
@@ -677,12 +677,100 @@ sendPayment = async (orderIndex) => {
             </table>
         </center>`
 
+    const emailBussiness =
+        `<center>
+            <table border='0' cellpadding='0' cellspacing='0' width='100%'
+                   style='font-family: Arial, sans-serif; font-size: 14px; width: 100%; max-width: 980px; margin: 0 auto; padding: 0; border-collapse: collapse;'>
+                <thead>
+                    <tr>
+                        <th align='left' colspan='15'>
+                            <img src='https://ivan-kitsa.github.io/freelance/images/ms.jpg'
+                                width='600'
+                                style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
+                                alt='logo'/>
+                                 
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style='height: 32px; width: 100%'></tr>
+                    <tr>
+                        <td colspan='15' style='background: #F8F8F8; padding: 12px; text-align: left; border: 1px solid #D8D8D8;'>
+                            <b>Детализация заказа</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='10' style='min-width: 70%; border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
+                            <p style='margin: 0; margin-bottom: 12px'><b>№ заказа:</b> ${orderIndex}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Дата заказа:</b> ${dateProvider()}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Доставка:</b> ${formData.delivery ? 'Да' : 'Нет'}</p>
+                            ${formData.delivery ?
+                                `<div>
+                                    <p style='margin: 0; margin-bottom: 12px'><b>Адрес доставки:</b></p>
+                                    <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
+                                </div>` : ''}
+                        </td>
+                        <td colspan='5' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Телефон:</b> ${formData.phone ? formData.phone : ''}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Email:</b> ${formData.email}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Название компании:</b></p>
+                            <p style='margin: 0;'>${formData.companyName}</p>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr style='height: 24px; width: 100%'></tr>
+                    <tr>
+                        <td colspan='8' style='background: #F8F8F8; padding: 12px; text-align: left; border: 1px solid #D8D8D8;'>
+                            <b>Название товара</b>
+                        </td>
+                        <td colspan='1' style='background: #F8F8F8; padding: 12px; text-align: center; border: 1px solid #D8D8D8;'>
+                            <b>Кол-во</b>
+                        </td>
+                        <td colspan='3' style='background: #F8F8F8; padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                            <b>Цена</b>
+                        </td>
+                        <td colspan='3' style='background: #F8F8F8; padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                            <b>Итого</b>
+                        </td>
+                    </tr>
+                    ${PAGE_OPTIONS.basketList.map((item) => (
+                        `<tr>
+                            <td colspan='8' style='padding: 12px; text-align: left; border: 1px solid #D8D8D8;'>
+                                <span>${item.name}</span>
+                            </td>
+                            <td colspan='1' style='padding: 12px; text-align: center; border: 1px solid #D8D8D8;'>
+                                <span>${item.count}</span>
+                            </td>
+                            <td colspan='3' style=' padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                                <span>${item.cost} BYN</span>
+                            </td>
+                            <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                                <span>${item.allCost} BYN</span>
+                            </td>
+                        </tr>`
+                    )).join('')}
+                    <tr>
+                        <td colspan='12' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                            <b>Итого:</b>
+                        </td>
+                        <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                            <b>${PAGE_OPTIONS.price} BYN</b>
+                        </td>
+                    </tr>
+                    <tr style='height: 12px; width: 100%'></tr>
+                </tbody>
+            </table>
+        </center>`
+
     Email.send({
         SecureToken: 'e494b8ef-bb2c-449f-a011-3ec97de46731',
         To: 'ivan@zenio.co',
         From: 'ookatss@gmail.com',
-        Subject: 'Ваш заказ в обработке',
-        Body: emailBody,
+        Subject: `Ваш заказ №${orderIndex}`,
+        Body: emailBussiness,
         Attachments: [{
             name: 'doc.docx',
             data: createdFile
