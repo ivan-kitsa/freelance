@@ -44,7 +44,7 @@
     <section class='catalog-wrapper' id='catalog'>
         <!--    productListCreator()    -->
     </section>
-    <section class='basket-wrapper opened' id='basket-wrapper'>
+    <section class='basket-wrapper' id='basket-wrapper'>
         <form onsubmit={getOrderIndex(event)}>
             <p>Корзина:</p>
             <div id='basket-products-wrapper'>
@@ -80,15 +80,15 @@
                     <span>Бесплатная доставка</span>
                 </label>
                 <div class='delivery-wrapper hidden' id='delivery-wrapper'>
-                    <p class='block-title'>Адрес компании:</p>
+                    <p class='block-title'>Адрес доставки:</p>
                     <div class='block-info address-info'>
                         <label class='input' for='country'>
-                            <input type='text' id='country' maxlength='50' required oninput={getValue(event)}>
+                            <input type='text' id='country' maxlength='50' oninput={getValue(event)}>
                             <span class='title'>Страна</span>
                             <span class='error-message' id='country-error'>Заполните обязательное поле</span>
                         </label>
                         <label class='input' for='city'>
-                            <input type='text' id='city' maxlength='50' required oninput={getValue(event)}>
+                            <input type='text' id='city' maxlength='50' oninput={getValue(event)}>
                             <span class='title'>Город</span>
                             <span class='error-message' id='city-error'>Заполните обязательное поле</span>
                         </label>
@@ -98,7 +98,7 @@
                             <span class='error-message' id='index-error'>Заполните обязательное поле</span>
                         </label>
                         <label class='textarea' for='address'>
-                            <textarea id='address' required  maxlength='100' oninput={getValue(event)}></textarea>
+                            <textarea id='address'  maxlength='100' oninput={getValue(event)}></textarea>
                             <span class='title'>Адрес</span>
                             <span class='error-message' id='address-error'>Заполните обязательное поле</span>
                         </label>
