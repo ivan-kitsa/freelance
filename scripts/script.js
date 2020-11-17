@@ -79,6 +79,22 @@ debounce = (func, ms) => {
     timer = setTimeout(func, ms)
 }
 
+$ = (id) => {
+    return document.getElementById(id)
+}
+
+dateProvider = () => {
+    const monthNamess = ["января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"]
+    const dateObj = new Date()
+    const month = monthNamess[dateObj.getMonth()]
+    const day = String(dateObj.getDate()).padStart(2, '0')
+    const year = dateObj.getFullYear()
+    const output = day + '\n' + month + ',' + year
+
+    return output
+}
+
 dataCreator = () => {
     WREATHS_LIST = WREATHS.map((product, index) => ({
         ...product,
@@ -109,17 +125,17 @@ const PAGE_OPTIONS = {
     price: 0
 }
 
-const basketButton = document.getElementById('basket-button')
-const basketProductsWrapper = document.getElementById('basket-products-wrapper')
-const basketWrapper = document.getElementById('basket-wrapper')
-const catalogWrapper = document.getElementById('catalog')
-const priceField = document.getElementById('price')
-const preloader = document.getElementById('preloader')
+const basketButton = $('basket-button')
+const basketProductsWrapper = $('basket-products-wrapper')
+const basketWrapper = $('basket-wrapper')
+const catalogWrapper = $('catalog')
+const priceField = $('price')
+const preloader = $('preloader')
 const body = document.querySelector('body')
 
 setProductType = (e) => {
     const id = e.target.id
-    const targetItem = document.getElementById(id)
+    const targetItem = $(id)
     const nodeList = document.querySelectorAll('.product-type')
 
     switch (id) {
@@ -169,8 +185,8 @@ productListCreator = () => {
             </div>
             <div class='button-wrapper' id='button-wrapper-${item.id}'>
                 ${!item.inBasket ?
-                `<button class='button' onclick='setToBasket(${item.id})'>Добавить в корзину</button>` :
-                `<button class='button checked' onclick='removeFromBasket(event)' id='${item.type}-${item.id}-card-remove'>В корзине</button>`}
+            `<button class='button' onclick='setToBasket(${item.id})'>Добавить в корзину</button>` :
+            `<button class='button checked' onclick='removeFromBasket(event)' id='${item.type}-${item.id}-card-remove'>В корзине</button>`}
             </div>
         </div>`
     ))
@@ -213,7 +229,7 @@ basketListCreator = () => {
 onBlurCounter = (e) => {
     if (isNaN(parseInt(e.target.value))) {
         const typeOfProduct = e.target.className
-        const id = e.target.id.replace('count-','').replace('basket-','')
+        const id = e.target.id.replace('count-', '').replace('basket-', '')
         const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
         let currentProduct
 
@@ -241,7 +257,7 @@ onBlurCounter = (e) => {
 onInputCounter = (e) => {
     const count = e.target.value
     const typeOfProduct = e.target.className
-    const id = e.target.id.replace('count-','').replace('basket-','')
+    const id = e.target.id.replace('count-', '').replace('basket-', '')
     const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
     let currentProduct
 
@@ -267,8 +283,8 @@ onButtonCounter = (e) => {
     const id = infoArray[1]
     const direction = infoArray[2]
 
-    const inputProduct = document.getElementById(`count-${id}`)
-    const inputBasket = document.getElementById(`basket-count-${id}`)
+    const inputProduct = $(`count-${id}`)
+    const inputBasket = $(`basket-count-${id}`)
 
     const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
     let currentProduct
@@ -309,8 +325,8 @@ onButtonCounter = (e) => {
 
 setCount = (currentProduct, currentCount) => {
     const prevCount = currentProduct.count
-    const inputProduct = document.getElementById(`count-${currentProduct.id}`)
-    const inputBasket = document.getElementById(`basket-count-${currentProduct.id}`)
+    const inputProduct = $(`count-${currentProduct.id}`)
+    const inputBasket = $(`basket-count-${currentProduct.id}`)
     const productInBasket = !!PAGE_OPTIONS.basketList.filter((product) => (product.id === currentProduct.id))[0]
 
     if (isNaN(currentCount) || currentCount === 0) {
@@ -350,10 +366,10 @@ priceControl = () => {
 }
 
 costControl = (currentProduct, count) => {
-    const discountAreaCatalog = document.getElementById(`discount-area-${currentProduct.id}`)
-    const discountAreaBasket = document.getElementById(`basket-discount-area-${currentProduct.id}`)
-    const allCostCatalog = document.getElementById(`all-cost-${currentProduct.id}`)
-    const allCostBasket = document.getElementById(`basket-all-cost-${currentProduct.id}`)
+    const discountAreaCatalog = $(`discount-area-${currentProduct.id}`)
+    const discountAreaBasket = $(`basket-discount-area-${currentProduct.id}`)
+    const allCostCatalog = $(`all-cost-${currentProduct.id}`)
+    const allCostBasket = $(`basket-all-cost-${currentProduct.id}`)
 
     if (count >= 100) {
         currentProduct.discountPercent = 10
@@ -378,14 +394,14 @@ costControl = (currentProduct, count) => {
 
 setToBasket = (productId) => {
     const product = PAGE_OPTIONS.currentList.filter((product) => (product.id === productId))[0]
-    const addButtonWrapper = document.getElementById(`button-wrapper-${productId}`)
+    const addButtonWrapper = $(`button-wrapper-${productId}`)
 
     product.inBasket = true
     addButtonWrapper.innerHTML = `<button class='button checked' onclick='removeFromBasket(event)' id='${product.type}-${product.id}-card-remove'>В корзине</button>`
 
     PAGE_OPTIONS.basketList = [...PAGE_OPTIONS.basketList, product]
 
-    if (PAGE_OPTIONS.basketList.length  && !basketButton.classList.contains('active')) {
+    if (PAGE_OPTIONS.basketList.length && !basketButton.classList.contains('active')) {
         basketButton.classList.add('active')
     }
 
@@ -402,8 +418,8 @@ removeFromBasket = (e) => {
     const currentList = productType === 'wreath' ? WREATHS_LIST : BASKETS_LIST
     const productFromList = currentList.filter((product) => (product.id === +productId))[0]
 
-    const addButtonWrapper = document.getElementById(`button-wrapper-${productId}`)
-    const basketProductCard = document.getElementById(`basket-${productId}`)
+    const addButtonWrapper = $(`button-wrapper-${productId}`)
+    const basketProductCard = $(`basket-${productId}`)
 
     addButtonWrapper ? addButtonWrapper.innerHTML = `<button class='button' onclick={setToBasket(${productId})}>Добавить в корзину</button>` : ''
     basketProductCard && basketProductCard.remove()
@@ -455,6 +471,65 @@ basketHandler = (e) => {
     }
 }
 
+const formData = {
+    companyName: null,
+    phone: null,
+    email: null,
+    delivery: false,
+    country: null,
+    city: null,
+    index: null,
+    address: null
+}
+
+getValue = (e) => {
+    const value = e.target.value
+    const id = e.target.id
+
+    debounce(() => {
+        inputValidator(e.target)
+        formData[id] = value
+    }, 200)
+
+    if (value.length) {
+        e.target.classList.add('active')
+        return
+    }
+
+    e.target.classList.remove('active')
+}
+
+inputValidator = (input) => {
+    const isRequired = input.required
+    const value = input.value
+
+    if (isRequired && !value.length) {
+        input.classList.add('error')
+        return
+    }
+
+    input.classList.remove('error')
+}
+
+deliveryHandler = (e) => {
+    const deliveryWrapper = $('delivery-wrapper')
+    const delivery = e.target.checked
+
+    const inputArr = [$('country'), $('city'), $('address')]
+    inputArr.forEach((input) => {
+        input.required = delivery
+    })
+
+    formData.delivery = delivery
+
+    if (delivery) {
+        deliveryWrapper.classList.remove('hidden')
+        return
+    }
+
+    deliveryWrapper.classList.add('hidden')
+}
+
 preloadHandler = (isActive) => {
     isActive ? preloader.classList.add('active') : preloader.classList.remove('active')
 }
@@ -465,7 +540,7 @@ getOrderIndex = (e) => {
     const xhr = new XMLHttpRequest()
     xhr.open('GET', 'https://api.countapi.xyz/hit/ivan-kitsa.github.io/order')
     xhr.responseType = 'json'
-    xhr.onload = function() {
+    xhr.onload = function () {
         console.log(`order index: ${this.response.value}`)
         preloadHandler(true)
         sendPayment(this.response.value)
@@ -500,23 +575,114 @@ sendPayment = async (orderIndex) => {
     })
 
     const emailBody =
-        `<html>
-            <h1>Заказ номер: ${orderIndex}</h1>
-            <br>           
-            ${PAGE_OPTIONS.basketList.map((item) => (
-            `<p><b>${item.name}</b> | кол-во: ${item.count} | общая стоимость: ${item.allCost}</p>`
-        ))}
-            <hr>
-            <p>Итого: ${PAGE_OPTIONS.price.toFixed(2)} BYN</p>
-            <hr>
-        </html>`
+        `<center>
+            <table border='0' cellpadding='0' cellspacing='0' width='100%'
+                   style='font-family: Arial, sans-serif; font-size: 14px; width: 100%; max-width: 980px; margin: 0 auto; padding: 0; border-collapse: collapse;'>
+                <thead>
+                    <tr>
+                        <th align='left' colspan='10'>
+                            <img src='https://ivan-kitsa.github.io/freelance/images/ms.jpg'
+                                width='600'
+                                style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
+                                alt='logo'/>
+                                 
+                        </th>
+                        <th align='right' colspan='5' style='text-align: right; font-size: 14px'>
+                            <p>+375-29-XXX-XX-XX</p>
+                            <p>+375-29-XXX-XX-XX</p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style='height: 32px; width: 100%'></tr>
+                    <tr>
+                        <td colspan='15' style='padding: 0'>
+                            <span style='font-size: 14px'>Благодарим за интерес к нашей продукции! Ваш заказ получен и поступит в обработку в ближайшее время.</span>
+                        </td>
+                    </tr>
+                    <tr style='height: 24px; width: 100%'></tr>
+                    <tr>
+                        <td colspan='15' style='background: #F8F8F8; padding: 12px; text-align: left; border: 1px solid #D8D8D8;'>
+                            <b>Детализация заказа</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan='10' style='min-width: 70%; border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
+                            <p style='margin: 0; margin-bottom: 12px'><b>№ заказа:</b> ${orderIndex}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Дата заказа:</b> ${dateProvider()}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Доставка:</b> ${formData.delivery ? 'Да' : 'Нет'}</p>
+                            ${formData.delivery ?
+                                `<div>
+                                    <p style='margin: 0; margin-bottom: 12px'><b>Адрес доставки:</b></p>
+                                    <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
+                                </div>` : ''}
+                        </td>
+                        <td colspan='5' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Телефон:</b> ${formData.phone}</p>
+                            <p style='margin: 0; margin-bottom: 12px'><b>Email:</b> ${formData.email ? formData.email : ''}</p>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr style='height: 24px; width: 100%'></tr>
+                    <tr>
+                        <td colspan='8' style='background: #F8F8F8; padding: 12px; text-align: left; border: 1px solid #D8D8D8;'>
+                            <b>Название товара</b>
+                        </td>
+                        <td colspan='1' style='background: #F8F8F8; padding: 12px; text-align: center; border: 1px solid #D8D8D8;'>
+                            <b>Кол-во</b>
+                        </td>
+                        <td colspan='3' style='background: #F8F8F8; padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                            <b>Цена</b>
+                        </td>
+                        <td colspan='3' style='background: #F8F8F8; padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                            <b>Итого</b>
+                        </td>
+                    </tr>
+                    ${PAGE_OPTIONS.basketList.map((item) => (
+                        `<tr>
+                            <td colspan='8' style='padding: 12px; text-align: left; border: 1px solid #D8D8D8;'>
+                                <span>${item.name}</span>
+                            </td>
+                            <td colspan='1' style='padding: 12px; text-align: center; border: 1px solid #D8D8D8;'>
+                                <span>${item.count}</span>
+                            </td>
+                            <td colspan='3' style=' padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                                <span>${item.cost} BYN</span>
+                            </td>
+                            <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                                <span>${item.allCost} BYN</span>
+                            </td>
+                        </tr>`
+                    )).join('')}
+                    <tr>
+                        <td colspan='12' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                            <b>Итого:</b>
+                        </td>
+                        <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
+                            <b>${PAGE_OPTIONS.price} BYN</b>
+                        </td>
+                    </tr>
+                    <tr style='height: 24px; width: 100%'></tr>
+                    <tr>
+                        <td colspan='15' style='padding: 0'>
+                            <span style='font-size: 14px'>Если у Вас есть какие-либо вопросы, ответьте на это сообщение или позвоните нам.</span>
+                        </td>
+                    </tr>
+                    <tr style='height: 12px; width: 100%'></tr>
+                </tbody>
+            </table>
+        </center>`
 
     Email.send({
         SecureToken: 'e494b8ef-bb2c-449f-a011-3ec97de46731',
-        To : 'ivan@zenio.co',
-        From : 'ookatss@gmail.com',
-        Subject : 'Ваш заказ в обработке',
-        Body : emailBody,
+        To: 'ivan@zenio.co',
+        From: 'ookatss@gmail.com',
+        Subject: 'Ваш заказ в обработке',
+        Body: emailBody,
         Attachments: [{
             name: 'doc.docx',
             data: createdFile
