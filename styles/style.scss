@@ -422,7 +422,7 @@ body {
 
 }
 
-nav {
+header {
   width: 100%;
   background: $white;
   border-bottom: 1px solid $gray-border;
@@ -480,15 +480,11 @@ nav {
   }
 }
 
-header {
+.product-types-selector-wrapper {
   width: 100%;
   max-width: 120rem;
   padding: 2.4rem;
   margin: 0 auto;
-
-  h1 {
-    margin-bottom: 4.8rem;
-  }
 
   .product-types-selector {
     display: flex;

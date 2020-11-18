@@ -13,7 +13,7 @@
     <title>Moth Solutions</title>
 </head>
 <body>
-    <nav>
+    <header>
         <div class='content-wrapper'>
             <div class='logo-wrapper'>
                 <img src='./images/logo.svg' alt='Moth'>
@@ -29,8 +29,8 @@
                 <p>8 (017) 682-53-45 (тел./факс)</p>
             </div>
         </div>
-    </nav>
-    <header>
+    </header>
+    <div class='product-types-selector-wrapper'>
         <div class='product-types-selector'>
             <div class='product-type active' id='wreaths' onclick={setProductType(event)}>
                 <h3>Венки</h3>
@@ -40,11 +40,11 @@
             </div>
             <div class='border'></div>
         </div>
-    </header>
-    <section class='catalog-wrapper' id='catalog'>
+    </div>
+    <div class='catalog-wrapper' id='catalog'>
         <!--    productListCreator()    -->
-    </section>
-    <section class='basket-wrapper' id='basket-wrapper'>
+    </div>
+    <div class='basket-wrapper' id='basket-wrapper'>
         <form onsubmit={getOrderIndex(event)}>
             <p>Корзина:</p>
             <div id='basket-products-wrapper'>
@@ -107,7 +107,7 @@
                 <button class='button' type='submit'>Отправить заявку</button>
             </div>
         </form>
-    </section>
+    </div>
     <div class='basket-button' id='basket-button' onclick={basketHandler(event)}></div>
     <div class='preloader' id='preloader'>
         <div class='sk-wandering-cubes'>
