@@ -63,15 +63,15 @@
                         <span class='title'>Название компании</span>
                         <span class='error-message' id='company-name-error'>Заполните обязательное поле</span>
                     </label>
-                    <label class='input' for='phone'>
-                        <input type='tel' id='phone' maxlength='50' oninput={getValue(event)}>
-                        <span class='title'>Номер телефона</span>
-                        <span class='error-message' id='phone-error'>Заполните обязательное поле</span>
-                    </label>
                     <label class='input' for='email'>
                         <input type='email' id='email' maxlength='50' required oninput={getValue(event)}>
                         <span class='title'>Email</span>
                         <span class='error-message' id='email-error'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='phone'>
+                        <input type='tel' id='phone' maxlength='50' oninput={getValue(event)}>
+                        <span class='title'>Номер телефона</span>
+                        <span class='error-message' id='phone-error'>Заполните обязательное поле</span>
                     </label>
                 </div>
                 <label class='checkbox' for='delivery'>
