@@ -407,6 +407,7 @@ setToBasket = (productId) => {
 
     priceControl()
     basketAnim()
+    submitValidator()
 }
 
 removeFromBasket = (e) => {
@@ -433,6 +434,7 @@ removeFromBasket = (e) => {
         basketProductsWrapper.innerHTML = `<div class='basket-product'><span class='empty-message'>Ваша корзина пуста</span></div>`
     }
     priceControl()
+    submitValidator()
 }
 
 refreshProduct = (product) => {
@@ -532,6 +534,18 @@ deliveryHandler = (e) => {
 
 preloadHandler = (isActive) => {
     isActive ? preloader.classList.add('active') : preloader.classList.remove('active')
+}
+
+submitValidator = () => {
+    const button = $('submit')
+
+    if (!button) { return }
+
+    if (!PAGE_OPTIONS.basketList.length) {
+        button.classList.add('disabled')
+        return
+    }
+    button.classList.remove('disabled')
 }
 
 getOrderIndex = (e) => {
