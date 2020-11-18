@@ -54,6 +54,12 @@ input[type=number] {
   box-sizing: border-box;
   position: relative;
   outline: none; }
+  * ::-moz-selection {
+    background: #DD2525;
+    color: #FFFFFF; }
+  * ::selection {
+    background: #DD2525;
+    color: #FFFFFF; }
 
 body {
   overflow-x: hidden;
