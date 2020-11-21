@@ -564,25 +564,416 @@ getOrderIndex = (e) => {
 
 sendPayment = async (orderIndex) => {
     const doc = new docx.Document()
+    const {Paragraph, WidthType, TableCell, TableRow, AlignmentType, VerticalAlign, BorderStyle} = docx
 
-    doc.addSection({
-        properties: {},
+    const tableHeader = new TableRow({
         children: [
-            new docx.Paragraph({
-                children: [
-                    new docx.TextRun("Hello World"),
-                    new docx.TextRun({
-                        text: "Foo Bar",
-                        bold: true,
-                    }),
-                    new docx.TextRun({
-                        text: "\tGithub is the best",
-                        bold: true,
-                    }),
-                ],
+            new TableCell({
+                children: [new Paragraph({
+                    text: '№',
+                    spacing: {
+                        before: 200,
+                        after: 200
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 4, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: `Наименование товара`,
+                    spacing: {
+                        before: 200,
+                        after: 200
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 30, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: `Кол-во`,
+                    spacing: {
+                        before: 200,
+                        after: 200
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 10, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: `Цена`,
+                    spacing: {
+                        before: 200,
+                        after: 200
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size:10, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: `Сумма`,
+                    spacing: {
+                        before: 200,
+                        after: 200
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 12, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: `Ставка НДС, %`,
+                    spacing: {
+                        before: 200,
+                        after: 200
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 10, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: `Сумма НДС`,
+                    spacing: {
+                        before: 200,
+                        after: 200
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 12, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: `Всего с НДС`,
+                    spacing: {
+                        before: 200,
+                        after: 200
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 12, type: WidthType.PERCENTAGE },
             }),
         ],
-    });
+    })
+    const tableBody = [tableHeader]
+
+    PAGE_OPTIONS.basketList.forEach((product, index) => {
+        tableBody.push(new TableRow({
+            children: [
+                new TableCell({
+                    children: [new Paragraph({
+                        text: (index + 1).toString(),
+                        spacing: {
+                            before: 100,
+                            after: 100
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                    verticalAlign: VerticalAlign.CENTER,
+                    width: {size: 4, type: WidthType.PERCENTAGE },
+                }),
+                new TableCell({
+                    children: [new Paragraph({
+                        text: product.description,
+                        spacing: {
+                            before: 200,
+                            after: 200
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                    verticalAlign: VerticalAlign.CENTER,
+                    width: {size: 30, type: WidthType.PERCENTAGE },
+                }),
+                new TableCell({
+                    children: [new Paragraph({
+                        text: product.count.toString(),
+                        spacing: {
+                            before: 200,
+                            after: 200
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                    verticalAlign: VerticalAlign.CENTER,
+                    width: {size: 10, type: WidthType.PERCENTAGE },
+                }),
+                new TableCell({
+                    children: [new Paragraph({
+                        text: product.cost.toString(),
+                        spacing: {
+                            before: 200,
+                            after: 200
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                    verticalAlign: VerticalAlign.CENTER,
+                    width: {size:10, type: WidthType.PERCENTAGE },
+                }),
+                new TableCell({
+                    children: [new Paragraph({
+                        text: product.allCost.toString(),
+                        spacing: {
+                            before: 200,
+                            after: 200
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                    verticalAlign: VerticalAlign.CENTER,
+                    width: {size: 12, type: WidthType.PERCENTAGE },
+                }),
+                new TableCell({
+                    children: [new Paragraph({
+                        text: `20%`,
+                        spacing: {
+                            before: 200,
+                            after: 200
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                    verticalAlign: VerticalAlign.CENTER,
+                    width: {size: 10, type: WidthType.PERCENTAGE },
+                }),
+                new TableCell({
+                    children: [new Paragraph({
+                        text: (product.allCost * 0.2).toFixed(2).toString(), // TODO: 20% - maybe variable value
+                        spacing: {
+                            before: 200,
+                            after: 200
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                    verticalAlign: VerticalAlign.CENTER,
+                    width: {size: 12, type: WidthType.PERCENTAGE },
+                }),
+                new TableCell({
+                    children: [new Paragraph({
+                        text: (product.allCost + product.allCost * 0.2).toFixed(2).toString(),
+                        spacing: {
+                            before: 200,
+                            after: 200
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                    verticalAlign: VerticalAlign.CENTER,
+                    width: {size: 12, type: WidthType.PERCENTAGE },
+                }),
+            ],
+        }))
+    })
+
+    const tableFooter = new TableRow({
+        children: [
+            new TableCell({
+                children: [
+                    new Paragraph({
+                        text: '',
+                        spacing: {
+                            after: 20,
+                            before: 20
+                        },
+                        alignment: AlignmentType.CENTER,
+                    })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 4, type: WidthType.PERCENTAGE },
+                borders: {
+                    top: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    bottom: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    left: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    right: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: '',
+                    spacing: {
+                        after: 20,
+                        before: 20
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 30, type: WidthType.PERCENTAGE },
+                borders: {
+                    top: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    bottom: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    left: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    right: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: '',
+                    spacing: {
+                        after: 20,
+                        before: 20
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 10, type: WidthType.PERCENTAGE },
+                borders: {
+                    top: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    bottom: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    left: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    right: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: 'Итого:',
+                    spacing: {
+                        after: 20,
+                        before: 20
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 10, type: WidthType.PERCENTAGE },
+                borders: {
+                    top: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    bottom: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    left: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    right: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                },
+
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: PAGE_OPTIONS.price.toString(),
+                    spacing: {
+                        after: 20,
+                        before: 20
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 12, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: '',
+                    spacing: {
+                        after: 20,
+                        before: 20
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 10, type: WidthType.PERCENTAGE },
+                borders: {
+                    top: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    bottom: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    left: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                    right: {
+                        style: BorderStyle.NONE,
+                        color: 'white'
+                    },
+                }
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: (PAGE_OPTIONS.price * 0.2).toFixed(2).toString(),
+                    spacing: {
+                        after: 20,
+                        before: 20
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 12, type: WidthType.PERCENTAGE },
+            }),
+            new TableCell({
+                children: [new Paragraph({
+                    text: (PAGE_OPTIONS.price + PAGE_OPTIONS.price * 0.2).toFixed(2).toString(),
+                    spacing: {
+                        after: 20,
+                        before: 20
+                    },
+                    alignment: AlignmentType.CENTER,
+                })],
+                verticalAlign: VerticalAlign.CENTER,
+                width: {size: 12, type: WidthType.PERCENTAGE },
+            }),
+        ],
+    })
+    tableBody.push(tableFooter)
+
+    const table = new docx.Table({
+        rows: tableBody
+    })
+
+    doc.addSection({
+        children: [
+            table
+        ]
+    })
 
     const createdFile = await docx.Packer.toBase64String(doc).then(base64file => {
         return base64file
