@@ -86,10 +86,10 @@ const $ = (id) => {
 }
 
 const dateProvider = () => {
-    const monthNamess = ["января", "февраля", "марта", "апреля", "мая", "июня",
-        "июля", "августа", "сентября", "октября", "ноября", "декабря"]
+    const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
     const dateObj = new Date()
-    const month = monthNamess[dateObj.getMonth()]
+    const month = monthNames[dateObj.getMonth()]
     const day = String(dateObj.getDate()).padStart(2, '0')
     const year = dateObj.getFullYear()
     const output = day + '\n' + month + ',' + year
