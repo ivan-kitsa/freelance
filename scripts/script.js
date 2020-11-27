@@ -1,4 +1,6 @@
-//// Admin part ////
+'use strict'
+
+//// ADMIN PART ////
 const WREATHS = [
     {
         name: 'В5 (Венок)',
@@ -64,7 +66,7 @@ const BASKETS = [
     }
 ]
 
-//// Logic part ////
+//// LOGIC PART ////
 document.addEventListener('DOMContentLoaded', () => {
     dataCreator()
     productListCreator()
@@ -74,16 +76,16 @@ let WREATHS_LIST
 let BASKETS_LIST
 let timer
 
-debounce = (func, ms) => {
+const debounce = (func, ms) => {
     clearTimeout(timer)
     timer = setTimeout(func, ms)
 }
 
-$ = (id) => {
+const $ = (id) => {
     return document.getElementById(id)
 }
 
-dateProvider = () => {
+const dateProvider = () => {
     const monthNamess = ["января", "февраля", "марта", "апреля", "мая", "июня",
         "июля", "августа", "сентября", "октября", "ноября", "декабря"]
     const dateObj = new Date()
@@ -95,7 +97,7 @@ dateProvider = () => {
     return output
 }
 
-dataCreator = () => {
+const dataCreator = () => {
     WREATHS_LIST = WREATHS.map((product, index) => ({
         ...product,
         id: index + 1,
@@ -133,26 +135,21 @@ const priceField = $('price')
 const preloader = $('preloader')
 const body = document.querySelector('body')
 
-setProductType = (e) => {
-    const id = e.target.id
-    const targetItem = $(id)
+const setProductType = (e) => {
+    const targetItem = e.target
     const nodeList = document.querySelectorAll('.product-type')
 
-    switch (id) {
-        case 'wreaths':
-            PAGE_OPTIONS.currentList = WREATHS_LIST
-            break
-
-        case 'baskets':
-            PAGE_OPTIONS.currentList = BASKETS_LIST
-            break
-
-        default:
-            PAGE_OPTIONS.currentList = null
-            break
-    }
-
     if (!targetItem.classList.contains('active')) {
+        switch (e.target.id) {
+            case 'wreaths':
+                PAGE_OPTIONS.currentList = WREATHS_LIST
+                break
+
+            case 'baskets':
+                PAGE_OPTIONS.currentList = BASKETS_LIST
+                break
+        }
+
         nodeList.forEach((e) => {
             e.classList.remove('active')
         })
@@ -162,7 +159,7 @@ setProductType = (e) => {
     }
 }
 
-productListCreator = () => {
+const productListCreator = () => {
     const products = PAGE_OPTIONS.currentList.map((item) => (
         `<div class='product' id=${item.id}>
             <div class='photo-wrapper'></div>
@@ -194,17 +191,17 @@ productListCreator = () => {
     catalogWrapper.innerHTML = products.join('')
 }
 
-basketListCreator = () => {
+const basketListCreator = () => {
     const products = PAGE_OPTIONS.basketList.map((item) => (
         `<div class='basket-product' id='basket-${item.id}'>
             <div class='photo-wrapper'></div>
             <div class='info-wrapper'>
                 <h3>${item.name}</h3>
                 <div class='cost-wrapper'>
-                <span id='basket-discount-area-${item.id}'>
-                    Общая стоимость:
-                    ${item.discountPercent ? `<span class='discount-flag'>-${item.discountPercent}%</span>` : ''} 
-                </span>
+                    <span id='basket-discount-area-${item.id}'>
+                        Общая стоимость:
+                        ${item.discountPercent ? `<span class='discount-flag'>-${item.discountPercent}%</span>` : ''} 
+                    </span>
                     <span class='basket-all-cost' id='basket-all-cost-${item.id}'>${item.allCost} BYN</span>
                 </div>
                 <div class='count-wrapper'>
@@ -226,21 +223,12 @@ basketListCreator = () => {
     basketProductsWrapper.innerHTML = products.join('')
 }
 
-onBlurCounter = (e) => {
+const onBlurCounter = (e) => {
     if (isNaN(parseInt(e.target.value))) {
         const typeOfProduct = e.target.className
         const id = e.target.id.replace('count-', '').replace('basket-', '')
-        const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
-        let currentProduct
-
-        switch (typeOfProduct) {
-            case 'wreath':
-                currentProduct = WREATHS_LIST.filter((item) => (item.id === +id))[0]
-                break
-            case 'basket':
-                currentProduct = BASKETS_LIST.filter((item) => (item.id === +id))[0]
-                break
-        }
+        const basketProduct = PAGE_OPTIONS.basketList.find((item) => (item.id === +id))
+        const currentProduct = getProductFromList(typeOfProduct, id)
 
         e.target.value = 1
         currentProduct.count = 1
@@ -254,21 +242,12 @@ onBlurCounter = (e) => {
     }
 }
 
-onInputCounter = (e) => {
+const onInputCounter = (e) => {
     const count = e.target.value
     const typeOfProduct = e.target.className
     const id = e.target.id.replace('count-', '').replace('basket-', '')
-    const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
-    let currentProduct
-
-    switch (typeOfProduct) {
-        case 'wreath':
-            currentProduct = WREATHS_LIST.filter((item) => (item.id === +id))[0]
-            break
-        case 'basket':
-            currentProduct = BASKETS_LIST.filter((item) => (item.id === +id))[0]
-            break
-    }
+    const basketProduct = PAGE_OPTIONS.basketList.find((item) => (item.id === +id))
+    const currentProduct = getProductFromList(typeOfProduct, id)
 
     setCount(currentProduct, +count)
 
@@ -277,7 +256,7 @@ onInputCounter = (e) => {
     }
 }
 
-onButtonCounter = (e) => {
+const onButtonCounter = (e) => {
     const infoArray = e.target.id.split('-')
     const typeOfProduct = infoArray[0]
     const id = infoArray[1]
@@ -286,18 +265,9 @@ onButtonCounter = (e) => {
     const inputProduct = $(`count-${id}`)
     const inputBasket = $(`basket-count-${id}`)
 
-    const basketProduct = PAGE_OPTIONS.basketList.filter((item) => (item.id === +id))[0]
-    let currentProduct
+    const basketProduct = PAGE_OPTIONS.basketList.find((item) => (item.id === +id))
+    const currentProduct = getProductFromList(typeOfProduct, id)
     let count
-
-    switch (typeOfProduct) {
-        case 'wreath':
-            currentProduct = WREATHS_LIST.filter((item) => (item.id === +id))[0]
-            break
-        case 'basket':
-            currentProduct = BASKETS_LIST.filter((item) => (item.id === +id))[0]
-            break
-    }
 
     switch (direction) {
         case 'up':
@@ -307,7 +277,6 @@ onButtonCounter = (e) => {
             count = +currentProduct.count - 1
             break
     }
-
 
     if (!count) {
         return
@@ -323,31 +292,43 @@ onButtonCounter = (e) => {
     }
 }
 
-setCount = (currentProduct, currentCount) => {
+const getProductFromList = (typeOfProduct, id) => {
+    switch (typeOfProduct) {
+        case 'wreath':
+            const indexW = Number(id - 1)
+            return  WREATHS_LIST[indexW]
+
+        case 'basket':
+            const indexB = Number(id - 1 - WREATHS_LIST.length)
+            return  BASKETS_LIST[indexB]
+    }
+}
+
+const setCount = (currentProduct, currentCount) => {
     const prevCount = currentProduct.count
     const inputProduct = $(`count-${currentProduct.id}`)
     const inputBasket = $(`basket-count-${currentProduct.id}`)
-    const productInBasket = !!PAGE_OPTIONS.basketList.filter((product) => (product.id === currentProduct.id))[0]
+    const productInBasket = !!PAGE_OPTIONS.basketList.find((product) => (product.id === currentProduct.id))
 
     if (isNaN(currentCount) || currentCount === 0) {
         currentProduct.count = prevCount
-        inputProduct ? inputProduct.value = '' : null
-        inputBasket ? inputBasket.value = '' : null
+        inputProduct && (inputProduct.value = '')
+        inputBasket && (inputBasket.value = '')
         costControl(currentProduct, prevCount)
         return
     }
 
     if (currentCount > 9999) {
         currentProduct.count = prevCount
-        inputProduct ? inputProduct.value = prevCount : null
-        inputBasket ? inputBasket.value = prevCount : null
+        inputProduct && (inputProduct.value = prevCount)
+        inputBasket && (inputBasket.value = prevCount)
         costControl(currentProduct, prevCount)
         return
     }
 
     currentProduct.count = currentCount
-    inputProduct ? inputProduct.value = currentCount : null
-    inputBasket ? inputBasket.value = currentCount : null
+    inputProduct && (inputProduct.value = currentCount)
+    inputBasket && (inputBasket.value = currentCount)
     costControl(currentProduct, currentCount)
 
     if (productInBasket) {
@@ -355,7 +336,7 @@ setCount = (currentProduct, currentCount) => {
     }
 }
 
-priceControl = () => {
+const priceControl = () => {
     PAGE_OPTIONS.price = 0
 
     PAGE_OPTIONS.basketList.forEach((product) => {
@@ -365,7 +346,7 @@ priceControl = () => {
     priceField.innerHTML = `${PAGE_OPTIONS.price.toFixed(2)} BYN`
 }
 
-costControl = (currentProduct, count) => {
+const costControl = (currentProduct, count) => {
     const discountAreaCatalog = $(`discount-area-${currentProduct.id}`)
     const discountAreaBasket = $(`basket-discount-area-${currentProduct.id}`)
     const allCostCatalog = $(`all-cost-${currentProduct.id}`)
@@ -374,26 +355,34 @@ costControl = (currentProduct, count) => {
     if (count >= 100) {
         currentProduct.discountPercent = 10
         currentProduct.allCost = +(currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog ? discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-        discountAreaBasket ? discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+        discountAreaCatalog ?
+            discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+        discountAreaBasket ?
+            discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
     } else if (count >= 50) {
         currentProduct.discountPercent = 5
         currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog ? discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-        discountAreaBasket ? discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+        discountAreaCatalog ?
+            discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+        discountAreaBasket ?
+            discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
     } else {
         currentProduct.discountPercent = 0
         currentProduct.allCost = +(currentProduct.cost * count)
-        discountAreaCatalog ? discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
-        discountAreaBasket ? discountAreaBasket.innerHTML = 'Общая стоимость:' : null
+        discountAreaCatalog ?
+            discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
+        discountAreaBasket ?
+            discountAreaBasket.innerHTML = 'Общая стоимость:' : null
     }
 
-    allCostCatalog ? allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
-    allCostBasket ? allCostBasket.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
+    allCostCatalog ?
+        allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
+    allCostBasket ?
+        allCostBasket.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
 }
 
-setToBasket = (productId) => {
-    const product = PAGE_OPTIONS.currentList.filter((product) => (product.id === productId))[0]
+const setToBasket = (productId) => {
+    const product = PAGE_OPTIONS.currentList.find((product) => (product.id === productId))
     const addButtonWrapper = $(`button-wrapper-${productId}`)
 
     product.inBasket = true
@@ -410,14 +399,14 @@ setToBasket = (productId) => {
     submitValidator()
 }
 
-removeFromBasket = (e) => {
+const removeFromBasket = (e) => {
     const infoArray = e.target.id.split('-')
     const productType = infoArray[0]
     const productId = infoArray[1]
     const basketRemover = infoArray[2] === 'basket'
 
     const currentList = productType === 'wreath' ? WREATHS_LIST : BASKETS_LIST
-    const productFromList = currentList.filter((product) => (product.id === +productId))[0]
+    const productFromList = currentList.find((product) => (product.id === +productId))
 
     const addButtonWrapper = $(`button-wrapper-${productId}`)
     const basketProductCard = $(`basket-${productId}`)
@@ -437,21 +426,21 @@ removeFromBasket = (e) => {
     submitValidator()
 }
 
-refreshProduct = (product) => {
+const refreshProduct = (product) => {
     product.inBasket = false
     product.count = 1
     product.allCost = product.cost
     product.discountPercent = 0
 }
 
-basketAnim = () => {
+const basketAnim = () => {
     basketButton.classList.remove('animate')
     setTimeout(() => {
         basketButton.classList.add('animate')
     }, 10);
 }
 
-basketHandler = (e) => {
+const basketHandler = (e) => {
     const classList = e.target.classList
 
     if (PAGE_OPTIONS.basketIsOpen) {
@@ -484,7 +473,7 @@ const formData = {
     address: null
 }
 
-getValue = (e) => {
+const getValue = (e) => {
     const value = e.target.value
     const id = e.target.id
 
@@ -501,7 +490,7 @@ getValue = (e) => {
     e.target.classList.remove('active')
 }
 
-inputValidator = (input) => {
+const inputValidator = (input) => {
     const isRequired = input.required
     const value = input.value
 
@@ -513,7 +502,7 @@ inputValidator = (input) => {
     input.classList.remove('error')
 }
 
-deliveryHandler = (e) => {
+const deliveryHandler = (e) => {
     const deliveryWrapper = $('delivery-wrapper')
     const delivery = e.target.checked
 
@@ -532,11 +521,11 @@ deliveryHandler = (e) => {
     deliveryWrapper.classList.add('hidden')
 }
 
-preloadHandler = (isActive) => {
+const preloadHandler = (isActive) => {
     isActive ? preloader.classList.add('active') : preloader.classList.remove('active')
 }
 
-submitValidator = () => {
+const submitValidator = () => {
     const button = $('submit')
 
     if (!button) { return }
@@ -548,7 +537,7 @@ submitValidator = () => {
     button.classList.remove('disabled')
 }
 
-getOrderIndex = (e) => {
+const getOrderIndex = (e) => {
     e.preventDefault()
 
     const xhr = new XMLHttpRequest()
@@ -562,7 +551,7 @@ getOrderIndex = (e) => {
     xhr.send()
 }
 
-sendPayment = async (orderIndex) => {
+const sendPayment = async (orderIndex) => {
     const doc = new docx.Document()
     const {Paragraph, WidthType, TableCell, TableRow, AlignmentType, VerticalAlign, BorderStyle} = docx
 
