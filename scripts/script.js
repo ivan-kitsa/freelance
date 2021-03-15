@@ -4,42 +4,42 @@
 const WREATHS = [
     {
         name: 'В-1',
-        description: 'высота 90 см, ширина 49 см, высота с ножками 119 см',
+        description: 'высота 90 см, ширина 49 см, <br/> высота с ножками 119 см',
         cost: 2
     },
     {
         name: 'В-2',
-        description: 'высота 104 см, ширина 57 см, высота с ножками 135 см',
+        description: 'высота 104 см, ширина 57 см, <br/> высота с ножками 135 см',
         cost: 2
     },
     {
         name: 'В-3',
-        description: 'высота 118 см, ширина 68 см, высота с ножками 150 см',
+        description: 'высота 118 см, ширина 68 см, <br/> высота с ножками 150 см',
         cost: 2
     },
     {
         name: 'В-4',
-        description: 'высота 132 см, ширина 74 см, высота с ножками 164 см',
+        description: 'высота 132 см, ширина 74 см, <br/> высота с ножками 164 см',
         cost: 2
     },
     {
         name: 'В-5',
-        description: 'высота 98 см, ширина 58 см, высота с ножками 130 см',
+        description: 'высота 98 см, ширина 58 см, <br/> высота с ножками 130 см',
         cost: 2
     },
     {
         name: 'В-6',
-        description: 'высота 132 см, ширина 66 см, высота с ножками 164 см',
+        description: 'высота 132 см, ширина 66 см, <br/> высота с ножками 164 см',
         cost: 2
     },
     {
         name: 'В-7',
-        description: 'высота 103 см, ширина 70 см, высота с ножками 137 см',
+        description: 'высота 103 см, ширина 70 см, <br/> высота с ножками 137 см',
         cost: 2
     },
     {
         name: 'В-8',
-        description: 'высота 116 см, ширина 76 см, высота с ножками 149 см',
+        description: 'высота 116 см, ширина 76 см, <br/> высота с ножками 149 см',
         cost: 2
     },
 ]
@@ -203,7 +203,7 @@ const productListCreator = () => {
     const products = PAGE_OPTIONS.currentList.map((item) => (
         `<div class='product' id=${item.id}>
             <div class='photo-wrapper'>
-                <img src='../images/products/${item.type}/${item.name}.jpg' alt=${item.name}>
+                <img src='./images/products/${item.type}/${item.name}.jpg' alt=${item.name}>
             </div>
             <h3>${item.name}</h3>
             <p class='description'>${item.description}</p> 
@@ -237,7 +237,9 @@ const productListCreator = () => {
 const basketListCreator = () => {
     const products = PAGE_OPTIONS.basketList.map((item) => (
         `<div class='basket-product' id='basket-${item.id}'>
-            <div class='photo-wrapper'></div>
+            <div class='photo-wrapper'>
+                <img src='./images/products/${item.type}/${item.name}.jpg' alt=${item.name}>
+            </div>
             <div class='info-wrapper'>
                 <h3>${item.name}</h3>
                 <div class='cost-wrapper'>
