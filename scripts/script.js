@@ -3,67 +3,107 @@
 //// ADMIN PART ////
 const WREATHS = [
     {
-        name: 'В5 (Венок)',
-        description: 'Краткое описание продукта',
-        cost: 5
-    },
-    {
-        name: 'В2 (Венок)',
-        description: 'Краткое описание продукта',
+        name: 'В-1',
+        description: 'высота 90 см, ширина 49 см, высота с ножками 119 см',
         cost: 2
     },
     {
-        name: 'В7 (Венок)',
-        description: 'Краткое описание продукта',
-        cost: 7
-    },
-    {
-        name: 'В9 (Венок)',
-        description: 'Краткое описание продукта',
-        cost: 5
-    },
-    {
-        name: 'В11 (Венок)',
-        description: 'Краткое описание продукта',
+        name: 'В-2',
+        description: 'высота 104 см, ширина 57 см, высота с ножками 135 см',
         cost: 2
     },
     {
-        name: 'В8 (Венок)',
-        description: 'Краткое описание продукта',
-        cost: 7
-    }
+        name: 'В-3',
+        description: 'высота 118 см, ширина 68 см, высота с ножками 150 см',
+        cost: 2
+    },
+    {
+        name: 'В-4',
+        description: 'высота 132 см, ширина 74 см, высота с ножками 164 см',
+        cost: 2
+    },
+    {
+        name: 'В-5',
+        description: 'высота 98 см, ширина 58 см, высота с ножками 130 см',
+        cost: 2
+    },
+    {
+        name: 'В-6',
+        description: 'высота 132 см, ширина 66 см, высота с ножками 164 см',
+        cost: 2
+    },
+    {
+        name: 'В-7',
+        description: 'высота 103 см, ширина 70 см, высота с ножками 137 см',
+        cost: 2
+    },
+    {
+        name: 'В-8',
+        description: 'высота 116 см, ширина 76 см, высота с ножками 149 см',
+        cost: 2
+    },
 ]
 const BASKETS = [
     {
-        name: 'К5 (Куранты)',
-        description: 'Краткое описание продукта',
+        name: 'К-1',
+        description: 'высота 55 см, ширина 19 см',
         cost: 5
     },
     {
-        name: 'К11 (Куранты)',
-        description: 'Краткое описание продукта',
-        cost: 1,
-    },
-    {
-        name: 'К8 (Куранты)',
-        description: 'Краткое описание продукта',
-        cost: 8
-    },
-    {
-        name: 'К3 (Куранты)',
-        description: 'Краткое описание продукта',
+        name: 'К-2',
+        description: 'высота 115 см, ширина 50 см',
         cost: 5
     },
     {
-        name: 'К1 (Куранты)',
-        description: 'Краткое описание продукта',
-        cost: 1,
+        name: 'К-3',
+        description: 'высота 63 см, ширина 19 см',
+        cost: 5
     },
     {
-        name: 'К9 (Куранты)',
-        description: 'Краткое описание продукта',
-        cost: 8
-    }
+        name: 'К-4',
+        description: 'высота 70 см, ширина 29 см',
+        cost: 5
+    },
+    {
+        name: 'К-5',
+        description: 'высота 78 см, ширина 47 см',
+        cost: 5
+    },
+    {
+        name: 'К-6',
+        description: 'высота 88 см, ширина 30 см',
+        cost: 5
+    },
+    {
+        name: 'К-7',
+        description: 'высота 89 см, ширина 22 см',
+        cost: 5
+    },
+    {
+        name: 'К-8',
+        description: 'высота 36 см, ширина 23 см',
+        cost: 5
+    },
+    {
+        name: 'К-9',
+        description: 'высота 78 см, ширина 39 см',
+        cost: 5
+    },
+    {
+        name: 'К-10',
+        description: 'высота 19 см, ширина 33 см',
+        cost: 5
+    },
+    {
+        name: 'К-11',
+        description: 'высота 92 см, ширина 42 см',
+        cost: 5
+    },
+    {
+        name: 'К-12',
+        description: 'высота 96 см, ширина 38 см',
+        cost: 5
+    },
 ]
 
 //// LOGIC PART ////
@@ -162,8 +202,11 @@ const setProductType = (e) => {
 const productListCreator = () => {
     const products = PAGE_OPTIONS.currentList.map((item) => (
         `<div class='product' id=${item.id}>
-            <div class='photo-wrapper'></div>
+            <div class='photo-wrapper'>
+                <img src='../images/products/${item.type}/${item.name}.jpg' alt=${item.name}>
+            </div>
             <h3>${item.name}</h3>
+            <p class='description'>${item.description}</p> 
             <div class='cost-wrapper'>
                 <span id='discount-area-${item.id}'>
                     Общая стоимость: 
