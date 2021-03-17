@@ -586,7 +586,7 @@ const getOrderIndex = (e) => {
     e.preventDefault()
 
     const xhr = new XMLHttpRequest()
-    xhr.open('GET', 'https://api.countapi.xyz/hit/ivan-kitsa.github.io/order')
+    xhr.open('GET', 'https://api.countapi.xyz/hit/moth.by/order')
     xhr.responseType = 'json'
     xhr.onload = function () {
         console.log(`order index: ${this.response.value}`)
@@ -1020,15 +1020,14 @@ const sendPayment = async (orderIndex) => {
                 <thead>
                     <tr>
                         <th align='left' colspan='10'>
-                            <img src='https://ivan-kitsa.github.io/freelance/images/ms.jpg'
+                            <img src='https://moth.by/images/ms.jpg'
                                 width='600'
                                 style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
                                 alt='logo'/>
                                  
                         </th>
                         <th align='right' colspan='5' style='text-align: right; font-size: 14px'>
-                            <p>+375-29-XXX-XX-XX</p>
-                            <p>+375-29-XXX-XX-XX</p>
+                            <p>+375 (29) 666-39-93</p>
                         </th>
                     </tr>
                 </thead>
@@ -1123,7 +1122,7 @@ const sendPayment = async (orderIndex) => {
                 <thead>
                     <tr>
                         <th align='left' colspan='15'>
-                            <img src='https://ivan-kitsa.github.io/freelance/images/ms.jpg'
+                            <img src='https://moth.by/images/ms.jpg'
                                 width='600'
                                 style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
                                 alt='logo'/>
@@ -1205,18 +1204,33 @@ const sendPayment = async (orderIndex) => {
         </center>`
 
     Email.send({
-        SecureToken: 'e494b8ef-bb2c-449f-a011-3ec97de46731',
-        To: 'ivan@zenio.co',
-        From: 'ookatss@gmail.com',
-        Subject: `Ваш заказ №${orderIndex}`,
+        SecureToken: 'cbf761d5-b401-40a3-b789-fdddf5ff3705',
+        To: 'moth.by@gmail.com',
+        From: 'website@gmail.com',
+        Subject: `Заказ №${orderIndex}`,
         Body: emailBussiness,
         Attachments: [{
             name: 'doc.docx',
             data: createdFile
         }]
-
     }).then(message => {
         console.log(message)
+        console.log('--------- bussiness ---------')
+    })
+
+    Email.send({
+        SecureToken: 'cbf761d5-b401-40a3-b789-fdddf5ff3705',
+        To: formData.email,
+        From: 'moth.by@gmail.com',
+        Subject: `Ваш заказ №${orderIndex}`,
+        Body: emailClient,
+        Attachments: [{
+            name: 'doc.docx',
+            data: createdFile
+        }]
+    }).then(message => {
+        console.log(message)
+        console.log('--------- client ---------')
         preloadHandler(false)
     })
 }
