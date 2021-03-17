@@ -471,15 +471,25 @@ header {
     width: 50%;
     max-width: 22rem;
 
-    a {
-      display: none;
-      margin: .2rem 0;
-      text-decoration: none;
-    }
-
     p, a {
+      display: block;
       font-size: 1.2rem;
       line-height: 1.8;
+      text-decoration: none;
+      font-weight: 500;
+
+      &.ico {
+        width: max-content;
+      }
+
+      img {
+        width: 2.2rem;
+        height: 2.2rem;
+        position: absolute;
+        left: 105%;
+        top: 50%;
+        transform: translateY(-55%);
+      }
     }
 
     p:first-child {
@@ -821,6 +831,28 @@ footer {
         font-size: 1.2rem;
         line-height: 1.8;
         color: $white;
+      }
+    }
+
+    a, p {
+      text-decoration: none;
+
+      &.ico {
+        width: max-content;
+      }
+      a {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: inherit;
+      }
+      img {
+        width: 2.2rem;
+        height: 2.2rem;
+        position: absolute;
+        left: 105%;
+        top: 50%;
+        transform: translateY(-55%);
       }
     }
 
