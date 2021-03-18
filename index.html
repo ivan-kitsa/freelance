@@ -128,6 +128,12 @@
             <div class='sk-cube sk-cube-2'></div>
         </div>
     </div>
+    <div class='thanks-popup-wrapper hidden' onclick={reloadPage()} >
+        <div class='thanks-popup' onclick='event.stopPropagation()'>
+            <img src='./images/close.svg' alt='X' onclick={reloadPage()} />
+            <h3>Ваш заказ принят в обработку</h3>
+        </div>
+    </div>
     <footer>
         <div class='content-wrapper'>
             <div class='left-area'>

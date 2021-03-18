@@ -596,7 +596,18 @@ const getOrderIndex = (e) => {
     xhr.send()
 }
 
+const openThanksPopup = () => {
+    const popup = document.querySelector('.thanks-popup-wrapper')
+    popup.classList.remove('hidden')
+    preloadHandler(false)
+}
+
+const reloadPage = () => {
+    document.location.reload()
+}
+
 const sendPayment = async (orderIndex) => {
+
     const doc = new docx.Document()
     const {Paragraph, WidthType, TableCell, TableRow, AlignmentType, VerticalAlign, BorderStyle} = docx
 
@@ -1024,7 +1035,7 @@ const sendPayment = async (orderIndex) => {
                                 width='600'
                                 style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
                                 alt='logo'/>
-                                 
+
                         </th>
                         <th align='right' colspan='5' style='text-align: right; font-size: 14px'>
                             <p>+375 (29) 666-39-93</p>
@@ -1126,7 +1137,7 @@ const sendPayment = async (orderIndex) => {
                                 width='600'
                                 style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
                                 alt='logo'/>
-                                 
+
                         </th>
                     </tr>
                 </thead>
@@ -1231,6 +1242,6 @@ const sendPayment = async (orderIndex) => {
     }).then(message => {
         console.log(message)
         console.log('--------- client ---------')
-        preloadHandler(false)
+        openThanksPopup()
     })
 }
