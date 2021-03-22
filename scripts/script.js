@@ -522,10 +522,8 @@ const getValue = (e) => {
     const value = e.target.value
     const id = e.target.id
 
-    debounce(() => {
-        inputValidator(e.target)
-        formData[id] = value
-    }, 200)
+    inputValidator(e.target)
+    formData[id] = value
 
     if (value.length) {
         e.target.classList.add('active')
