@@ -5,104 +5,104 @@ const WREATHS = [
     {
         name: 'В-1',
         description: 'высота 90 см, ширина 49 см, <br/> высота с ножками 122 см',
-        cost: 2
+        cost: 1.67
     },
     {
         name: 'В-2',
         description: 'высота 104 см, ширина 57 см, <br/> высота с ножками 136 см',
-        cost: 2
+        cost: 1.87
     },
     {
         name: 'В-3',
         description: 'высота 118 см, ширина 68 см, <br/> высота с ножками 150 см',
-        cost: 2
+        cost: 2.17
     },
     {
         name: 'В-4',
         description: 'высота 132 см, ширина 74 см, <br/> высота с ножками 164 см',
-        cost: 2
+        cost: 2.40
     },
     {
         name: 'В-5',
         description: 'высота 98 см, ширина 58 см, <br/> высота с ножками 130 см',
-        cost: 2
+        cost: 2.35
     },
     {
         name: 'В-6',
         description: 'высота 132 см, ширина 66 см, <br/> высота с ножками 164 см',
-        cost: 2
+        cost: 2.74
     },
     {
         name: 'В-7',
         description: 'высота 103 см, ширина 70 см, <br/> высота с ножками 135 см',
-        cost: 2
+        cost: 4.00
     },
     {
         name: 'В-8',
         description: 'высота 116 см, ширина 76 см, <br/> высота с ножками 148 см',
-        cost: 2
+        cost: 4.30
     },
 ]
 const BASKETS = [
     {
         name: 'К-1',
         description: 'высота 55 см, ширина 19 см',
-        cost: 5
+        cost: 1.55
     },
     {
         name: 'К-2',
         description: 'высота 115 см, ширина 50 см',
-        cost: 5
+        cost: 4.22
     },
     {
         name: 'К-3',
         description: 'высота 63 см, ширина 19 см',
-        cost: 5
+        cost: 1.62
     },
     {
         name: 'К-4',
         description: 'высота 70 см, ширина 29 см',
-        cost: 5
+        cost: 2.83
     },
     {
         name: 'К-5',
         description: 'высота 78 см, ширина 47 см',
-        cost: 5
+        cost: 3.05
     },
     {
         name: 'К-6',
         description: 'высота 88 см, ширина 30 см',
-        cost: 5
+        cost: 2.94
     },
     {
         name: 'К-7',
         description: 'высота 89 см, ширина 22 см',
-        cost: 5
+        cost: 2.50
     },
     {
         name: 'К-8',
         description: 'высота 36 см, ширина 23 см',
-        cost: 5
+        cost: 1.26
     },
     {
         name: 'К-9',
         description: 'высота 78 см, ширина 39 см',
-        cost: 5
+        cost: 2.72
     },
     {
         name: 'К-10',
         description: 'высота 19 см, ширина 33 см',
-        cost: 5
+        cost: 1.27
     },
     {
         name: 'К-11',
         description: 'высота 92 см, ширина 42 см',
-        cost: 5
+        cost: 3.72
     },
     {
         name: 'К-12',
         description: 'высота 96 см, ширина 38 см',
-        cost: 5
+        cost: 3.22
     },
 ]
 
@@ -413,7 +413,7 @@ const costControl = (currentProduct, count) => {
             discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
     } else {
         currentProduct.discountPercent = 0
-        currentProduct.allCost = +(currentProduct.cost * count)
+        currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
         discountAreaCatalog ?
             discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
         discountAreaBasket ?
