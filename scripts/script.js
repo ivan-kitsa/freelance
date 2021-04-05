@@ -1108,7 +1108,7 @@ const createDoc = (orderIndex) => {
                 font: 'Arial',
                 size: 21,
                 bold: true
-            })
+            }),
         ],
         alignment: AlignmentType.LEFT,
         heading: HeadingLevel.HEADING_3,
@@ -1348,7 +1348,7 @@ const createDoc = (orderIndex) => {
     })
 
     Packer.toBlob(doc).then(blob => {
-        saveAs(blob, 'doc.docx')
+        saveAs(blob, `Заказ №${orderIndex}.docx`)
     })
 
     return doc
@@ -1552,7 +1552,7 @@ const sendPayment = async (orderIndex) => {
         Subject: `Заказ №${orderIndex}`,
         Body: emailBussiness,
         Attachments: [{
-            name: 'word.docx',
+            name: `Заказ №${orderIndex}.docx`,
             data: createdFile
         }]
     }).then(message => {
@@ -1567,7 +1567,7 @@ const sendPayment = async (orderIndex) => {
         Subject: `Ваш заказ №${orderIndex}`,
         Body: emailClient,
         Attachments: [{
-            name: 'word.docx',
+            name: `Заказ №${orderIndex}.docx`,
             data: createdFile
         }]
     }).then(message => {
