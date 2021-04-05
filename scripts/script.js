@@ -1361,7 +1361,6 @@ const sendPayment = async (orderIndex) => {
                                 width='600'
                                 style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
                                 alt='logo'/>
-
                         </th>
                         <th align='right' colspan='5' style='text-align: right; font-size: 14px'>
                             <p>+375 (29) 666-39-93</p>
@@ -1387,7 +1386,7 @@ const sendPayment = async (orderIndex) => {
                             <p style='margin: 0; margin-bottom: 12px'><b>Дата заказа:</b> ${dateProvider()}</p>
                             <p style='margin: 0; margin-bottom: 12px'><b>Доставка:</b> ${formData.delivery ? 'Да' : 'Нет'}</p>
                             ${formData.delivery ?
-            `<div>
+                                `<div>
                                     <p style='margin: 0; margin-bottom: 12px'><b>Адрес доставки:</b></p>
                                     <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
                                 </div>` : ''}
@@ -1418,7 +1417,7 @@ const sendPayment = async (orderIndex) => {
                         </td>
                     </tr>
                     ${PAGE_OPTIONS.basketList.map((item) => (
-            `<tr>
+                        `<tr>
                             <td colspan='8' style='padding: 12px; text-align: left; border: 1px solid #D8D8D8;'>
                                 <span>${item.name}</span>
                             </td>
@@ -1431,8 +1430,7 @@ const sendPayment = async (orderIndex) => {
                             <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                                 <span>${item.allCost} BYN</span>
                             </td>
-                        </tr>`
-        )).join('')}
+                        </tr>`)).join('')}
                     <tr>
                         <td colspan='12' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                             <b>Итого:</b>
@@ -1463,7 +1461,6 @@ const sendPayment = async (orderIndex) => {
                                 width='600'
                                 style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
                                 alt='logo'/>
-
                         </th>
                     </tr>
                 </thead>
@@ -1480,7 +1477,7 @@ const sendPayment = async (orderIndex) => {
                             <p style='margin: 0; margin-bottom: 12px'><b>Дата заказа:</b> ${dateProvider()}</p>
                             <p style='margin: 0; margin-bottom: 12px'><b>Доставка:</b> ${formData.delivery ? 'Да' : 'Нет'}</p>
                             ${formData.delivery ?
-            `<div>
+                                `<div>
                                     <p style='margin: 0; margin-bottom: 12px'><b>Адрес доставки:</b></p>
                                     <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
                                 </div>` : ''}
@@ -1512,7 +1509,7 @@ const sendPayment = async (orderIndex) => {
                         </td>
                     </tr>
                     ${PAGE_OPTIONS.basketList.map((item) => (
-            `<tr>
+                        `<tr>
                             <td colspan='8' style='padding: 12px; text-align: left; border: 1px solid #D8D8D8;'>
                                 <span>${item.name}</span>
                             </td>
@@ -1525,8 +1522,7 @@ const sendPayment = async (orderIndex) => {
                             <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                                 <span>${item.allCost} BYN</span>
                             </td>
-                        </tr>`
-        )).join('')}
+                        </tr>`)).join('')}
                     <tr>
                         <td colspan='12' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                             <b>Итого:</b>
