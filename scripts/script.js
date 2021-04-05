@@ -1390,7 +1390,7 @@ const sendPayment = async (orderIndex) => {
                         </td>
                     </tr>
                     <tr>
-                        <td colspan='10' style='min-width: 70%; border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
+                        <td colspan='10' valign='top' style='min-width: 70%; border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
                             <p style='margin: 0; margin-bottom: 12px'><b>№ заказа:</b> ${orderIndex}</p>
                             <p style='margin: 0; margin-bottom: 12px'><b>Дата заказа:</b> ${dateProvider()}</p>
                             <p style='margin: 0; margin-bottom: 12px'><b>Доставка:</b> ${formData.delivery ? 'Да' : 'Нет'}</p>
@@ -1400,14 +1400,9 @@ const sendPayment = async (orderIndex) => {
                                     <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
                                 </div>` : ''}
                         </td>
-                        <td colspan='5' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
+                        <td colspan='5' valign='top' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
                             <p style='margin: 0; margin-bottom: 12px'><b>Телефон:</b> ${formData.phone ? formData.phone : ''}</p>
                             <p style='margin: 0; margin-bottom: 12px'><b>Email:</b> ${formData.email}</p>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
                         </td>
                     </tr>
                     <tr style='height: 24px; width: 100%'></tr>
