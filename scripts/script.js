@@ -132,7 +132,7 @@ const dateProvider = () => {
     const month = monthNames[dateObj.getMonth()]
     const day = String(dateObj.getDate()).padStart(2, '0')
     const year = dateObj.getFullYear()
-    const output = day + '\n' + month + ',' + year
+    const output = day + '\n' + month + '\n' + year
 
     return output
 }
@@ -397,28 +397,37 @@ const costControl = (currentProduct, count) => {
     const allCostCatalog = $(`all-cost-${currentProduct.id}`)
     const allCostBasket = $(`basket-all-cost-${currentProduct.id}`)
 
-    if (count >= 100) {
-        currentProduct.discountPercent = 10
-        currentProduct.allCost = +(currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog ?
-            discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-        discountAreaBasket ?
-            discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-    } else if (count >= 50) {
-        currentProduct.discountPercent = 5
-        currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog ?
-            discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-        discountAreaBasket ?
-            discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-    } else {
-        currentProduct.discountPercent = 0
-        currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog ?
-            discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
-        discountAreaBasket ?
-            discountAreaBasket.innerHTML = 'Общая стоимость:' : null
-    }
+    // WITH DISCOUNT
+    // if (count >= 100) {
+    //     currentProduct.discountPercent = 10
+    //     currentProduct.allCost = +(currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
+    //     discountAreaCatalog ?
+    //         discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    //     discountAreaBasket ?
+    //         discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    // } else if (count >= 50) {
+    //     currentProduct.discountPercent = 5
+    //     currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
+    //     discountAreaCatalog ?
+    //         discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    //     discountAreaBasket ?
+    //         discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    // } else {
+    //     currentProduct.discountPercent = 0
+    //     currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
+    //     discountAreaCatalog ?
+    //         discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
+    //     discountAreaBasket ?
+    //         discountAreaBasket.innerHTML = 'Общая стоимость:' : null
+    // }
+
+    // WITHOUT DISCOUNT
+    currentProduct.discountPercent = 0
+    currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
+    discountAreaCatalog ?
+        discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
+    discountAreaBasket ?
+        discountAreaBasket.innerHTML = 'Общая стоимость:' : null
 
     allCostCatalog ?
         allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
@@ -604,16 +613,20 @@ const reloadPage = () => {
     document.location.reload()
 }
 
-const sendPayment = async (orderIndex) => {
+const createDoc = (orderIndex) => {
+    const {Packer, Document, Table, Paragraph, TextRun, WidthType, HeadingLevel, TableCell, TableRow, AlignmentType, VerticalAlign, BorderStyle} = docx
 
-    const doc = new docx.Document()
-    const {Paragraph, WidthType, TableCell, TableRow, AlignmentType, VerticalAlign, BorderStyle} = docx
-
+    const doc = new Document
     const tableHeader = new TableRow({
         children: [
             new TableCell({
                 children: [new Paragraph({
-                    text: '№',
+                    children: [new TextRun({
+                        text: '№',
+                        font: 'Arial',
+                        bold: true,
+                        size: 18
+                    })],
                     spacing: {
                         before: 200,
                         after: 200
@@ -625,7 +638,12 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: `Наименование товара`,
+                    children: [new TextRun({
+                        text: 'Наименование товара',
+                        font: 'Arial',
+                        bold: true,
+                        size: 18
+                    })],
                     spacing: {
                         before: 200,
                         after: 200
@@ -637,7 +655,12 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: `Кол-во`,
+                    children: [new TextRun({
+                        text: 'Кол-во (шт.)',
+                        font: 'Arial',
+                        bold: true,
+                        size: 18
+                    })],
                     spacing: {
                         before: 200,
                         after: 200
@@ -649,7 +672,12 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: `Цена`,
+                    children: [new TextRun({
+                        text: 'Цена',
+                        font: 'Arial',
+                        bold: true,
+                        size: 18
+                    })],
                     spacing: {
                         before: 200,
                         after: 200
@@ -661,7 +689,12 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: `Сумма`,
+                    children: [new TextRun({
+                        text: 'Сумма',
+                        font: 'Arial',
+                        bold: true,
+                        size: 18
+                    })],
                     spacing: {
                         before: 200,
                         after: 200
@@ -673,7 +706,12 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: `Ставка НДС, %`,
+                    children: [new TextRun({
+                        text: 'Ставка НДС, %',
+                        font: 'Arial',
+                        bold: true,
+                        size: 18
+                    })],
                     spacing: {
                         before: 200,
                         after: 200
@@ -685,7 +723,12 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: `Сумма НДС`,
+                    children: [new TextRun({
+                        text: 'Сумма \r НДС',
+                        font: 'Arial',
+                        bold: true,
+                        size: 18
+                    })],
                     spacing: {
                         before: 200,
                         after: 200
@@ -697,7 +740,12 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: `Всего с НДС`,
+                    children: [new TextRun({
+                        text: 'Всего с НДС',
+                        font: 'Arial',
+                        bold: true,
+                        size: 18
+                    })],
                     spacing: {
                         before: 200,
                         after: 200
@@ -716,7 +764,10 @@ const sendPayment = async (orderIndex) => {
             children: [
                 new TableCell({
                     children: [new Paragraph({
-                        text: (index + 1).toString(),
+                        children: [new TextRun({
+                            text: (index + 1).toString(),
+                            font: 'Arial'
+                        })],
                         spacing: {
                             before: 100,
                             after: 100
@@ -728,7 +779,10 @@ const sendPayment = async (orderIndex) => {
                 }),
                 new TableCell({
                     children: [new Paragraph({
-                        text: product.description,
+                        children: [new TextRun({
+                            text: product.name,
+                            font: 'Arial'
+                        })],
                         spacing: {
                             before: 200,
                             after: 200
@@ -740,7 +794,10 @@ const sendPayment = async (orderIndex) => {
                 }),
                 new TableCell({
                     children: [new Paragraph({
-                        text: product.count.toString(),
+                        children: [new TextRun({
+                            text: product.count.toString(),
+                            font: 'Arial'
+                        })],
                         spacing: {
                             before: 200,
                             after: 200
@@ -752,7 +809,10 @@ const sendPayment = async (orderIndex) => {
                 }),
                 new TableCell({
                     children: [new Paragraph({
-                        text: product.cost.toString(),
+                        children: [new TextRun({
+                            text: product.cost.toFixed(2).toString(),
+                            font: 'Arial'
+                        })],
                         spacing: {
                             before: 200,
                             after: 200
@@ -764,7 +824,10 @@ const sendPayment = async (orderIndex) => {
                 }),
                 new TableCell({
                     children: [new Paragraph({
-                        text: product.allCost.toString(),
+                        children: [new TextRun({
+                            text: product.allCost.toFixed(2).toString(),
+                            font: 'Arial'
+                        })],
                         spacing: {
                             before: 200,
                             after: 200
@@ -776,7 +839,10 @@ const sendPayment = async (orderIndex) => {
                 }),
                 new TableCell({
                     children: [new Paragraph({
-                        text: `20%`,
+                        children: [new TextRun({
+                            text: '20%',
+                            font: 'Arial'
+                        })],
                         spacing: {
                             before: 200,
                             after: 200
@@ -788,7 +854,10 @@ const sendPayment = async (orderIndex) => {
                 }),
                 new TableCell({
                     children: [new Paragraph({
-                        text: (product.allCost * 0.2).toFixed(2).toString(), // TODO: 20% - maybe variable value
+                        children: [new TextRun({
+                            text: (product.allCost * 0.2).toFixed(2).toString(),
+                            font: 'Arial'
+                        })],
                         spacing: {
                             before: 200,
                             after: 200
@@ -800,7 +869,10 @@ const sendPayment = async (orderIndex) => {
                 }),
                 new TableCell({
                     children: [new Paragraph({
-                        text: (product.allCost + product.allCost * 0.2).toFixed(2).toString(),
+                        children: [new TextRun({
+                            text: (product.allCost + product.allCost * 0.2).toFixed(2).toString(),
+                            font: 'Arial'
+                        })],
                         spacing: {
                             before: 200,
                             after: 200
@@ -821,8 +893,8 @@ const sendPayment = async (orderIndex) => {
                     new Paragraph({
                         text: '',
                         spacing: {
-                            after: 20,
-                            before: 20
+                            after: 30,
+                            before: 30
                         },
                         alignment: AlignmentType.CENTER,
                     })],
@@ -851,8 +923,8 @@ const sendPayment = async (orderIndex) => {
                 children: [new Paragraph({
                     text: '',
                     spacing: {
-                        after: 20,
-                        before: 20
+                        after: 30,
+                        before: 30
                     },
                     alignment: AlignmentType.CENTER,
                 })],
@@ -881,8 +953,8 @@ const sendPayment = async (orderIndex) => {
                 children: [new Paragraph({
                     text: '',
                     spacing: {
-                        after: 20,
-                        before: 20
+                        after: 30,
+                        before: 30
                     },
                     alignment: AlignmentType.CENTER,
                 })],
@@ -909,10 +981,14 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: 'Итого:',
+                    children: [new TextRun({
+                        text: 'Итого:',
+                        font: 'Arial',
+                        bold: true
+                    })],
                     spacing: {
-                        after: 20,
-                        before: 20
+                        after: 30,
+                        before: 30
                     },
                     alignment: AlignmentType.CENTER,
                 })],
@@ -940,10 +1016,14 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: PAGE_OPTIONS.price.toString(),
+                    children: [new TextRun({
+                        text: PAGE_OPTIONS.price.toFixed(2).toString(),
+                        font: 'Arial',
+                        bold: true
+                    })],
                     spacing: {
-                        after: 20,
-                        before: 20
+                        after: 30,
+                        before: 30
                     },
                     alignment: AlignmentType.CENTER,
                 })],
@@ -954,8 +1034,8 @@ const sendPayment = async (orderIndex) => {
                 children: [new Paragraph({
                     text: '',
                     spacing: {
-                        after: 20,
-                        before: 20
+                        after: 30,
+                        before: 30
                     },
                     alignment: AlignmentType.CENTER,
                 })],
@@ -982,10 +1062,14 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: (PAGE_OPTIONS.price * 0.2).toFixed(2).toString(),
+                    children: [new TextRun({
+                        text: (PAGE_OPTIONS.price * 0.2).toFixed(2).toString(),
+                        font: 'Arial',
+                        bold: true
+                    })],
                     spacing: {
-                        after: 20,
-                        before: 20
+                        after: 30,
+                        before: 30
                     },
                     alignment: AlignmentType.CENTER,
                 })],
@@ -994,10 +1078,14 @@ const sendPayment = async (orderIndex) => {
             }),
             new TableCell({
                 children: [new Paragraph({
-                    text: (PAGE_OPTIONS.price + PAGE_OPTIONS.price * 0.2).toFixed(2).toString(),
+                    children: [new TextRun({
+                        text: (PAGE_OPTIONS.price + PAGE_OPTIONS.price * 0.2).toFixed(2).toString(),
+                        font: 'Arial',
+                        bold: true
+                    })],
                     spacing: {
-                        after: 20,
-                        before: 20
+                        after: 30,
+                        before: 30
                     },
                     alignment: AlignmentType.CENTER,
                 })],
@@ -1008,17 +1096,266 @@ const sendPayment = async (orderIndex) => {
     })
     tableBody.push(tableFooter)
 
-    const table = new docx.Table({
+    const table = new Table({
         rows: tableBody
     })
 
-    doc.addSection({
+    const info1 = new Paragraph({
         children: [
-            table
+            new TextRun({
+                text: 'ООО «Мос Солюшнс», УНП 193479009',
+                color: '#000000',
+                font: 'Arial',
+                size: 21,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        heading: HeadingLevel.HEADING_3,
+        spacing: {
+            after: 100,
+        },
+    })
+    const info2 = new Paragraph({
+        children: [
+            new TextRun({
+                text: 'РБ, г. Минск, пер. С. Ковалевской, 62',
+                color: '#000000',
+                font: 'Arial',
+                size: 21,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        heading: HeadingLevel.HEADING_3,
+        spacing: {
+            after: 100,
+        },
+    })
+    const info3 = new Paragraph({
+        children: [
+            new TextRun({
+                text: 'Р/c BY35PJCB30120644421000000933',
+                color: '#000000',
+                font: 'Arial',
+                size: 21,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        heading: HeadingLevel.HEADING_3,
+        spacing: {
+            after: 100,
+        },
+    })
+    const info4 = new Paragraph({
+        children: [
+            new TextRun({
+                text: 'в "Приорбанк" ОАО, БИК PJCBBY2X,',
+                color: '#000000',
+                font: 'Arial',
+                size: 21,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        heading: HeadingLevel.HEADING_3,
+        spacing: {
+            after: 100,
+        },
+    })
+    const info5 = new Paragraph({
+        children: [
+            new TextRun({
+                text: 'г. Минск, пр-т Держинского, 104',
+                color: '#000000',
+                font: 'Arial',
+                size: 21,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        heading: HeadingLevel.HEADING_3,
+        spacing: {
+            after: 100,
+        },
+    })
+    const info6 = new Paragraph({
+        children: [
+            new TextRun({
+                text: 'Тел. 8 (017) 3088080',
+                color: '#000000',
+                font: 'Arial',
+                size: 21,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        heading: HeadingLevel.HEADING_3,
+        spacing: {
+            after: 100,
+        }
+    })
+    const billTitle = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Счет №${orderIndex} от ${dateProvider()} г.`,
+                bold: true,
+                color: '#000000',
+                font: 'Arial'
+            }),
+        ],
+        alignment: AlignmentType.CENTER,
+        heading: HeadingLevel.HEADING_1,
+        spacing: {
+            after: 500,
+            before: 600
+        },
+    })
+    const payerInfo = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Плательщик: ${formData.companyName}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `${formData.delivery ? ', адрес: ' : ''}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `${formData.index ? `${formData.index}, ` : ''}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `${formData.country ? `${formData.country}` : ''}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `${formData.city ? `, ${formData.city}` : ''}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `${formData.address ? `, ${formData.address}` : ''}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `${formData.phone ? `, тел: ${formData.phone}` : ''}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        spacing: {
+            after: 400,
+        }
+    })
+    const purpose  = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Цель приобретения: Для собственного производства и/или потребления`,
+                font: 'Arial',
+                italics: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        spacing: {
+            after: 100,
+        },
+    })
+    const validTime  = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Счет действителен в течение трех банковских дней`,
+                font: 'Arial',
+                italics: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        spacing: {
+            after: 300,
+        },
+    })
+    const sumNDS  = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Сумма НДС: ${rubles((PAGE_OPTIONS.price * .2).toFixed(2))}`,
+                font: 'Arial',
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        spacing: {
+            after: 200,
+            before: 500
+        },
+    })
+    const sumAll  = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Всего к оплате с НДС: ${rubles((PAGE_OPTIONS.price + PAGE_OPTIONS.price * .2).toFixed(2))}`,
+                font: 'Arial',
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+    })
+    const owner  = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Директор __________________ (Странадкина Е.С.)`,
+                font: 'Arial',
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        spacing: {
+            before: 1500
+        },
+    })
+
+    doc.addSection({
+        creator: 'Moth.by',
+        title: `Счет №${orderIndex}`,
+        children: [
+            info1,
+            info2,
+            info3,
+            info4,
+            info5,
+            info6,
+            billTitle,
+            payerInfo,
+            purpose,
+            validTime,
+            table,
+            sumNDS,
+            sumAll,
+            owner
         ]
     })
 
-    const createdFile = await docx.Packer.toBase64String(doc).then(base64file => {
+    Packer.toBlob(doc).then(blob => {
+        saveAs(blob, `Заказ №${orderIndex}.docx`)
+    })
+
+    return doc
+}
+
+const sendPayment = async (orderIndex) => {
+    const createdFile =  await docx.Packer.toBase64String(createDoc(orderIndex)).then(base64file => {
         return base64file
     })
 
@@ -1033,7 +1370,6 @@ const sendPayment = async (orderIndex) => {
                                 width='600'
                                 style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
                                 alt='logo'/>
-
                         </th>
                         <th align='right' colspan='5' style='text-align: right; font-size: 14px'>
                             <p>+375 (29) 666-39-93</p>
@@ -1080,7 +1416,7 @@ const sendPayment = async (orderIndex) => {
                             <b>Название товара</b>
                         </td>
                         <td colspan='1' style='background: #F8F8F8; padding: 12px; text-align: center; border: 1px solid #D8D8D8;'>
-                            <b>Кол-во</b>
+                            <b>Кол-во (шт.)</b>
                         </td>
                         <td colspan='3' style='background: #F8F8F8; padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                             <b>Цена</b>
@@ -1103,8 +1439,7 @@ const sendPayment = async (orderIndex) => {
                             <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                                 <span>${item.allCost} BYN</span>
                             </td>
-                        </tr>`
-                    )).join('')}
+                        </tr>`)).join('')}
                     <tr>
                         <td colspan='12' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                             <b>Итого:</b>
@@ -1135,7 +1470,6 @@ const sendPayment = async (orderIndex) => {
                                 width='600'
                                 style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none"
                                 alt='logo'/>
-
                         </th>
                     </tr>
                 </thead>
@@ -1174,7 +1508,7 @@ const sendPayment = async (orderIndex) => {
                             <b>Название товара</b>
                         </td>
                         <td colspan='1' style='background: #F8F8F8; padding: 12px; text-align: center; border: 1px solid #D8D8D8;'>
-                            <b>Кол-во</b>
+                            <b>Кол-во (шт.)</b>
                         </td>
                         <td colspan='3' style='background: #F8F8F8; padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                             <b>Цена</b>
@@ -1197,8 +1531,7 @@ const sendPayment = async (orderIndex) => {
                             <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                                 <span>${item.allCost} BYN</span>
                             </td>
-                        </tr>`
-                    )).join('')}
+                        </tr>`)).join('')}
                     <tr>
                         <td colspan='12' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                             <b>Итого:</b>
@@ -1219,7 +1552,7 @@ const sendPayment = async (orderIndex) => {
         Subject: `Заказ №${orderIndex}`,
         Body: emailBussiness,
         Attachments: [{
-            name: 'doc.docx',
+            name: `Заказ №${orderIndex}.docx`,
             data: createdFile
         }]
     }).then(message => {
@@ -1234,7 +1567,7 @@ const sendPayment = async (orderIndex) => {
         Subject: `Ваш заказ №${orderIndex}`,
         Body: emailClient,
         Attachments: [{
-            name: 'doc.docx',
+            name: `Заказ №${orderIndex}.docx`,
             data: createdFile
         }]
     }).then(message => {
