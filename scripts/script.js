@@ -397,28 +397,37 @@ const costControl = (currentProduct, count) => {
     const allCostCatalog = $(`all-cost-${currentProduct.id}`)
     const allCostBasket = $(`basket-all-cost-${currentProduct.id}`)
 
-    if (count >= 100) {
-        currentProduct.discountPercent = 10
-        currentProduct.allCost = +(currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog ?
-            discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-        discountAreaBasket ?
-            discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-    } else if (count >= 50) {
-        currentProduct.discountPercent = 5
-        currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog ?
-            discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-        discountAreaBasket ?
-            discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-    } else {
-        currentProduct.discountPercent = 0
-        currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
-        discountAreaCatalog ?
-            discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
-        discountAreaBasket ?
-            discountAreaBasket.innerHTML = 'Общая стоимость:' : null
-    }
+    // WITH DISCOUNT
+    // if (count >= 100) {
+    //     currentProduct.discountPercent = 10
+    //     currentProduct.allCost = +(currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
+    //     discountAreaCatalog ?
+    //         discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    //     discountAreaBasket ?
+    //         discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    // } else if (count >= 50) {
+    //     currentProduct.discountPercent = 5
+    //     currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
+    //     discountAreaCatalog ?
+    //         discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    //     discountAreaBasket ?
+    //         discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    // } else {
+    //     currentProduct.discountPercent = 0
+    //     currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
+    //     discountAreaCatalog ?
+    //         discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
+    //     discountAreaBasket ?
+    //         discountAreaBasket.innerHTML = 'Общая стоимость:' : null
+    // }
+
+    // WITHOUT DISCOUNT
+    currentProduct.discountPercent = 0
+    currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
+    discountAreaCatalog ?
+        discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
+    discountAreaBasket ?
+        discountAreaBasket.innerHTML = 'Общая стоимость:' : null
 
     allCostCatalog ?
         allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
