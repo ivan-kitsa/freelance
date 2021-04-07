@@ -1216,13 +1216,13 @@ const createDoc = (orderIndex) => {
     const payerInfo = new Paragraph({
         children: [
             new TextRun({
-                text: `Плательщик: ${formData.companyName}`,
+                text: `Плательщик: ${formData.companyName}, `,
                 font: 'Arial',
                 italics: true,
                 bold: true
             }),
             new TextRun({
-                text: `${formData.delivery ? ', адрес: ' : ''}`,
+                text: `УНП: ${formData.unp}, адрес: `,
                 font: 'Arial',
                 italics: true,
                 bold: true
@@ -1259,8 +1259,31 @@ const createDoc = (orderIndex) => {
             }),
         ],
         alignment: AlignmentType.LEFT,
+    })
+    const bankInfo = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Р/сч: ${formData.bill} `,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `в ${formData.bank} `,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `код ${formData.bic}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
         spacing: {
-            after: 400,
+            after: 300,
         }
     })
     const purpose  = new Paragraph({
@@ -1339,6 +1362,7 @@ const createDoc = (orderIndex) => {
             info6,
             billTitle,
             payerInfo,
+            bankInfo,
             purpose,
             validTime,
             table,
