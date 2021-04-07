@@ -164,6 +164,7 @@ const PAGE_OPTIONS = {
     currentList: [],
     basketList: [],
     basketIsOpen: false,
+    privacyConfirmed: false,
     price: 0
 }
 
@@ -569,13 +570,13 @@ const deliveryHandler = (e) => {
     deliveryWrapper.classList.add('hidden')
 }
 
-const privacyHandler = (e) => {
-    const button = $('submit')
-    e.target.checked ? button.classList.remove('disabled') : button.classList.add('disabled')
-}
-
 const preloadHandler = (isActive) => {
     isActive ? preloader.classList.add('active') : preloader.classList.remove('active')
+}
+
+const privacyHandler = (e) => {
+    PAGE_OPTIONS.privacyConfirmed = e.target.checked
+    submitValidator()
 }
 
 const submitValidator = () => {
@@ -583,7 +584,7 @@ const submitValidator = () => {
 
     if (!button) { return }
 
-    if (!PAGE_OPTIONS.basketList.length) {
+    if (!PAGE_OPTIONS.basketList.length || !PAGE_OPTIONS.privacyConfirmed) {
         button.classList.add('disabled')
         return
     }
@@ -1422,7 +1423,7 @@ const sendPayment = async (orderIndex) => {
                             ${formData.delivery ?
                                 `<div>
                                     <p style='margin: 0; margin-bottom: 12px'><b>Адрес доставки:</b></p>
-                                    <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
+                                    <p style='margin: 0;'>${formData.deliveryCountry + ', '}${formData.deliveryCity + ', '}${formData.deliveryIndex ? formData.deliveryIndex + ', ' : ''}${formData.deliveryAddress}</p>
                                 </div>` : ''}
                         </td>
                         <td colspan='5' valign='top' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
@@ -1471,7 +1472,8 @@ const sendPayment = async (orderIndex) => {
                     <tr style='height: 24px; width: 100%'></tr>
                     <tr>
                         <td colspan='15' style='padding: 0'>
-                            <span style='font-size: 14px'>Если у Вас есть какие-либо вопросы, ответьте на это сообщение или позвоните нам.</span>
+                            <p style='font-size: 14px'>Цена указана без учета НДС</p>
+                            <p style='font-size: 14px'>Если у Вас есть какие-либо вопросы, ответьте на это сообщение или позвоните нам.</p>
                         </td>
                     </tr>
                     <tr style='height: 12px; width: 100%'></tr>
@@ -1508,7 +1510,7 @@ const sendPayment = async (orderIndex) => {
                             ${formData.delivery ?
                                 `<div>
                                     <p style='margin: 0; margin-bottom: 12px'><b>Адрес доставки:</b></p>
-                                    <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
+                                    <p style='margin: 0;'>${formData.deliveryCountry + ', '}${formData.deliveryCity + ', '}${formData.deliveryIndex ? formData.deliveryIndex + ', ' : ''}${formData.deliveryAddress}</p>
                                 </div>` : ''}
                         </td>
                         <td colspan='5' valign='top' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
@@ -1554,6 +1556,12 @@ const sendPayment = async (orderIndex) => {
                         </td>
                         <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
                             <b>${PAGE_OPTIONS.price} BYN</b>
+                        </td>
+                    </tr>
+                    <tr style='height: 24px; width: 100%'></tr>
+                    <tr>
+                        <td colspan='15' style='padding: 0'>
+                            <p style='font-size: 14px'>Цена указана без учета НДС</p>
                         </td>
                     </tr>
                     <tr style='height: 12px; width: 100%'></tr>

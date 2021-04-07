@@ -62,7 +62,7 @@
     <div class='catalog-wrapper' id='catalog'>
         <!--    productListCreator()    -->
     </div>
-    <div class='basket-wrapper opened' id='basket-wrapper'>
+    <div class='basket-wrapper' id='basket-wrapper'>
         <form onsubmit={getOrderIndex(event)}>
             <p onclick='createDoc(100)'>Корзина:</p>
             <div id='basket-products-wrapper'>
@@ -181,8 +181,8 @@
             <div class='sk-cube sk-cube-2'></div>
         </div>
     </div>
-    <div class='thanks-popup-wrapper hidden' onclick={reloadPage()} >
-        <div class='thanks-popup' onclick='event.stopPropagation()'>
+    <div class='thanks-popup-wrapper hidden' onclick={reloadPage()}>
+        <div class='thanks-popup' onclick={event.stopPropagation()}>
             <img src='./images/close.svg' alt='X' onclick={reloadPage()} />
             <h4>Ваш заказ принят в обработку</h4>
         </div>
