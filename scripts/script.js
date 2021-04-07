@@ -1466,7 +1466,7 @@ const sendPayment = async (orderIndex) => {
                             <b>Итого:</b>
                         </td>
                         <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
-                            <b>${PAGE_OPTIONS.price} BYN</b>
+                            <b>${PAGE_OPTIONS.price.toFixed(2)} BYN</b>
                         </td>
                     </tr>
                     <tr style='height: 24px; width: 100%'></tr>
@@ -1555,7 +1555,7 @@ const sendPayment = async (orderIndex) => {
                             <b>Итого:</b>
                         </td>
                         <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
-                            <b>${PAGE_OPTIONS.price} BYN</b>
+                            <b>${PAGE_OPTIONS.price.toFixed(2)} BYN</b>
                         </td>
                     </tr>
                     <tr style='height: 24px; width: 100%'></tr>
