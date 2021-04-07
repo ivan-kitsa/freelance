@@ -304,7 +304,8 @@ body {
 }
 
 .checkbox {
-  width: max-content;
+  max-width: max-content;
+  width: 100%;
   display: flex;
   align-items: center;
 
@@ -322,8 +323,8 @@ body {
   }
 
   .box {
-    width: 1.8rem;
-    height: 1.8rem;
+    min-width: 1.8rem;
+    min-height: 1.8rem;
     border: 1px solid $gray-border;
     border-radius: .4rem;
     background-color: $gray-background;
@@ -333,7 +334,7 @@ body {
 
   span {
     font-size: 1.2rem;
-    line-height: 1.8rem;
+    line-height: 1.9rem;
     font-weight: 600;
     cursor: pointer;
 

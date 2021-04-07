@@ -503,13 +503,24 @@ const basketHandler = (e) => {
 
 const formData = {
     companyName: null,
-    phone: null,
     email: null,
-    delivery: false,
+    phone: null,
+    unp: null,
+
     country: null,
     city: null,
     index: null,
-    address: null
+    address: null,
+
+    bill: null,
+    bank: null,
+    bic: null,
+
+    delivery: false,
+    deliveryCountry: null,
+    deliveryCity: null,
+    deliveryIndex: null,
+    deliveryAddress: null,
 }
 
 const getValue = (e) => {
@@ -543,7 +554,7 @@ const deliveryHandler = (e) => {
     const deliveryWrapper = $('delivery-wrapper')
     const delivery = e.target.checked
 
-    const inputArr = [$('country'), $('city'), $('address')]
+    const inputArr = [$('deliveryCountry'), $('deliveryCity'), $('deliveryAddress')]
     inputArr.forEach((input) => {
         input.required = delivery
     })
@@ -556,6 +567,11 @@ const deliveryHandler = (e) => {
     }
 
     deliveryWrapper.classList.add('hidden')
+}
+
+const privacyHandler = (e) => {
+    const button = $('submit')
+    e.target.checked ? button.classList.remove('disabled') : button.classList.add('disabled')
 }
 
 const preloadHandler = (isActive) => {

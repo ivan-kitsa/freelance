@@ -62,7 +62,7 @@
     <div class='catalog-wrapper' id='catalog'>
         <!--    productListCreator()    -->
     </div>
-    <div class='basket-wrapper' id='basket-wrapper'>
+    <div class='basket-wrapper opened' id='basket-wrapper'>
         <form onsubmit={getOrderIndex(event)}>
             <p>Корзина:</p>
             <div id='basket-products-wrapper'>
@@ -76,20 +76,64 @@
             <div class='form-info-wrapper'>
                 <p class='block-title'>Информация о компании:</p>
                 <div class='block-info company-info'>
-                    <label class='input' for='companyName'>
+                    <label class='input' for='companyName' style='width: 100%'>
                         <input type='text' id='companyName' maxlength='50' required oninput={getValue(event)}>
                         <span class='title'>Название компании</span>
-                        <span class='error-message' id='company-name-error'>Заполните обязательное поле</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='unp'>
+                        <input type='text' id='unp' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>УНП</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
                     </label>
                     <label class='input' for='email'>
                         <input type='email' id='email' maxlength='50' required oninput={getValue(event)}>
                         <span class='title'>Email</span>
-                        <span class='error-message' id='email-error'>Заполните обязательное поле</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
                     </label>
                     <label class='input' for='phone'>
                         <input type='tel' id='phone' maxlength='50' oninput={getValue(event)}>
                         <span class='title'>Номер телефона</span>
-                        <span class='error-message' id='phone-error'>Заполните обязательное поле</span>
+                    </label>
+                </div>
+                <p class='block-title'>Юридический адрес:</p>
+                <div class='block-info address-info'>
+                    <label class='input' for='country'>
+                        <input type='text' id='country' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>Страна</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='city'>
+                        <input type='text' id='city' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>Город</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='index'>
+                        <input type='text' id='index' maxlength='50' oninput={getValue(event)}>
+                        <span class='title'>Индекс</span>
+                    </label>
+                    <label class='textarea' for='address'>
+                        <textarea id='address'  maxlength='100' required oninput={getValue(event)}></textarea>
+                        <span class='title'>Адрес</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                </div>
+                <p class='block-title'>Рассчетный счет:</p>
+                <div class='block-info address-info'>
+                    <label class='input' for='bill' style='width: 100%'>
+                        <input type='text' id='bill' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>Номер счета</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='bank' style='width: 65.6%'>
+                        <input type='text' id='bank' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>Банк</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='bic'>
+                        <input type='text' id='bic' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>БИК</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
                     </label>
                 </div>
                 <label class='checkbox' for='delivery'>
@@ -100,29 +144,33 @@
                 <div class='delivery-wrapper hidden' id='delivery-wrapper'>
                     <p class='block-title'>Адрес доставки:</p>
                     <div class='block-info address-info'>
-                        <label class='input' for='country'>
-                            <input type='text' id='country' maxlength='50' oninput={getValue(event)}>
+                        <label class='input' for='deliveryCountry'>
+                            <input type='text' id='deliveryCountry' maxlength='50' oninput={getValue(event)}>
                             <span class='title'>Страна</span>
-                            <span class='error-message' id='country-error'>Заполните обязательное поле</span>
+                            <span class='error-message'>Заполните обязательное поле</span>
                         </label>
-                        <label class='input' for='city'>
-                            <input type='text' id='city' maxlength='50' oninput={getValue(event)}>
+                        <label class='input' for='deliveryCity'>
+                            <input type='text' id='deliveryCity' maxlength='50' oninput={getValue(event)}>
                             <span class='title'>Город</span>
-                            <span class='error-message' id='city-error'>Заполните обязательное поле</span>
+                            <span class='error-message'>Заполните обязательное поле</span>
                         </label>
-                        <label class='input' for='index'>
-                            <input type='text' id='index' maxlength='50' oninput={getValue(event)}>
+                        <label class='input' for='deliveryIndex'>
+                            <input type='text' id='deliveryIndex' maxlength='50' oninput={getValue(event)}>
                             <span class='title'>Индекс</span>
-                            <span class='error-message' id='index-error'>Заполните обязательное поле</span>
                         </label>
-                        <label class='textarea' for='address'>
-                            <textarea id='address'  maxlength='100' oninput={getValue(event)}></textarea>
+                        <label class='textarea' for='deliveryAddress'>
+                            <textarea id='deliveryAddress'  maxlength='100' oninput={getValue(event)}></textarea>
                             <span class='title'>Адрес</span>
-                            <span class='error-message' id='address-error'>Заполните обязательное поле</span>
+                            <span class='error-message'>Заполните обязательное поле</span>
                         </label>
                     </div>
                 </div>
-                <button class='button' id='submit' type='submit'>Отправить заявку</button>
+                <label class='checkbox' for='privacy'>
+                    <input type='checkbox' id='privacy' required onclick={privacyHandler(event)}>
+                    <span class='box'></span>
+                    <span>Даю согласие на обработку персональных данных</span>
+                </label>
+                <button class='button disabled' id='submit' type='submit'>Отправить заявку</button>
             </div>
         </form>
     </div>
