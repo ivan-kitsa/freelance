@@ -164,6 +164,7 @@ const PAGE_OPTIONS = {
     currentList: [],
     basketList: [],
     basketIsOpen: false,
+    privacyConfirmed: false,
     price: 0
 }
 
@@ -398,36 +399,21 @@ const costControl = (currentProduct, count) => {
     const allCostBasket = $(`basket-all-cost-${currentProduct.id}`)
 
     // WITH DISCOUNT
-    // if (count >= 100) {
-    //     currentProduct.discountPercent = 10
-    //     currentProduct.allCost = +(currentProduct.cost * 0.9 * count).toFixed(2).replace('.00', '')
-    //     discountAreaCatalog ?
-    //         discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-    //     discountAreaBasket ?
-    //         discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-    // } else if (count >= 50) {
-    //     currentProduct.discountPercent = 5
-    //     currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
-    //     discountAreaCatalog ?
-    //         discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-    //     discountAreaBasket ?
-    //         discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
-    // } else {
-    //     currentProduct.discountPercent = 0
-    //     currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
-    //     discountAreaCatalog ?
-    //         discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
-    //     discountAreaBasket ?
-    //         discountAreaBasket.innerHTML = 'Общая стоимость:' : null
-    // }
-
-    // WITHOUT DISCOUNT
-    currentProduct.discountPercent = 0
-    currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
-    discountAreaCatalog ?
-        discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
-    discountAreaBasket ?
-        discountAreaBasket.innerHTML = 'Общая стоимость:' : null
+    if (count >= 100) {
+        currentProduct.discountPercent = 5
+        currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
+        discountAreaCatalog ?
+            discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+        discountAreaBasket ?
+            discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
+    } else {
+        currentProduct.discountPercent = 0
+        currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
+        discountAreaCatalog ?
+            discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
+        discountAreaBasket ?
+            discountAreaBasket.innerHTML = 'Общая стоимость:' : null
+    }
 
     allCostCatalog ?
         allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
@@ -518,13 +504,24 @@ const basketHandler = (e) => {
 
 const formData = {
     companyName: null,
-    phone: null,
     email: null,
-    delivery: false,
+    phone: null,
+    unp: null,
+
     country: null,
     city: null,
     index: null,
-    address: null
+    address: null,
+
+    bill: null,
+    bank: null,
+    bic: null,
+
+    delivery: false,
+    deliveryCountry: null,
+    deliveryCity: null,
+    deliveryIndex: null,
+    deliveryAddress: null,
 }
 
 const getValue = (e) => {
@@ -558,7 +555,7 @@ const deliveryHandler = (e) => {
     const deliveryWrapper = $('delivery-wrapper')
     const delivery = e.target.checked
 
-    const inputArr = [$('country'), $('city'), $('address')]
+    const inputArr = [$('deliveryCountry'), $('deliveryCity'), $('deliveryAddress')]
     inputArr.forEach((input) => {
         input.required = delivery
     })
@@ -577,12 +574,17 @@ const preloadHandler = (isActive) => {
     isActive ? preloader.classList.add('active') : preloader.classList.remove('active')
 }
 
+const privacyHandler = (e) => {
+    PAGE_OPTIONS.privacyConfirmed = e.target.checked
+    submitValidator()
+}
+
 const submitValidator = () => {
     const button = $('submit')
 
     if (!button) { return }
 
-    if (!PAGE_OPTIONS.basketList.length) {
+    if (!PAGE_OPTIONS.basketList.length || !PAGE_OPTIONS.privacyConfirmed) {
         button.classList.add('disabled')
         return
     }
@@ -614,9 +616,10 @@ const reloadPage = () => {
 }
 
 const createDoc = (orderIndex) => {
-    const {Packer, Document, Table, Paragraph, TextRun, WidthType, HeadingLevel, TableCell, TableRow, AlignmentType, VerticalAlign, BorderStyle} = docx
+    const {Packer, Document, Table, Paragraph, TextRun, ImageRun, WidthType, HeadingLevel, TableCell, TableRow,
+        HorizontalPositionAlign, HorizontalPositionRelativeFrom, VerticalPositionAlign, VerticalPositionRelativeFrom,
+        AlignmentType, VerticalAlign, BorderStyle} = docx
 
-    const doc = new Document
     const tableHeader = new TableRow({
         children: [
             new TableCell({
@@ -1108,12 +1111,12 @@ const createDoc = (orderIndex) => {
                 font: 'Arial',
                 size: 21,
                 bold: true
-            }),
+            })
         ],
         alignment: AlignmentType.LEFT,
         heading: HeadingLevel.HEADING_3,
         spacing: {
-            after: 100,
+            after: 50,
         },
     })
     const info2 = new Paragraph({
@@ -1129,7 +1132,7 @@ const createDoc = (orderIndex) => {
         alignment: AlignmentType.LEFT,
         heading: HeadingLevel.HEADING_3,
         spacing: {
-            after: 100,
+            after: 50,
         },
     })
     const info3 = new Paragraph({
@@ -1145,7 +1148,7 @@ const createDoc = (orderIndex) => {
         alignment: AlignmentType.LEFT,
         heading: HeadingLevel.HEADING_3,
         spacing: {
-            after: 100,
+            after: 50,
         },
     })
     const info4 = new Paragraph({
@@ -1161,13 +1164,13 @@ const createDoc = (orderIndex) => {
         alignment: AlignmentType.LEFT,
         heading: HeadingLevel.HEADING_3,
         spacing: {
-            after: 100,
+            after: 50
         },
     })
     const info5 = new Paragraph({
         children: [
             new TextRun({
-                text: 'г. Минск, пр-т Держинского, 104',
+                text: 'г. Минск, пр-т Дзержинского, 104',
                 color: '#000000',
                 font: 'Arial',
                 size: 21,
@@ -1177,24 +1180,30 @@ const createDoc = (orderIndex) => {
         alignment: AlignmentType.LEFT,
         heading: HeadingLevel.HEADING_3,
         spacing: {
-            after: 100,
+            after: 50,
         },
     })
-    const info6 = new Paragraph({
+    const image = new Paragraph({
         children: [
-            new TextRun({
-                text: 'Тел. 8 (017) 3088080',
-                color: '#000000',
-                font: 'Arial',
-                size: 21,
-                bold: true
+            new ImageRun({
+                data: 'data:image/jpeg;base64,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',
+                transformation: {
+                    width: 90,
+                    height: 90,
+                },
+                floating: {
+                    horizontalPosition: {
+                        relative: HorizontalPositionRelativeFrom.MARGIN,
+                        align: HorizontalPositionAlign.RIGHT,
+                    },
+                    verticalPosition: {
+                        relative: VerticalPositionRelativeFrom.MARGIN,
+                        align: VerticalPositionAlign.TOP,
+                    },
+                },
+
             }),
         ],
-        alignment: AlignmentType.LEFT,
-        heading: HeadingLevel.HEADING_3,
-        spacing: {
-            after: 100,
-        }
     })
     const billTitle = new Paragraph({
         children: [
@@ -1208,20 +1217,20 @@ const createDoc = (orderIndex) => {
         alignment: AlignmentType.CENTER,
         heading: HeadingLevel.HEADING_1,
         spacing: {
-            after: 500,
+            after: 600,
             before: 600
         },
     })
     const payerInfo = new Paragraph({
         children: [
             new TextRun({
-                text: `Плательщик: ${formData.companyName}`,
+                text: `Плательщик: ${formData.companyName}, `,
                 font: 'Arial',
                 italics: true,
                 bold: true
             }),
             new TextRun({
-                text: `${formData.delivery ? ', адрес: ' : ''}`,
+                text: `УНП: ${formData.unp}, адрес: `,
                 font: 'Arial',
                 italics: true,
                 bold: true
@@ -1259,7 +1268,33 @@ const createDoc = (orderIndex) => {
         ],
         alignment: AlignmentType.LEFT,
         spacing: {
-            after: 400,
+            line: 300,
+        },
+    })
+    const bankInfo = new Paragraph({
+        children: [
+            new TextRun({
+                text: `Р/сч: ${formData.bill} `,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `в ${formData.bank} `,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+            new TextRun({
+                text: `код ${formData.bic}`,
+                font: 'Arial',
+                italics: true,
+                bold: true
+            }),
+        ],
+        alignment: AlignmentType.LEFT,
+        spacing: {
+            after: 300,
         }
     })
     const purpose  = new Paragraph({
@@ -1272,7 +1307,7 @@ const createDoc = (orderIndex) => {
         ],
         alignment: AlignmentType.LEFT,
         spacing: {
-            after: 100,
+            after: 60,
         },
     })
     const validTime  = new Paragraph({
@@ -1326,25 +1361,29 @@ const createDoc = (orderIndex) => {
         },
     })
 
-    doc.addSection({
+    const doc = new Document({
         creator: 'Moth.by',
         title: `Счет №${orderIndex}`,
-        children: [
-            info1,
-            info2,
-            info3,
-            info4,
-            info5,
-            info6,
-            billTitle,
-            payerInfo,
-            purpose,
-            validTime,
-            table,
-            sumNDS,
-            sumAll,
-            owner
-        ]
+        sections: [
+            {
+                children: [
+                    info1,
+                    info2,
+                    info3,
+                    info4,
+                    info5,
+                    image,
+                    billTitle,
+                    payerInfo,
+                    bankInfo,
+                    purpose,
+                    validTime,
+                    table,
+                    sumNDS,
+                    sumAll,
+                    owner,
+            ]
+        }]
     })
 
     Packer.toBlob(doc).then(blob => {
@@ -1397,7 +1436,7 @@ const sendPayment = async (orderIndex) => {
                             ${formData.delivery ?
                                 `<div>
                                     <p style='margin: 0; margin-bottom: 12px'><b>Адрес доставки:</b></p>
-                                    <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
+                                    <p style='margin: 0;'>${formData.deliveryCountry + ', '}${formData.deliveryCity + ', '}${formData.deliveryIndex ? formData.deliveryIndex + ', ' : ''}${formData.deliveryAddress}</p>
                                 </div>` : ''}
                         </td>
                         <td colspan='5' valign='top' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
@@ -1440,13 +1479,14 @@ const sendPayment = async (orderIndex) => {
                             <b>Итого:</b>
                         </td>
                         <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
-                            <b>${PAGE_OPTIONS.price} BYN</b>
+                            <b>${PAGE_OPTIONS.price.toFixed(2)} BYN</b>
                         </td>
                     </tr>
                     <tr style='height: 24px; width: 100%'></tr>
                     <tr>
                         <td colspan='15' style='padding: 0'>
-                            <span style='font-size: 14px'>Если у Вас есть какие-либо вопросы, ответьте на это сообщение или позвоните нам.</span>
+                            <p style='font-size: 14px'>Цена указана без учета НДС</p>
+                            <p style='font-size: 14px'>Если у Вас есть какие-либо вопросы, ответьте на это сообщение или позвоните нам.</p>
                         </td>
                     </tr>
                     <tr style='height: 12px; width: 100%'></tr>
@@ -1483,7 +1523,7 @@ const sendPayment = async (orderIndex) => {
                             ${formData.delivery ?
                                 `<div>
                                     <p style='margin: 0; margin-bottom: 12px'><b>Адрес доставки:</b></p>
-                                    <p style='margin: 0;'>${formData.country + ', '}${formData.city + ', '}${formData.index ? formData.index + ', ' : ''}${formData.address}</p>
+                                    <p style='margin: 0;'>${formData.deliveryCountry + ', '}${formData.deliveryCity + ', '}${formData.deliveryIndex ? formData.deliveryIndex + ', ' : ''}${formData.deliveryAddress}</p>
                                 </div>` : ''}
                         </td>
                         <td colspan='5' valign='top' style='border: 1px solid #D8D8D8; border-collapse: collapse; padding: 12px 12px 12px 12px'>
@@ -1528,7 +1568,13 @@ const sendPayment = async (orderIndex) => {
                             <b>Итого:</b>
                         </td>
                         <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
-                            <b>${PAGE_OPTIONS.price} BYN</b>
+                            <b>${PAGE_OPTIONS.price.toFixed(2)} BYN</b>
+                        </td>
+                    </tr>
+                    <tr style='height: 24px; width: 100%'></tr>
+                    <tr>
+                        <td colspan='15' style='padding: 0'>
+                            <p style='font-size: 14px'>Цена указана без учета НДС</p>
                         </td>
                     </tr>
                     <tr style='height: 12px; width: 100%'></tr>

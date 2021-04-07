@@ -21,7 +21,7 @@
 
     <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap' rel='stylesheet'>
-    <link rel='stylesheet' href='./styles/style.css?v=1.0'>
+    <link rel='stylesheet' href='./styles/style.css?v=1.3'>
     <link rel='shortcut icon' href='./favicon.png' type='image/x-icon'>
 
     <title>Moth Solutions</title>
@@ -76,20 +76,64 @@
             <div class='form-info-wrapper'>
                 <p class='block-title'>Информация о компании:</p>
                 <div class='block-info company-info'>
-                    <label class='input' for='companyName'>
+                    <label class='input' for='companyName' style='width: 100%'>
                         <input type='text' id='companyName' maxlength='50' required oninput={getValue(event)}>
                         <span class='title'>Название компании</span>
-                        <span class='error-message' id='company-name-error'>Заполните обязательное поле</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='unp'>
+                        <input type='text' id='unp' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>УНП</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
                     </label>
                     <label class='input' for='email'>
                         <input type='email' id='email' maxlength='50' required oninput={getValue(event)}>
                         <span class='title'>Email</span>
-                        <span class='error-message' id='email-error'>Заполните обязательное поле</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
                     </label>
                     <label class='input' for='phone'>
                         <input type='tel' id='phone' maxlength='50' oninput={getValue(event)}>
                         <span class='title'>Номер телефона</span>
-                        <span class='error-message' id='phone-error'>Заполните обязательное поле</span>
+                    </label>
+                </div>
+                <p class='block-title'>Юридический адрес:</p>
+                <div class='block-info address-info'>
+                    <label class='input' for='country'>
+                        <input type='text' id='country' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>Страна</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='city'>
+                        <input type='text' id='city' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>Город</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='index'>
+                        <input type='text' id='index' maxlength='50' oninput={getValue(event)}>
+                        <span class='title'>Индекс</span>
+                    </label>
+                    <label class='textarea' for='address'>
+                        <textarea id='address'  maxlength='100' required oninput={getValue(event)}></textarea>
+                        <span class='title'>Адрес</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                </div>
+                <p class='block-title'>Рассчетный счет:</p>
+                <div class='block-info address-info'>
+                    <label class='input' for='bill' style='width: 100%'>
+                        <input type='text' id='bill' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>Номер счета</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='bank' style='width: 65.6%'>
+                        <input type='text' id='bank' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>Банк</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
+                    </label>
+                    <label class='input' for='bic'>
+                        <input type='text' id='bic' maxlength='50' required oninput={getValue(event)}>
+                        <span class='title'>БИК</span>
+                        <span class='error-message'>Заполните обязательное поле</span>
                     </label>
                 </div>
                 <label class='checkbox' for='delivery'>
@@ -100,29 +144,33 @@
                 <div class='delivery-wrapper hidden' id='delivery-wrapper'>
                     <p class='block-title'>Адрес доставки:</p>
                     <div class='block-info address-info'>
-                        <label class='input' for='country'>
-                            <input type='text' id='country' maxlength='50' oninput={getValue(event)}>
+                        <label class='input' for='deliveryCountry'>
+                            <input type='text' id='deliveryCountry' maxlength='50' oninput={getValue(event)}>
                             <span class='title'>Страна</span>
-                            <span class='error-message' id='country-error'>Заполните обязательное поле</span>
+                            <span class='error-message'>Заполните обязательное поле</span>
                         </label>
-                        <label class='input' for='city'>
-                            <input type='text' id='city' maxlength='50' oninput={getValue(event)}>
+                        <label class='input' for='deliveryCity'>
+                            <input type='text' id='deliveryCity' maxlength='50' oninput={getValue(event)}>
                             <span class='title'>Город</span>
-                            <span class='error-message' id='city-error'>Заполните обязательное поле</span>
+                            <span class='error-message'>Заполните обязательное поле</span>
                         </label>
-                        <label class='input' for='index'>
-                            <input type='text' id='index' maxlength='50' oninput={getValue(event)}>
+                        <label class='input' for='deliveryIndex'>
+                            <input type='text' id='deliveryIndex' maxlength='50' oninput={getValue(event)}>
                             <span class='title'>Индекс</span>
-                            <span class='error-message' id='index-error'>Заполните обязательное поле</span>
                         </label>
-                        <label class='textarea' for='address'>
-                            <textarea id='address'  maxlength='100' oninput={getValue(event)}></textarea>
+                        <label class='textarea' for='deliveryAddress'>
+                            <textarea id='deliveryAddress'  maxlength='100' oninput={getValue(event)}></textarea>
                             <span class='title'>Адрес</span>
-                            <span class='error-message' id='address-error'>Заполните обязательное поле</span>
+                            <span class='error-message'>Заполните обязательное поле</span>
                         </label>
                     </div>
                 </div>
-                <button class='button' id='submit' type='submit'>Отправить заявку</button>
+                <label class='checkbox' for='privacy'>
+                    <input type='checkbox' id='privacy' required onclick={privacyHandler(event)}>
+                    <span class='box'></span>
+                    <span>Даю согласие на обработку персональных данных</span>
+                </label>
+                <button class='button disabled' id='submit' type='submit'>Отправить заявку</button>
             </div>
         </form>
     </div>
@@ -133,8 +181,8 @@
             <div class='sk-cube sk-cube-2'></div>
         </div>
     </div>
-    <div class='thanks-popup-wrapper hidden' onclick={reloadPage()} >
-        <div class='thanks-popup' onclick='event.stopPropagation()'>
+    <div class='thanks-popup-wrapper hidden' onclick={reloadPage()}>
+        <div class='thanks-popup' onclick={event.stopPropagation()}>
             <img src='./images/close.svg' alt='X' onclick={reloadPage()} />
             <h4>Ваш заказ принят в обработку</h4>
         </div>
@@ -157,7 +205,7 @@
                     <p class='title'>Расчетный счет</p>
                     <p class='content'>BY35PJCB30120644421000000933</p>
                     <p class='content'>Приорбанк ОАО, БИК PJCBBY2X,</p>
-                    <p class='content'>г. Минск, пр-т Держинского, 104</p>
+                    <p class='content'>г. Минск, пр-т Дзержинского, 104</p>
                 </div>
                 <div class='block'>
                     <p class='title'>Юридический адрес</p>
@@ -176,9 +224,9 @@
 
     <script src='https://smtpjs.com/v3/smtp.js'></script>
     <script src='https://cdn.jsdelivr.net/combine/npm/unsplash-js@6.0.0,npm/countapi-js@1.0.1'></script>
-    <script src='https://cdn.jsdelivr.net/npm/docx@5.5.0/build/index.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/docx@6.0.3/build/index.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/filesaver.js@1.3.4/FileSaver.min.js'></script>
     <script src='./scripts/rubles.min.js'></script>
-    <script src='./scripts/script.js?v=1.0'></script>
+    <script src='./scripts/script.js?v=1.3'></script>
 </body>
 </html>

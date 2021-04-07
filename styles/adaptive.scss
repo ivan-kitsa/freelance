@@ -91,6 +91,10 @@
         }
         a {
           display: block;
+
+          img {
+            display: none;
+          }
         }
       }
     }
@@ -226,6 +230,7 @@
 
     .left-area {
       padding-right: 1.2rem;
+      margin-right: auto;
     }
   }
 }
