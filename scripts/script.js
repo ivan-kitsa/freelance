@@ -204,7 +204,10 @@ const productListCreator = () => {
     const products = PAGE_OPTIONS.currentList.map((item) => (
         `<div class='product' id=${item.id}>
             <div class='photo-wrapper'>
-                <img src='./images/products/${item.type}/${item.name}.jpg' alt=${item.name}>
+                <picture>
+                   <source srcset='./images/products/${item.type}/${item.name}.webp' type='image/webp'>
+                   <img src='./images/products/${item.type}/${item.name}.jpg' alt=${item.name}>
+                </picture>
             </div>
             <h3>${item.name}</h3>
             <p class='description'>${item.description}</p> 
@@ -239,7 +242,10 @@ const basketListCreator = () => {
     const products = PAGE_OPTIONS.basketList.map((item) => (
         `<div class='basket-product' id='basket-${item.id}'>
             <div class='photo-wrapper'>
-                <img src='./images/products/${item.type}/${item.name}.jpg' alt=${item.name}>
+                <picture>
+                   <source srcset='./images/products/${item.type}/${item.name}.webp' type='image/webp'>
+                   <img src='./images/products/${item.type}/${item.name}.jpg' alt=${item.name}>
+                </picture>
             </div>
             <div class='info-wrapper'>
                 <h3>${item.name}</h3>
