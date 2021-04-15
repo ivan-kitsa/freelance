@@ -5,104 +5,104 @@ const WREATHS = [
     {
         name: 'В-1',
         description: 'высота 90 см, ширина 49 см, <br/> высота с ножками 122 см',
-        cost: 1.51
+        cost: 1.26
     },
     {
         name: 'В-2',
         description: 'высота 104 см, ширина 57 см, <br/> высота с ножками 136 см',
-        cost: 1.68
+        cost: 1.40
     },
     {
         name: 'В-3',
         description: 'высота 118 см, ширина 68 см, <br/> высота с ножками 150 см',
-        cost: 1.94
+        cost: 1.62
     },
     {
         name: 'В-4',
         description: 'высота 132 см, ширина 74 см, <br/> высота с ножками 164 см',
-        cost: 2.14
+        cost: 1.78
     },
     {
         name: 'В-5',
         description: 'высота 98 см, ширина 58 см, <br/> высота с ножками 130 см',
-        cost: 2.10
+        cost: 1.75
     },
     {
         name: 'В-6',
         description: 'высота 132 см, ширина 66 см, <br/> высота с ножками 164 см',
-        cost: 2.44
+        cost: 2.03
     },
     {
         name: 'В-7',
         description: 'высота 103 см, ширина 70 см, <br/> высота с ножками 135 см',
-        cost: 3.36
+        cost: 3.00
     },
     {
         name: 'В-8',
         description: 'высота 116 см, ширина 76 см, <br/> высота с ножками 148 см',
-        cost: 3.85
+        cost: 3.21
     },
 ]
 const BASKETS = [
     {
         name: 'К-1',
         description: 'высота 55 см, ширина 19 см',
-        cost: 1.36
+        cost: 1.13
     },
     {
         name: 'К-2',
         description: 'высота 115 см, ширина 50 см',
-        cost: 3.74
+        cost: 2.96
     },
     {
         name: 'К-3',
         description: 'высота 63 см, ширина 19 см',
-        cost: 1.42
+        cost: 1.18
     },
     {
         name: 'К-4',
         description: 'высота 70 см, ширина 29 см',
-        cost: 2.52
+        cost: 2.10
     },
     {
         name: 'К-5',
         description: 'высота 78 см, ширина 47 см',
-        cost: 2.76
+        cost: 2.30
     },
     {
         name: 'К-6',
         description: 'высота 88 см, ширина 30 см',
-        cost: 2.63
+        cost: 2.19
     },
     {
         name: 'К-7',
         description: 'высота 89 см, ширина 22 см',
-        cost: 2.20
+        cost: 1.83
     },
     {
         name: 'К-8',
         description: 'высота 36 см, ширина 23 см',
-        cost: 1.10
+        cost: 0.92
     },
     {
         name: 'К-9',
         description: 'высота 78 см, ширина 39 см',
-        cost: 2.44
+        cost: 2.03
     },
     {
         name: 'К-10',
         description: 'высота 19 см, ширина 33 см',
-        cost: 1.12
+        cost: 0.93
     },
     {
         name: 'К-11',
         description: 'высота 92 см, ширина 42 см',
-        cost: 3.19
+        cost: 2.66
     },
     {
         name: 'К-12',
         description: 'высота 96 см, ширина 38 см',
-        cost: 2.81
+        cost: 2.34
     },
 ]
 
@@ -141,7 +141,7 @@ const dataCreator = () => {
     WREATHS_LIST = WREATHS.map((product, index) => ({
         ...product,
         id: index + 1,
-        allCost: product.cost,
+        allCostWithNDS: +(product.cost * 1.2).toFixed(2),
         discountPercent: 0,
         count: 1,
         inBasket: false,
@@ -150,7 +150,7 @@ const dataCreator = () => {
     BASKETS_LIST = BASKETS.map((product, index) => ({
         ...product,
         id: index + 1 + WREATHS_LIST.length,
-        allCost: product.cost,
+        allCostWithNDS: +(product.cost * 1.2).toFixed(2),
         discountPercent: 0,
         count: 1,
         inBasket: false,
@@ -216,7 +216,7 @@ const productListCreator = () => {
                     Общая стоимость: 
                     ${item.discountPercent ? `<span class='discount-flag'>-${item.discountPercent}%</span>` : ''} 
                 </span>
-                <span id='all-cost-${item.id}'>${item.allCost} BYN</span>
+                <span id='all-cost-${item.id}'>${item.allCostWithNDS} BYN</span>
             </div>
             <div class='count-wrapper'>
                 <span>Количество:</span>
@@ -254,7 +254,7 @@ const basketListCreator = () => {
                         Общая стоимость:
                         ${item.discountPercent ? `<span class='discount-flag'>-${item.discountPercent}%</span>` : ''} 
                     </span>
-                    <span class='basket-all-cost' id='basket-all-cost-${item.id}'>${item.allCost} BYN</span>
+                    <span class='basket-all-cost' id='basket-all-cost-${item.id}'>${item.allCostWithNDS} BYN</span>
                 </div>
                 <div class='count-wrapper'>
                     <span>Количество:</span>
@@ -392,7 +392,7 @@ const priceControl = () => {
     PAGE_OPTIONS.price = 0
 
     PAGE_OPTIONS.basketList.forEach((product) => {
-        PAGE_OPTIONS.price += product.allCost
+        PAGE_OPTIONS.price += product.allCostWithNDS
     })
 
     priceField.innerHTML = `${PAGE_OPTIONS.price.toFixed(2)} BYN`
@@ -407,24 +407,22 @@ const costControl = (currentProduct, count) => {
     // WITH DISCOUNT
     if (count >= 100) {
         currentProduct.discountPercent = 5
-        currentProduct.allCost = +(currentProduct.cost * 0.95 * count).toFixed(2).replace('.00', '')
+        currentProduct.allCostWithNDS = +(currentProduct.cost * 1.2 * 0.95 * count).toFixed(2).replace('.00', '')
         discountAreaCatalog ?
             discountAreaCatalog.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
         discountAreaBasket ?
             discountAreaBasket.innerHTML = `Общая стоимость: <span class='discount-flag'>-${currentProduct.discountPercent}%</span>` : null
     } else {
         currentProduct.discountPercent = 0
-        currentProduct.allCost = +(currentProduct.cost * count).toFixed(2).replace('.00', '')
+        currentProduct.allCostWithNDS = +(currentProduct.cost * 1.2 * count).toFixed(2).replace('.00', '')
         discountAreaCatalog ?
             discountAreaCatalog.innerHTML = 'Общая стоимость:' : null
         discountAreaBasket ?
             discountAreaBasket.innerHTML = 'Общая стоимость:' : null
     }
 
-    allCostCatalog ?
-        allCostCatalog.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
-    allCostBasket ?
-        allCostBasket.innerHTML = `${!count ? currentProduct.cost : currentProduct.allCost} BYN` : null
+    allCostCatalog ? allCostCatalog.innerHTML = `${currentProduct.allCostWithNDS} BYN` : null
+    allCostBasket ? allCostBasket.innerHTML = `${currentProduct.allCostWithNDS} BYN` : null
 }
 
 const setToBasket = (productId) => {
@@ -475,7 +473,7 @@ const removeFromBasket = (e) => {
 const refreshProduct = (product) => {
     product.inBasket = false
     product.count = 1
-    product.allCost = product.cost
+    product.allCostWithNDS = +product.cost * 1.2
     product.discountPercent = 0
 }
 
@@ -769,17 +767,19 @@ const createDoc = (orderIndex) => {
     const tableBody = [tableHeader]
 
     PAGE_OPTIONS.basketList.forEach((product, index) => {
-        const withDiscountCost = (product.cost - product.cost * product.discountPercent / 100).toFixed(4)
-        const allCost = product.allCost.toFixed(2)
-        const NDS = (product.allCost * 0.2).toFixed(2)
-        const allCostWithNDS = (product.allCost + product.allCost * 0.2).toFixed(2)
+        const name = product.name
+        const count = product.count
+        const cost = product.cost
+        const allCost = +(count * cost).toFixed(2)
+        const NDS = +(allCost * 0.2).toFixed(2)
+        const allCostWithNDS = +(allCost + NDS).toFixed(2)
 
         tableBody.push(new TableRow({
             children: [
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: (index + 1).toString(),
+                            text: index + 1,
                             font: 'Arial'
                         })],
                         spacing: {
@@ -794,7 +794,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: product.name,
+                            text: name,
                             font: 'Arial'
                         })],
                         spacing: {
@@ -809,7 +809,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: product.count.toString(),
+                            text: count,
                             font: 'Arial'
                         })],
                         spacing: {
@@ -824,7 +824,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: product.discountPercent ?  withDiscountCost : product.cost,
+                            text: cost,
                             font: 'Arial'
                         })],
                         spacing: {
@@ -884,7 +884,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: allCostWithNDS,
+                            text: (product.discountPercent ? allCostWithNDS * (1 - product.discountPercent / 100) : allCostWithNDS).toFixed(2),
                             font: 'Arial'
                         })],
                         spacing: {
@@ -1031,7 +1031,7 @@ const createDoc = (orderIndex) => {
             new TableCell({
                 children: [new Paragraph({
                     children: [new TextRun({
-                        text: PAGE_OPTIONS.price.toFixed(2).toString(),
+                        text: PAGE_OPTIONS.price.toFixed(2),
                         font: 'Arial',
                         bold: true
                     })],
@@ -1077,7 +1077,7 @@ const createDoc = (orderIndex) => {
             new TableCell({
                 children: [new Paragraph({
                     children: [new TextRun({
-                        text: (PAGE_OPTIONS.price * 0.2).toFixed(2).toString(),
+                        text: (PAGE_OPTIONS.price * 0.2).toFixed(2),
                         font: 'Arial',
                         bold: true
                     })],
@@ -1093,7 +1093,7 @@ const createDoc = (orderIndex) => {
             new TableCell({
                 children: [new Paragraph({
                     children: [new TextRun({
-                        text: (PAGE_OPTIONS.price + PAGE_OPTIONS.price * 0.2).toFixed(2).toString(),
+                        text: (PAGE_OPTIONS.price + PAGE_OPTIONS.price * 0.2).toFixed(2),
                         font: 'Arial',
                         bold: true
                     })],
