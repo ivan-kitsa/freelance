@@ -370,7 +370,7 @@ const setCount = (currentProduct, currentCount) => {
         return
     }
 
-    if (currentCount > 9999) {
+    if (currentCount > 999) {
         currentProduct.count = prevCount
         inputProduct && (inputProduct.value = prevCount)
         inputBasket && (inputBasket.value = prevCount)
@@ -769,6 +769,11 @@ const createDoc = (orderIndex) => {
     const tableBody = [tableHeader]
 
     PAGE_OPTIONS.basketList.forEach((product, index) => {
+        const withDiscountCost = (product.cost - product.cost * product.discountPercent / 100).toFixed(4)
+        const allCost = product.allCost.toFixed(2)
+        const NDS = (product.allCost * 0.2).toFixed(2)
+        const allCostWithNDS = (product.allCost + product.allCost * 0.2).toFixed(2)
+
         tableBody.push(new TableRow({
             children: [
                 new TableCell({
@@ -819,7 +824,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: product.cost.toFixed(2).toString(),
+                            text: product.discountPercent ?  withDiscountCost : product.cost,
                             font: 'Arial'
                         })],
                         spacing: {
@@ -834,7 +839,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: product.allCost.toFixed(2).toString(),
+                            text: allCost,
                             font: 'Arial'
                         })],
                         spacing: {
@@ -864,7 +869,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: (product.allCost * 0.2).toFixed(2).toString(),
+                            text: NDS,
                             font: 'Arial'
                         })],
                         spacing: {
@@ -879,7 +884,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: (product.allCost + product.allCost * 0.2).toFixed(2).toString(),
+                            text: allCostWithNDS,
                             font: 'Arial'
                         })],
                         spacing: {
