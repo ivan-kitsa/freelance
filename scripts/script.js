@@ -766,13 +766,21 @@ const createDoc = (orderIndex) => {
     })
     const tableBody = [tableHeader]
 
+    let fullAllCost = 0
+    let fullNDS = 0
+    let fullAllCostWithNDS = 0
+
     PAGE_OPTIONS.basketList.forEach((product, index) => {
         const name = product.name
         const count = product.count
         const cost = product.cost
         const allCost = +(count * cost).toFixed(2)
         const NDS = +(allCost * 0.2).toFixed(2)
-        const allCostWithNDS = +(allCost + NDS).toFixed(2)
+        const allCostWithNDS = +(product.discountPercent ? (allCost + NDS) * (1 - product.discountPercent / 100) : (allCost + NDS)).toFixed(2)
+
+        fullAllCost += allCost
+        fullNDS += NDS
+        fullAllCostWithNDS += allCostWithNDS
 
         tableBody.push(new TableRow({
             children: [
@@ -884,7 +892,7 @@ const createDoc = (orderIndex) => {
                 new TableCell({
                     children: [new Paragraph({
                         children: [new TextRun({
-                            text: (product.discountPercent ? allCostWithNDS * (1 - product.discountPercent / 100) : allCostWithNDS).toFixed(2),
+                            text: allCostWithNDS,
                             font: 'Arial'
                         })],
                         spacing: {
@@ -1031,7 +1039,7 @@ const createDoc = (orderIndex) => {
             new TableCell({
                 children: [new Paragraph({
                     children: [new TextRun({
-                        text: PAGE_OPTIONS.price.toFixed(2),
+                        text: fullAllCost.toFixed(2),
                         font: 'Arial',
                         bold: true
                     })],
@@ -1077,7 +1085,7 @@ const createDoc = (orderIndex) => {
             new TableCell({
                 children: [new Paragraph({
                     children: [new TextRun({
-                        text: (PAGE_OPTIONS.price * 0.2).toFixed(2),
+                        text: fullNDS.toFixed(2),
                         font: 'Arial',
                         bold: true
                     })],
@@ -1093,7 +1101,7 @@ const createDoc = (orderIndex) => {
             new TableCell({
                 children: [new Paragraph({
                     children: [new TextRun({
-                        text: (PAGE_OPTIONS.price + PAGE_OPTIONS.price * 0.2).toFixed(2),
+                        text: fullAllCostWithNDS,
                         font: 'Arial',
                         bold: true
                     })],
@@ -1324,7 +1332,7 @@ const createDoc = (orderIndex) => {
     const validTime  = new Paragraph({
         children: [
             new TextRun({
-                text: `Счет действителен в течение трех банковских дней`,
+                text: `Счет действителен в течение трёх банковских дней`,
                 font: 'Arial',
                 italics: true
             }),
@@ -1482,7 +1490,7 @@ const sendPayment = async (orderIndex) => {
                                 <span>${item.cost} BYN</span>
                             </td>
                             <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
-                                <span>${item.allCost} BYN</span>
+                                <span>${item.allCostWithNDS} BYN</span>
                             </td>
                         </tr>`)).join('')}
                     <tr>
@@ -1571,7 +1579,7 @@ const sendPayment = async (orderIndex) => {
                                 <span>${item.cost} BYN</span>
                             </td>
                             <td colspan='3' style='padding: 12px; text-align: right; border: 1px solid #D8D8D8;'>
-                                <span>${item.allCost} BYN</span>
+                                <span>${item.allCostWithNDS} BYN</span>
                             </td>
                         </tr>`)).join('')}
                     <tr>
