@@ -1345,7 +1345,7 @@ const createDoc = (orderIndex) => {
     const sumNDS  = new Paragraph({
         children: [
             new TextRun({
-                text: `Сумма НДС: ${rubles((PAGE_OPTIONS.price * .2).toFixed(2))}`,
+                text: `Сумма НДС: ${rubles(fullNDS).replace(' рублей', 'ноль рублей')}`,
                 font: 'Arial',
                 bold: true
             }),
@@ -1356,10 +1356,11 @@ const createDoc = (orderIndex) => {
             before: 500
         },
     })
+
     const sumAll  = new Paragraph({
         children: [
             new TextRun({
-                text: `Всего к оплате с НДС: ${rubles((PAGE_OPTIONS.price + PAGE_OPTIONS.price * .2).toFixed(2))}`,
+                text: `Всего к оплате с НДС: ${rubles(fullAllCostWithNDS)}`,
                 font: 'Arial',
                 bold: true
             }),
@@ -1502,13 +1503,6 @@ const sendPayment = async (orderIndex) => {
                         </td>
                     </tr>
                     <tr style='height: 24px; width: 100%'></tr>
-                    <tr>
-                        <td colspan='15' style='padding: 0'>
-                            <p style='font-size: 14px'>Цена указана без учета НДС</p>
-                            <p style='font-size: 14px'>Если у Вас есть какие-либо вопросы, ответьте на это сообщение или позвоните нам.</p>
-                        </td>
-                    </tr>
-                    <tr style='height: 12px; width: 100%'></tr>
                 </tbody>
             </table>
         </center>`
@@ -1591,12 +1585,6 @@ const sendPayment = async (orderIndex) => {
                         </td>
                     </tr>
                     <tr style='height: 24px; width: 100%'></tr>
-                    <tr>
-                        <td colspan='15' style='padding: 0'>
-                            <p style='font-size: 14px'>Цена указана без учета НДС</p>
-                        </td>
-                    </tr>
-                    <tr style='height: 12px; width: 100%'></tr>
                 </tbody>
             </table>
         </center>`
