@@ -52,7 +52,7 @@ const BASKETS = [
     {
         name: 'К-2',
         description: 'высота 115 см, ширина 50 см',
-        cost: 2.96
+        cost: 2.98
     },
     {
         name: 'К-3',
@@ -1101,7 +1101,7 @@ const createDoc = (orderIndex) => {
             new TableCell({
                 children: [new Paragraph({
                     children: [new TextRun({
-                        text: fullAllCostWithNDS,
+                        text: fullAllCostWithNDS.toFixed(2),
                         font: 'Arial',
                         bold: true
                     })],
@@ -1345,7 +1345,7 @@ const createDoc = (orderIndex) => {
     const sumNDS  = new Paragraph({
         children: [
             new TextRun({
-                text: `Сумма НДС: ${rubles(fullNDS).replace(' рублей', 'ноль рублей')}`,
+                text: `Сумма НДС: ${rubles(fullNDS)}`.replace(':  рублей', ': ноль рублей'),
                 font: 'Arial',
                 bold: true
             }),
